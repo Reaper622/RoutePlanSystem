@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /minibox
+    context-path: /RoutePlanSystem
 
 mybatis:
   mapper-locations: classpath*:sqlMapper/*.xml
