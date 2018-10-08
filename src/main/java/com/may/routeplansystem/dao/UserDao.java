@@ -1,7 +1,27 @@
 package com.may.routeplansystem.dao;
 
+import com.may.routeplansystem.pojo.UserMessage;
 import org.springframework.stereotype.Repository;
 
-@Repository
+/**
+ * @author:dengsiyuan
+ * @Date:2018/9/23 20:31
+ */
+@Repository("userDao")
 public interface UserDao {
+
+    /**
+     * 判断用户登录凭证是否存在
+     * @param userMessage
+     * @return true:凭证正确 false:凭证错误
+     * */
+    UserMessage isLogin(UserMessage userMessage);
+
+    /**
+     * 用户注册
+     * @param userMessage
+     * @return -1:注册失败
+     * */
+    int insertUser(UserMessage userMessage);
+
 }
