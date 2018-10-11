@@ -15,7 +15,7 @@ spring:
       url: jdbc:mysql://localhost:3306/path?useUnicode=true&characterEncoding=utf-8&useSSL=false
       driver-class-name: com.mysql.jdbc.Driver
       username: root
-      password: ..box123456
+      password: dsy991027
       initial-size: 5
       min-idle: 5
       max-active: 20
