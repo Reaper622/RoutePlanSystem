@@ -62,6 +62,7 @@ export default {
     border-radius: 10px;
     transition: box-shadow .3s ease;
     overflow: hidden;
+    cursor: pointer;
   }
   .car:hover{
     box-shadow: 0 0 10px #888888;
