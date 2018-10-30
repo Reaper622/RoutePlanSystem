@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.may.routeplansystem.dao.QuestionDao">
+    <resultMap id="question" type="com.may.routeplansystem.entity.po.Question">
+        <id column="question_id" property="questionId"/>
+        <result column="question_name" property="questionName"/>
+        <result column="user_id" property="userId"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+
+    <sql id="question_columns">
+        question_id,question_name,user_id,del_flag
+    </sql>
+
+    <insert id="insertQuestion" parameterType="com.may.routeplansystem.entity.po.Question">
+        insert into question(question_name, user_id)
+        values (#{questionName},#{userId})
+    </insert>
+
+    <delete id="deleteQuestion" parameterType="java.lang.Integer">
+        update question
+        set del_flag=1
+        where question_id=#{questionId}
+    </delete>
+
+    <update id="updateQuestion" parameterType="com.may.routeplansystem.entity.po.Question">
+        update question
+        set question_name=#{questionName}
+        where question_id=#{questionId}
+    </update>
+
+    <select id="findQuestionsByUserId" parameterType="java.lang.Integer" resultMap="question">
+        select <include refid="question_columns"/>
+        from question
+        where user_id=#{user_id}
+    </select>
+
+    <select id="findQuestionByQuestionId" parameterType="java.lang.Integer" resultMap="question">
+        select <include refid="question_columns"/>
+        from question
+        where question_id=#{questionId}
+    </select>
+
+</mapper>

@@ -17,5 +17,5 @@ public class Solution {
     private double totalDis;
     private double totalTime;
     private int version;
-    private byte delFlag;
+    private int delFlag;
 }
