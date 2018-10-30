@@ -25,4 +25,13 @@ public interface UserService {
      * @return -1:注册失败
      * */
     int userRegister(UserMessage userMessage);
+
+    /**
+     * 用户邮箱验证码发送
+     * @param to
+     * @param subject
+     * @param content
+     * @return 邮件
+     * */
+    Object sendVerifyMail(String to,String subject,String content);
 }

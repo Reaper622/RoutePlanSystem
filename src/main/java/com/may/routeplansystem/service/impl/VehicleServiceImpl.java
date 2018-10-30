@@ -50,7 +50,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     /**
-     * 用户车辆信息的查询
+     * 根据用户查询车辆信息的查询
      *
      * @param userId
      * @return vehicleMessage
@@ -58,7 +58,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Object userVehicleMessage(int userId) {
         try {
-            Object vehicleMessage = vehicleDao.searchVehicle(userId);
+            Object vehicleMessage = vehicleDao.searchVehicleByOwnId(userId);
             if(vehicleMessage != null){
                 return vehicleMessage;
             }else {
@@ -67,6 +67,42 @@ public class VehicleServiceImpl implements VehicleService {
         }catch (Exception e){
             logger.error(e.getClass()+"{}",e);
             return null;
+        }
+    }
+
+    /**
+     * 根据车辆Id查询车辆信息
+     *
+     * @param vehicleId
+     * @return VehicleMessage
+     */
+    @Override
+    public Object vehicleMessage(int vehicleId) {
+        try{
+            VehicleMessage vehicleMessage = vehicleDao.searchVehicleByVehicleId(vehicleId);
+            if(vehicleMessage != null){
+                return vehicleMessage;
+            }else {
+                return null;
+            }
+        }catch (Exception e){
+            logger.error(e.getClass()+"{}",e);
+            return null;
+        }
+    }
+
+    /**
+     * 删除车辆信息
+     *
+     * @param vehicle
+     * @return true/false
+     **/
+    @Override
+    public boolean deleteVehicle(int vehicle) {
+        if(vehicleDao.deleteVehicle(vehicle)){
+            return true;
+        }else {
+            return false;
         }
     }
 }

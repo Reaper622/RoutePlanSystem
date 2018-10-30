@@ -1,0 +1,1 @@
+package com.may.routeplansystem.pojo;import lombok.Data;/** * @author:dengsiyuan * @Date:2018/10/23 17:03 */@Datapublic class NodePojo {    private int nodeId;    private int questionId;    private String nodeName;    private String nodeAddress;    private float lat;    private float lng;    private int isCenter;    private int delFlag;}

@@ -19,9 +19,24 @@ public interface VehicleService {
      * */
     int vehicleRegister(VehicleMessage vehicleMessage, HttpSession session);
     /**
-     * 用户车辆信息的查询
+     * 根据用户查询车辆信息
      * @param userId
      * @return vehicleMessage
      * */
     Object userVehicleMessage(int userId);
+
+    /**
+     * 根据车辆Id查询车辆信息
+     * @param vehicleId
+     * @return VehicleMessage
+     * */
+    Object vehicleMessage(int vehicleId);
+
+    /**
+     * 删除车辆信息
+     * @param vehicle
+     * @return true/false
+     **/
+    boolean deleteVehicle(int vehicle);
+
 }

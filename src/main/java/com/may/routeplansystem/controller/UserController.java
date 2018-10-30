@@ -4,6 +4,8 @@ import com.may.routeplansystem.constant.StatusCode;
 import com.may.routeplansystem.pojo.UserMessage;
 import com.may.routeplansystem.service.UserService;
 import com.may.routeplansystem.util.VerifyCodeImageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 用户管理模块
@@ -29,6 +32,8 @@ public class UserController {
 
     String attribute = "user";
     String codeAttribute = "verifyCode";
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserService userService;
@@ -81,7 +86,7 @@ public class UserController {
             if(session.getAttribute(attribute) != null){
                 map.put("status",StatusCode.SUCCESS);
             }else {
-                if (userId != null && password !=null){
+                if (userId != null && password !=null && code != null){
                     if (code.equalsIgnoreCase((String) session.getAttribute(codeAttribute))){
                         userMessage.setUserId(userId);
                         userMessage.setPassword(password);
@@ -94,13 +99,14 @@ public class UserController {
                 }
             }
         }catch (Exception e){
+            e.printStackTrace();
             map.put("status", StatusCode.FAIL);
         }
         return map;
     }
 
     /**
-     * @api {DELETE} /userSystem/session/user 用户登陆
+     * @api {DELETE} /userSystem/session/user 用户注销
      * @apiDescription 注销登录
      * @apiGroup UserSystem
      * @apiSuccessExample Success-Response
@@ -109,6 +115,7 @@ public class UserController {
      *       "status":1
      *     }
      * @apiError 0 存在异常
+     * @apiError 1 注销成功
      * @apiError 2 注销失败
      */
     @RequestMapping(value = "session/user",method = RequestMethod.DELETE)
@@ -132,12 +139,12 @@ public class UserController {
      * @api {POST} /userSystem/user 用户注册
      * @apiDescription 新用户通过填写相关信息进行注册
      * @apiGroup UserSystem
-     * @apiParam {int} userId
-     * @apiParam {String} userName
-     * @apiParam {String} eMail
-     * @apiParam {String} password
-     * @apiParam {String} rePassword
-     * @apiParam {String} mailCode
+     * @apiParam {int} userId 用户Id
+     * @apiParam {String} userName 用户名
+     * @apiParam {String} eMail 用户邮箱
+     * @apiParam {String} password 密码
+     * @apiParam {String} rePassword 重复密码
+     * @apiParam {String} mailCode 邮箱验证码
      * @apiSuccessExample Success-Response
      *     HTTP/1.1 200 OK
      *     {
@@ -147,6 +154,7 @@ public class UserController {
      * @apiError 2 两次密码不一致
      * @apiError 3 邮箱验证码错误
      * @apiError 4 信息输入不完整
+     * @apiError 5 注册失败
      */
     @RequestMapping(value = "/user",method = RequestMethod.POST)
     public Object userRegister(UserMessage userMessage,String mailCode,String rePassword,HttpSession session){
@@ -157,7 +165,7 @@ public class UserController {
                 map.put("status",StatusCode.MESSAGE_NULL);
             }else {
                 if (rePassword.equals(userMessage.getPassword())){
-                    if(true){
+                    if(mailCode.equals(verifyCode)){
                         map.put("status",userService.userRegister(userMessage));
                     }else {
                         map.put("status",StatusCode.CODE_FAIL);
@@ -168,6 +176,48 @@ public class UserController {
             }
         }catch (Exception e){
             map.put("status",StatusCode.FAIL);
+        }
+        return map;
+    }
+
+    /**
+     * @api {GET} /user/eMailCode 邮箱验证码发送
+     * @apiDescription 用户注册进行绑定邮箱
+     * @apiGroup UserSystem
+     * @apiSuccessExample Success-Response
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "status":1
+     *     }
+     * @apiError 0 存在异常
+     * @apiError 1 发送成功
+     * @apiError 5 发送失败
+     */
+    @RequestMapping(value = "/user/eMailCode",method = RequestMethod.GET)
+    public Object verifyMail(String eMail, HttpSession session) throws Exception {
+        Map map = new HashMap<String,Object>(16);
+        try {
+            String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random();
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < 5; i++) {
+                int number = random.nextInt(base.length());
+                sb.append(base.charAt(number));
+            }
+            session.setAttribute("mailCode",sb.toString());
+            String subject = "Mis-Lab Security";
+            if(userService.sendVerifyMail(eMail,subject,sb.toString()) != null){
+                map.clear();
+                map.put("verifyMail", StatusCode.PERMISSION_FAIL);
+            }
+            else {
+                map.clear();
+                map.put("verifyMail", StatusCode.SUCCESS);
+            }
+        }catch (Exception e){
+            logger.error(e.getClass()+"{}",e);
+            map.clear();
+            map.put("verifyMail",StatusCode.FAIL);
         }
         return map;
     }
