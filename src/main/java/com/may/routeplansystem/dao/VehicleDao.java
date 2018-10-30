@@ -24,5 +24,19 @@ public interface VehicleDao {
      * @param userId
      * @return vehicleMessage:返回车辆信息
      * */
-    List<VehicleMessage> searchVehicle(int userId);
+    List<VehicleMessage> searchVehicleByOwnId(int userId);
+
+    /**
+     * 查询车辆信息
+     * @param vehicleId
+     * @return vehicleMessage
+     * */
+    VehicleMessage searchVehicleByVehicleId(int vehicleId);
+
+    /**
+     * 删除单条车辆信息
+     * @param vehicleId
+     * @return true/false
+     */
+    boolean deleteVehicle(int vehicleId);
 }

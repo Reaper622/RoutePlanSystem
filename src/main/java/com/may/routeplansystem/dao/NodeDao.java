@@ -1,0 +1,1 @@
+package com.may.routeplansystem.dao;import com.may.routeplansystem.pojo.NodePojo;import org.springframework.stereotype.Repository;/** * @author:dengsiyuan * @Date:2018/10/29 21:12 */@Repository("NodeDao")public interface NodeDao {    /**     * 导入点的信息     * @param nodePojo     * @return -1 插入失败     * */    NodePojo insertNode(NodePojo nodePojo);}

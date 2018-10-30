@@ -38,3 +38,14 @@ spring:
           enabled: true
           db-type: mysql
       filters: stat,wall,slf4j
+  mail:
+    host: smtp.qq.com
+    username: campus.mis@foxmail.com
+    password: ewojbsakezxzhejd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
