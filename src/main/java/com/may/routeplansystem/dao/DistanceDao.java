@@ -1,6 +1,7 @@
 package com.may.routeplansystem.dao;
 
 import com.may.routeplansystem.entity.po.Distance;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,5 +21,9 @@ public interface DistanceDao {
     boolean updateDisAndTime(Distance distance);
 
     Distance findUpdateDistances(int questionId);
+
+//    @Todo
+    Distance findDistanceByStartIdAndEndId(@Param("startId") int startId,
+                                           @Param("endId") int endId);
 
 }
