@@ -7,9 +7,7 @@ import com.may.routeplansystem.util.VerifyCodeImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +44,7 @@ public class UserController {
      *     HTTP/1.1 200 OK
      *     验证码图片
      */
-    @RequestMapping(value = "/verifyCode",method = RequestMethod.GET)
+    @GetMapping(value = "/verifyCode")
     public void verifyCode(HttpServletResponse response, HttpSession session) throws Exception {
         //利用图片工具生成图片
         //第一个参数是生成的验证码，第二个参数是生成的图片
@@ -78,7 +76,7 @@ public class UserController {
      * @apiError 4 请填写完整
      * @apiError 5 您未登录，请登陆后操作
      */
-    @RequestMapping(value = "/session/user",method = RequestMethod.POST)
+    @PostMapping(value = "/session/user")
     public Object userLogin(String userId, String password, String code, HttpSession session){
         Map map = new HashMap<String,String>(16);
         UserMessage userMessage = new UserMessage();
@@ -118,7 +116,7 @@ public class UserController {
      * @apiError 1 注销成功
      * @apiError 2 注销失败
      */
-    @RequestMapping(value = "session/user",method = RequestMethod.DELETE)
+    @DeleteMapping(value = "session/user")
     public Object userLogOut(HttpServletRequest request){
         Map map = new HashMap<String,String>(16);
         try{
@@ -156,7 +154,7 @@ public class UserController {
      * @apiError 4 信息输入不完整
      * @apiError 5 注册失败
      */
-    @RequestMapping(value = "/user",method = RequestMethod.POST)
+    @PostMapping(value = "/user")
     public Object userRegister(UserMessage userMessage,String mailCode,String rePassword,HttpSession session){
         Map map = new HashMap<String,String>(16);
         String verifyCode = (String) session.getAttribute("mailCode");
@@ -193,7 +191,7 @@ public class UserController {
      * @apiError 1 发送成功
      * @apiError 5 发送失败
      */
-    @RequestMapping(value = "/user/eMailCode",method = RequestMethod.GET)
+    @GetMapping(value = "/user/eMailCode")
     public Object verifyMail(String eMail, HttpSession session) throws Exception {
         Map map = new HashMap<String,Object>(16);
         try {
