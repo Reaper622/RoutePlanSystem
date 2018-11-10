@@ -12,4 +12,9 @@ public class GlobleExceptionHandler {
     public ResponseEntity handleURLVisitException(NetWorkUtil.URLVisitException e){
         return new ResponseEntity<>(500, e.getMessage());
     }
+
+    @ExceptionHandler(FinalSolutionUserChoiceException.class)
+    public ResponseEntity handleFinalSolutionUserChoiceException(FinalSolutionUserChoiceException e){
+        return new ResponseEntity<>(400, e.getMessage());
+    }
 }

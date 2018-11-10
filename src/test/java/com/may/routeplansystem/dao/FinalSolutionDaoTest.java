@@ -68,4 +68,16 @@ public class FinalSolutionDaoTest {
         FinalSolution finalSolution = finalSolutionDao.findFinalSolutionByFinalSolutionId(1);
         assertEquals(20, finalSolution.getTotalDis(), 0.1);
     }
+
+    @Test
+    public void updateFinalSolutionUserChoice(){
+        boolean flag = finalSolutionDao.updateFinalSolutionUserChoice(1);
+        assertTrue(flag);
+    }
+
+    @Test
+    public void findNumOfUserChoice(){
+        int num = finalSolutionDao.findNumOfUserChoice(1);
+        assertEquals(1, num);
+    }
 }

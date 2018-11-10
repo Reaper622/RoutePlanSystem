@@ -11,7 +11,7 @@
     </resultMap>
 
     <sql id="distance_columns">
-        distance_id,start_node_id,end_node_id,dis,time,final_solution_id
+        distance_id,start_node_id,end_node_id,dis,time,question_id
     </sql>
 
     <insert id="insertDis" parameterType="com.may.routeplansystem.entity.po.Distance">

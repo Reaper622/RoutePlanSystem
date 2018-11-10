@@ -3,6 +3,7 @@ CREATE TABLE `final_solution` (
   `question_id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
   `total_dis` float NOT NULL,
+  `user_choice` tinyint(1) not null default '0',
   PRIMARY KEY (`final_solution_id`)
 );
 

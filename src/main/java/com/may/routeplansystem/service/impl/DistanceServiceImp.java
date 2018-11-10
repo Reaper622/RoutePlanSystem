@@ -28,7 +28,7 @@ public class DistanceServiceImp implements DistanceService {
     public void updateDisAndTime(int questionId) {
         List<Distance> distances = distanceDao.findUpdateDistances(questionId);
         distances.forEach(distance -> {
-            Distance updatedDistance = getDistanceTimeAndDis(distance);
+            getDistanceTimeAndDis(distance);
             ServiceUtil.checkSqlExecuted(distanceDao.updateDisAndTime(distance));
         });
     }
@@ -54,9 +54,10 @@ public class DistanceServiceImp implements DistanceService {
 
     private Distance setTimeAndDis(Distance distance) {
         String responseStr = getParseStr(distance);
+        System.out.println(responseStr);
         JsonResponse response = JSON.parseObject(responseStr, JsonResponse.class);
         distance.setDis(response.getResult().get(0).getDistance().getValue());
-        distance.setTime(response.getResult().get(0).getDistance().getValue());
+        distance.setTime(response.getResult().get(0).getDuration().getValue());
         return distance;
     }
 

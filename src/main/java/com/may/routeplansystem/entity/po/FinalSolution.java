@@ -8,4 +8,5 @@ public class FinalSolution {
     private int questionId;
     private double totalDis;
     private int version;
+    private int userChoice;
 }

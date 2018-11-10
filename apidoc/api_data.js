@@ -1,63 +1,5 @@
 define({ "api": [
   {
-    "type": "GET",
-    "url": "/distance/getUpdateDistance",
-    "title": "得到需要设置距离和时间的两点",
-    "description": "<p>通过向后台访问此接口前端得到数据来进行计算距离和时间</p>",
-    "group": "Distance",
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"distanceId\": 1,\n  \"questionId\": 1,\n  \"startNodeId\": 1,\n  \"endNodeId\": 1,\n  \"startNodeAddr\":\"起始地点位置\",\n  \"endNodeAddr\":\"终点地点位置\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/DistanceController.java",
-    "groupTitle": "Distance",
-    "name": "GetDistanceGetupdatedistance"
-  },
-  {
-    "type": "PATCH",
-    "url": "/distance/updateDisAndTime",
-    "title": "设置两点的距离和时间",
-    "description": "<p>通过 distanceId 来修改 distance 和 time</p>",
-    "group": "Distance",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "distanceId",
-            "description": "<p>距离对象ID</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "dis",
-            "description": "<p>两地距离间隔</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "time",
-            "description": "<p>两地时间间隔</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/DistanceController.java",
-    "groupTitle": "Distance",
-    "name": "PatchDistanceUpdatedisandtime"
-  },
-  {
     "type": "DELETE",
     "url": "/question/removeQuestion",
     "title": "删除问题",
@@ -77,7 +19,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
     "groupTitle": "Question",
     "name": "DeleteQuestionRemovequestion"
   },
@@ -104,13 +46,13 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"questionId\": 1,\n  \"questionName\": \"问题名称\",\n  \"userId\": 1,\n  \"del_flag\": 0\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\": 200,\n    \"object\": [\n       {\n           \"questionId\": 1\n           \"questionName: \"问题名称\"\",\n           \"userId\": 1,\n           \"delFlag\": 0\n       }\n    ]\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
     "groupTitle": "Question",
     "name": "GetQuestionGetquestions"
   },
@@ -141,7 +83,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
     "groupTitle": "Question",
     "name": "PatchQuestionUpdatequestion"
   },
@@ -172,192 +114,14 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
     "groupTitle": "Question",
     "name": "PostQuestionInsertquestion"
   },
   {
     "type": "DELETE",
-    "url": "/solution/removeAllSolution",
-    "title": "删除一个问题的一个版本的所有方案",
-    "description": "<p>通过问题Id删除一个问题的一个版本的所有方案</p>",
-    "group": "Solution",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "questionId",
-            "description": "<p>问题ID</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "versionId",
-            "description": "<p>版本ID</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/SolutionController.java",
-    "groupTitle": "Solution",
-    "name": "DeleteSolutionRemoveallsolution"
-  },
-  {
-    "type": "DELETE",
-    "url": "/solution/removeAllSolution",
-    "title": "删除一个问题的所有解决方案",
-    "description": "<p>通过问题Id删除一个问题的所有解决方案</p>",
-    "group": "Solution",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "questionId",
-            "description": "<p>问题ID</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/SolutionController.java",
-    "groupTitle": "Solution",
-    "name": "DeleteSolutionRemoveallsolution"
-  },
-  {
-    "type": "GET",
-    "url": "/solution/attainSolution",
-    "title": "进行得到最优方案算法",
-    "description": "<p>通过问题Id进行得到最优方案算法</p>",
-    "group": "Solution",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "questionId",
-            "description": "<p>问题ID</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/SolutionController.java",
-    "groupTitle": "Solution",
-    "name": "GetSolutionAttainsolution"
-  },
-  {
-    "type": "GET",
-    "url": "/solution/getBetterDistanceSolution",
-    "title": "得到一个问题两个距离最优解决方案",
-    "description": "<p>通过问题Id在所用版本解决方案中得到一个问题两个距离最优解决方案</p>",
-    "group": "Solution",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "questionId",
-            "description": "<p>问题ID</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"solutionId\": 1,\n  \"questionId\": 1,\n  \"route\": \"方案的具体线路\",\n  \"totalDis\": 123456,\n  \"totalTime\": 123456,\n  \"version\": 1,\n  \"delFlag\": 0\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/SolutionController.java",
-    "groupTitle": "Solution",
-    "name": "GetSolutionGetbetterdistancesolution"
-  },
-  {
-    "type": "GET",
-    "url": "/solution/getBetterTimeSolution",
-    "title": "得到一个问题两个时间最优解决方案",
-    "description": "<p>通过问题Id在所用版本解决方案中得到一个问题两个时间最优解决方案</p>",
-    "group": "Solution",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "questionId",
-            "description": "<p>问题ID</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"solutionId\": 1,\n  \"questionId\": 1,\n  \"route\": \"方案的具体线路\",\n  \"totalDis\": 123456,\n  \"totalTime\": 123456,\n  \"version\": 1,\n  \"delFlag\": 0\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/SolutionController.java",
-    "groupTitle": "Solution",
-    "name": "GetSolutionGetbettertimesolution"
-  },
-  {
-    "type": "GET",
-    "url": "/solution/getSolutions",
-    "title": "得到一个问题的所有版本解决方案",
-    "description": "<p>通过问题Id得到所有版本的解决方案</p>",
-    "group": "Solution",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "questionId",
-            "description": "<p>问题ID</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"solutionId\": 1,\n  \"questionId\": 1,\n  \"route\": \"方案的具体线路\",\n  \"totalDis\": 123456,\n  \"totalTime\": 123456,\n  \"version\": 1,\n  \"delFlag\": 0\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/SolutionController.java",
-    "groupTitle": "Solution",
-    "name": "GetSolutionGetsolutions"
-  },
-  {
-    "type": "DELETE",
     "url": "/userSystem/session/user",
-    "title": "用户登陆",
+    "title": "用户注销",
     "description": "<p>注销登录</p>",
     "group": "UserSystem",
     "success": {
@@ -381,6 +145,12 @@ define({ "api": [
           {
             "group": "Error 4xx",
             "optional": false,
+            "field": "1",
+            "description": "<p>注销成功</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
             "field": "2",
             "description": "<p>注销失败</p>"
           }
@@ -388,9 +158,53 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
     "groupTitle": "UserSystem",
     "name": "DeleteUsersystemSessionUser"
+  },
+  {
+    "type": "GET",
+    "url": "/user/eMailCode",
+    "title": "邮箱验证码发送",
+    "description": "<p>用户注册进行绑定邮箱</p>",
+    "group": "UserSystem",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "1",
+            "description": "<p>发送成功</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>发送失败</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "groupTitle": "UserSystem",
+    "name": "GetUserEmailcode"
   },
   {
     "type": "GET",
@@ -408,7 +222,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
     "groupTitle": "UserSystem",
     "name": "GetUsersystemVerifycode"
   },
@@ -491,7 +305,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
     "groupTitle": "UserSystem",
     "name": "PostUsersystemSessionUser"
   },
@@ -509,42 +323,42 @@ define({ "api": [
             "type": "int",
             "optional": false,
             "field": "userId",
-            "description": ""
+            "description": "<p>用户Id</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "userName",
-            "description": ""
+            "description": "<p>用户名</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "eMail",
-            "description": ""
+            "description": "<p>用户邮箱</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "password",
-            "description": ""
+            "description": "<p>密码</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "rePassword",
-            "description": ""
+            "description": "<p>重复密码</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "mailCode",
-            "description": ""
+            "description": "<p>邮箱验证码</p>"
           }
         ]
       }
@@ -584,65 +398,84 @@ define({ "api": [
             "optional": false,
             "field": "4",
             "description": "<p>信息输入不完整</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>注册失败</p>"
           }
         ]
       }
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
     "groupTitle": "UserSystem",
     "name": "PostUsersystemUser"
   },
   {
-    "type": "GET",
-    "url": "/vehicleSystem/user/vehicle",
-    "title": "用户车辆信息的查询",
-    "description": "<p>查询</p>",
-    "group": "vehicleSystem",
+    "type": "DELETE",
+    "url": "/finalSolution/removeAllQuestionFinalSolution",
+    "title": "删除一个问题的所有解决方案",
+    "description": "<p>通过问题id删除所有该问题的解决方案</p>",
+    "group": "finalSolution",
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "int",
+            "type": "Number",
             "optional": false,
             "field": "questionId",
-            "description": "<p>订单编号</p>"
-          },
+            "description": "<p>问题id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "DeleteFinalsolutionRemoveallquestionfinalsolution"
+  },
+  {
+    "type": "DELETE",
+    "url": "/finalSolution/removeFinalSolution",
+    "title": "删除一个方案",
+    "description": "<p>通过方案Id删除方案</p>",
+    "group": "finalSolution",
+    "parameter": {
+      "fields": {
+        "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Number",
             "optional": false,
-            "field": "type",
-            "description": "<p>车辆的类型</p>"
-          },
+            "field": "finalSolutionId",
+            "description": "<p>方案id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "DeleteFinalsolutionRemovefinalsolution"
+  },
+  {
+    "type": "GET",
+    "url": "/finalSolution/getAllFinalSolution",
+    "title": "得到一个问题的所有解决方案",
+    "description": "<p>通过问题Id得到所有该问题的解决方案</p>",
+    "group": "finalSolution",
+    "parameter": {
+      "fields": {
+        "Parameter": [
           {
             "group": "Parameter",
-            "type": "float",
+            "type": "Number",
             "optional": false,
-            "field": "capacity",
-            "description": "<p>载货量</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "float",
-            "optional": false,
-            "field": "oil",
-            "description": "<p>排量</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "float",
-            "optional": false,
-            "field": "price",
-            "description": "<p>价格</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "int",
-            "optional": false,
-            "field": "delFlag",
-            "description": "<p>车辆状态 0:空闲 1:在用</p>"
+            "field": "questionId",
+            "description": "<p>问题id</p>"
           }
         ]
       }
@@ -651,7 +484,493 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n        \"vehicleId\":1\n        \"questionId\":1\n        \"type\":皮卡\n        \"capacity\":500\n        \"oil\":4.3\n        \"date\":2018-09-26 22:38:14\n        \"price\":253.3\n        \"delFlag\":1\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\": [\n    {\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n    }\n    ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "GetFinalsolutionGetallfinalsolution"
+  },
+  {
+    "type": "GET",
+    "url": "/finalSolution/getFinalSolution",
+    "title": "得到一个问题的所有解决方案",
+    "description": "<p>通过方案Id得到所有方案下的所有路径</p>",
+    "group": "finalSolution",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "finalSolutionId",
+            "description": "<p>方案id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\":{\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "GetFinalsolutionGetfinalsolution"
+  },
+  {
+    "type": "GET",
+    "url": "/finalSolution/getMaxVersionOfFinalSolution",
+    "title": "得到该问题的最大的解决方案版本号",
+    "description": "<p>通过问题Id得到最大的解决方案版本号</p>",
+    "group": "finalSolution",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "questionId",
+            "description": "<p>问题id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    “status”：200\n    “Object”: 1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "GetFinalsolutionGetmaxversionoffinalsolution"
+  },
+  {
+    "type": "GET",
+    "url": "/finalSolution/getOneVersionFinalSolution",
+    "title": "得到一个版本的解决方案",
+    "description": "<p>通过问题Id和版本号得到一个版本的所有解决方案</p>",
+    "group": "finalSolution",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "questionId",
+            "description": "<p>问题id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "version",
+            "description": "<p>版本号</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\": [\n    {\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n    }\n    ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "GetFinalsolutionGetoneversionfinalsolution"
+  },
+  {
+    "type": "PATCH",
+    "url": "/finalSolution/updateFinalSolutionState",
+    "title": "修改用户选择的方案的状态",
+    "description": "<p>用户选择一个自己觉得最好的方案,一个问题只能选择一个</p>",
+    "group": "finalSolution",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "questionId",
+            "description": "<p>问题id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "PatchFinalsolutionUpdatefinalsolutionstate"
+  },
+  {
+    "type": "DELETE",
+    "url": "/node/deleteNode",
+    "title": "服务点的删除",
+    "description": "<p>用户删除服务点</p>",
+    "group": "node",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "nodeId",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "questionId",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>删除成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":\"删除成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>未登录，无权操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": 0\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "DeleteNodeDeletenode"
+  },
+  {
+    "type": "POST",
+    "url": "/node/excelNodeInfo",
+    "title": "服务点的录入",
+    "description": "<p>用户服务点的录入（通过Excel）</p>",
+    "group": "node",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>录入成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":\"导入成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"第1行...数据出现问题\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "PostNodeExcelnodeinfo"
+  },
+  {
+    "type": "POST",
+    "url": "/node/newNode",
+    "title": "服务点的录入",
+    "description": "<p>用户服务点的录入(1.点地图2.输入地址)</p>",
+    "group": "node",
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n    \"questionId\":1,\n    \"nodeName\":\"邮电大学服务点\",\n    \"nodeAddress\":\"重庆市南岸区南山街道崇文路2号重庆邮电大学\",\n    \"lat\":155.52,\n    \"len\":242.25,\n    \"isCenter\":1/0,\n    \"delFlag\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>录入成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>录入失败，请重试</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "3",
+            "description": "<p>请输入正确的地址</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>请完善必要的信息</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>您未登录，请登陆后操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "PostNodeNewnode"
+  },
+  {
+    "type": "UPDATE",
+    "url": "/node/updateNode",
+    "title": "服务点的更新",
+    "description": "<p>用户更新服务点</p>",
+    "group": "node",
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n    \"questionId\":1,\n    \"nodeName\":\"邮电大学服务点\",\n    \"nodeAddress\":\"重庆市南岸区南山街道崇文路2号重庆邮电大学\",\n    \"lat\":155.52,\n    \"len\":242.25,\n    \"isCenter\":1/0,\n    \"delFlag\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>录入成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>更新失败，请重试</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>请完善必要的信息</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>您未登录，请登陆后操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "UpdateNodeUpdatenode"
+  },
+  {
+    "type": "DELETE",
+    "url": "/vehicleSystem/user/vehicle",
+    "title": "用户车辆的删除",
+    "description": "<p>删除用户车辆</p>",
+    "group": "vehicleSystem",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "vehicleId",
+            "description": "<p>车辆编号</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"status\"：1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>请登陆后操作</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>不存在该车辆，刷新页面后重新操作</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>删除失败</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
+    "groupTitle": "vehicleSystem",
+    "name": "DeleteVehiclesystemUserVehicle"
+  },
+  {
+    "type": "GET",
+    "url": "/vehicleSystem/user/vehicle",
+    "title": "当前登录用户车辆信息查询",
+    "description": "<p>查询</p>",
+    "group": "vehicleSystem",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n        \"vehicleId\":1,{int}车辆编号\n        \"questionId\":1,{int}\n        \"type\":皮卡,{String}车型\n        \"capacity\":500,{float}载货量\n        \"oil\":4.3,{float}排量\n        \"date\":2018-09-26 22:38:14录入时间\n        \"price\":253.3,{float}价格\n        \"delFlag\":0,{int}0:存在 1:已删除\n}",
           "type": "json"
         }
       ]
@@ -688,7 +1007,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
     "groupTitle": "vehicleSystem",
     "name": "GetVehiclesystemUserVehicle"
   },
@@ -699,56 +1018,10 @@ define({ "api": [
     "description": "<p>用户车辆信息的录入</p>",
     "group": "vehicleSystem",
     "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "int",
-            "optional": false,
-            "field": "questionId",
-            "description": "<p>订单编号</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "type",
-            "description": "<p>车辆的类型</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "float",
-            "optional": false,
-            "field": "capacity",
-            "description": "<p>载货量</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "float",
-            "optional": false,
-            "field": "oil",
-            "description": "<p>排量</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "float",
-            "optional": false,
-            "field": "price",
-            "description": "<p>价格</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "int",
-            "optional": false,
-            "field": "delFlag",
-            "description": "<p>车辆状态</p>"
-          }
-        ]
-      },
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n    \"questionId\":11,\n    \"type\":皮卡,\n    \"capacity\":55.6,\n    \"oil\":5.5,\n    \"price\":200.5,\n    \"delFlag\":0\n}",
+          "content": "{\n    \"questionId\":11,{int}订单编号\n    \"type\":皮卡,{String}车辆的类型\n    \"capacity\":55.6,{float}载货量\n    \"oil\":5.5,{float}排量\n    \"price\":200.5,{float}价格\n}",
           "type": "json"
         }
       ]
@@ -800,7 +1073,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
     "groupTitle": "vehicleSystem",
     "name": "PostVehiclesystemUserVehicle"
   }

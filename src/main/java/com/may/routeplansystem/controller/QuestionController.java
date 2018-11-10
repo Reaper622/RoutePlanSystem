@@ -1,11 +1,19 @@
 package com.may.routeplansystem.controller;
 
+import com.may.routeplansystem.entity.dto.ResponseEntity;
 import com.may.routeplansystem.entity.po.Question;
+import com.may.routeplansystem.service.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("question")
 public class QuestionController {
+
+    @Autowired
+    private QuestionService questionService;
 
     /**
      * @api {POST} /question/insertQuestion 添加问题
@@ -15,7 +23,10 @@ public class QuestionController {
      * @apiParam {Number} userId 用户Id
      */
     @PostMapping("insertQuestion")
-    public void insertQuestion(Question question){}
+    public ResponseEntity insertQuestion(Question question){
+        questionService.insertQuestion(question);
+        return new ResponseEntity<>(200, null);
+    }
 
     /**
      * @api {GET} /question/getQuestions 得到questions
@@ -25,14 +36,22 @@ public class QuestionController {
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *       "questionId": 1,
-     *       "questionName": "问题名称",
-     *       "userId": 1,
-     *       "del_flag": 0
+     *         "status": 200,
+     *         "object": [
+     *            {
+     *                "questionId": 1
+     *                "questionName: "问题名称"",
+     *                "userId": 1,
+     *                "delFlag": 0
+     *            }
+     *         ]
      *     }
      */
     @GetMapping("getQuestions")
-    public void getQuestions(int userId){}
+    public ResponseEntity getQuestions(int userId){
+        List<Question> questions = questionService.getQuestions(userId);
+        return new ResponseEntity<>(200, questions);
+    }
 
     /**
      * @api {DELETE} /question/removeQuestion 删除问题
@@ -41,7 +60,10 @@ public class QuestionController {
      * @apiParam {Number} questionId 问题ID
      */
     @DeleteMapping("removeQuestion")
-    public void removeQuestion(int questionId){}
+    public ResponseEntity removeQuestion(int questionId){
+        questionService.removeQuestion(questionId);
+        return new ResponseEntity<>(200, null);
+    }
 
     /**
      * @api {PATCH} /question/updateQuestion 修改问题
@@ -51,5 +73,8 @@ public class QuestionController {
      * @apiParam {String} questionName 问题名称
      */
     @PatchMapping("updateQuestion")
-    public void updateQuestion(Question question){}
+    public ResponseEntity updateQuestion(Question question){
+        questionService.updateQuestion(question);
+        return new ResponseEntity<>(200, null);
+    }
 }
