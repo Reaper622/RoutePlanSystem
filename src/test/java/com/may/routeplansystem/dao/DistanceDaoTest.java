@@ -40,10 +40,13 @@ public class DistanceDaoTest {
         distance1.setTime(1515);
         distance1.setDistanceId(1);
         boolean flag = distanceDao.updateDisAndTime(distance1);
+        assertTrue(flag);
     }
 
     @Test
     public void findUpdateDistance() {
+        List<Distance> distances = distanceDao.findUpdateDistances(3);
+        assertEquals(1, distances.size());
     }
 
 

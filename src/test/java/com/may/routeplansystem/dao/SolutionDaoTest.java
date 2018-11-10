@@ -28,7 +28,7 @@ public class SolutionDaoTest {
 
     @Before
     public void before(){
-        solution = new Solution(2, 2, "route2",
+        solution = new Solution(2, "route2",
                 3333, 4444, 1, 0);
     }
 
@@ -39,32 +39,22 @@ public class SolutionDaoTest {
     }
 
     @Test
-    public void findBetterTimeSolutions() {
-       List<Solution> solutions = solutionDao.findBetterTimeSolutions(1);
-       assertEquals("route4", solutions.get(0).getRoute());
-    }
-
-    @Test
-    public void findBetterDistanceSolutions() {
-        List<Solution> solutions = solutionDao.findBetterDistanceSolutions(1);
-        assertEquals("route1", solutions.get(0).getRoute());
-    }
-
-    @Test
     public void insertSolution() {
         boolean flag = solutionDao.insertSolution(solution);
         assertTrue(flag);
     }
 
     @Test
-    public void deleteAllSolutions() {
-        boolean flag = solutionDao.deleteAllSolutions(1);
-        assertTrue(flag);
+    public void deleteSolution(){
+        boolean flag = solutionDao.deleteSolution(1);
+        assertEquals(true, flag);
     }
 
     @Test
-    public void deleteOneVersionSolutions() {
-        boolean flag = solutionDao.deleteOneVersionSolutions(1, 1);
+    public void deleteSolutionByFinalSolutionId(){
+        boolean flag = solutionDao.deleteSolutionByFinalSolutionId(1);
         assertTrue(flag);
     }
+
+
 }

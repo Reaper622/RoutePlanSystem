@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Solution {
     private int solutionId;
-    private int questionId;
     private String route;
     private double totalDis;
     private double totalTime;
-    private int version;
     private int delFlag;
+    private int finalSolutionId;
 }

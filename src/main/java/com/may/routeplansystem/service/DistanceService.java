@@ -2,17 +2,22 @@ package com.may.routeplansystem.service;
 
 import com.may.routeplansystem.entity.po.Distance;
 
+import java.io.IOException;
+import java.util.List;
+
 public interface DistanceService {
 
     /**
-     * 得到一个dis和time都为0的distance
-     * @return
+     * 赋值所有没有赋值时间和距离的distance
      */
-    public Distance getUpdateDistance(int questionId);
+    public void updateDisAndTime(int questionId);
 
     /**
-     * 修改一个distance的时间和距离
+     * 通过百度Api获得两点的时间和距离
      * @param distance
+     * @return
      */
-    public void updateDisAndTime(Distance distance);
+    public Distance getDistanceTimeAndDis(Distance distance);
+
+    public void generateDistanceFromNode(int questionId);
 }

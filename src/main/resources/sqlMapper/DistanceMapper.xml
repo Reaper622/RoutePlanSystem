@@ -3,15 +3,15 @@
 <mapper namespace="com.may.routeplansystem.dao.DistanceDao">
     <resultMap id="distance" type="com.may.routeplansystem.entity.po.Distance">
         <id column="distance_id" property="distanceId"/>
-        <result column="question_id" property="questionId"/>
         <result column="start_node_id" property="startNodeId"/>
         <result column="end_node_id" property="endNodeId"/>
         <result column="dis" property="dis"/>
         <result column="time" property="time"/>
+        <result column="final_solution_id" property="finalSolutionId"/>
     </resultMap>
 
     <sql id="distance_columns">
-        distance_id,question_id,start_node_id,end_node_id,dis,time
+        distance_id,start_node_id,end_node_id,dis,time,final_solution_id
     </sql>
 
     <insert id="insertDis" parameterType="com.may.routeplansystem.entity.po.Distance">
@@ -41,5 +41,11 @@
         select <include refid="distance_columns"/>
         from distance
         where time=0 and dis=0 and question_id=#{questionId}
+    </select>
+
+    <select id="findDistanceByStartIdAndEndId" resultMap="distance">
+        select <include refid="distance_columns"/>
+        from distance
+        where start_node_id =#{startId} and end_node_id=#{endId}
     </select>
 </mapper>

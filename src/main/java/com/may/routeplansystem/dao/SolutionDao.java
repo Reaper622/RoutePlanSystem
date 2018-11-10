@@ -12,15 +12,16 @@ import java.util.List;
 @Repository
 public interface SolutionDao {
 
-    List<Solution> findSolutions(int questionId);
-
-    List<Solution> findBetterTimeSolutions(int questionId);
-
-    List<Solution> findBetterDistanceSolutions(int questionId);
+    /**
+     * 得到一个方案的所有路径
+     * @param finalSolutionId 方案编号
+     * @return
+     */
+    List<Solution> findSolutions(int finalSolutionId);
 
     boolean insertSolution(Solution solution);
 
-    boolean deleteAllSolutions(int questionId);
+    boolean deleteSolution(int solutionId);
 
-    boolean deleteOneVersionSolutions(@Param("questionId") int questionId, @Param("version") int version);
+    boolean deleteSolutionByFinalSolutionId(int finalSolutionId);
 }

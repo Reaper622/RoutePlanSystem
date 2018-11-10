@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 public class RouteTemp {
 
     private List<List<NodePojo>> route;

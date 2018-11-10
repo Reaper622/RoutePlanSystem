@@ -35,14 +35,14 @@ public class GeneticAlgorithm implements Algorithm {
         List<NodePojo> serviceNodes = nodeDao.selectServiceNode(questionId);
         int minDistance;
         int solutionCount = 50;
-        int hybridMytationCount = 2000;
+        int hybridMutationCount = 2000;
         int i = 0;
         List<RouteTemp> solutions = initializeRoute(solutionCount, serviceNodes, centerNodes);
         if (!solutions.isEmpty()) {
             TreeMap<Integer, RouteTemp> treeMap = saveDistanceAndRoute(solutions);
             minDistance = treeMap.firstKey();
 
-            while (i < hybridMytationCount) {
+            while (i < hybridMutationCount) {
                 treeMap = hybridMutation(treeMap);
                 int min = treeMap.firstKey();
                 if (minDistance == min) {
@@ -52,6 +52,8 @@ public class GeneticAlgorithm implements Algorithm {
                     i = 0;
                 }
             }
+
+            removeSurplusSolutions(treeMap);
 
             List<Solution> list;
             Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
@@ -68,6 +70,19 @@ public class GeneticAlgorithm implements Algorithm {
                     solutionDao.insertSolution(list.get(k));
                 }
             }
+        }
+    }
+
+    private void removeSurplusSolutions(Map<Integer, RouteTemp> treeMap){
+        Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
+        Iterator<Map.Entry<Integer, RouteTemp>> it = set.iterator();
+        int i = 0;
+        while(it.hasNext()){
+            i++;
+            if (i <= 4){
+                continue;
+            }
+            it.remove();
         }
     }
 
@@ -137,12 +152,17 @@ public class GeneticAlgorithm implements Algorithm {
         for (int i = 0; i < size; i++) {
             List<NodePojo> nodes = route.get(i);
             int nodeSize = nodes.size();
-            for (int j = 0; j < nodeSize - 1; j++) {
-                NodePojo a = nodes.get(j);
-                NodePojo b = nodes.get(j + 1);
-                Distance distance1 = distanceDao.findDistanceByStartIdAndEndId(a.getNodeId(), b.getNodeId());
-                totalDis = totalDis + distance1.getDis();
-            }
+            totalDis = getTotalDis(totalDis, nodes, nodeSize);
+        }
+        return totalDis;
+    }
+
+    private int getTotalDis(int totalDis, List<NodePojo> nodes, int nodeSize) {
+        for (int j = 0; j < nodeSize - 1; j++) {
+            NodePojo a = nodes.get(j);
+            NodePojo b = nodes.get(j + 1);
+            Distance distance1 = distanceDao.findDistanceByStartIdAndEndId(a.getNodeId(), b.getNodeId());
+            totalDis = totalDis + distance1.getDis();
         }
         return totalDis;
     }
@@ -234,12 +254,7 @@ public class GeneticAlgorithm implements Algorithm {
             for (int j = 0; j < routeCount; j++) {
                 int size = route.get(j).size();
                 nodes = route.get(j);
-                for (int k = 0; k < size - 1; k++) {
-                    NodePojo a = nodes.get(k);
-                    NodePojo b = nodes.get(k + 1);
-                    Distance distance = distanceDao.findDistanceByStartIdAndEndId(a.getNodeId(), b.getNodeId());
-                    totalDis = totalDis + distance.getDis();
-                }
+                totalDis = getTotalDis(totalDis, nodes, size);
             }
             map.put(totalDis, routeTemp);
         }

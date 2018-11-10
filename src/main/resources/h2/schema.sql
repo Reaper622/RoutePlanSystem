@@ -1,12 +1,9 @@
-CREATE TABLE `centernode` (
-  `centernode_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `final_solution` (
+  `final_solution_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) NOT NULL,
-  `centernode_name` varchar(20) NOT NULL,
-  `centernode_addr` varchar(50) NOT NULL,
-  `lat` double DEFAULT NULL,
-  `lng` double DEFAULT NULL,
-  `del_flag` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`centernode_id`)
+  `version` int(11) NOT NULL,
+  `total_dis` float NOT NULL,
+  PRIMARY KEY (`final_solution_id`)
 );
 
 CREATE TABLE `distance` (
@@ -30,30 +27,29 @@ CREATE TABLE `question` (
   UNIQUE KEY `question_question_name_uindex` (`question_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `servicenode` (
-  `servicenode_id` int(11) NOT NULL,
+CREATE TABLE `node` (
+  `node_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) NOT NULL,
-  `servicenode_name` varchar(20) NOT NULL,
-  `servicenode_addr` varchar(50) NOT NULL,
-  `lat` double DEFAULT NULL,
-  `lng` double DEFAULT NULL,
+  `centernode_name` varchar(20) NOT NULL,
+  `centernode_addr` varchar(50) NOT NULL,
+  `lat` float DEFAULT NULL,
+  `lng` float DEFAULT NULL,
+  `is_center` tinyint(4) DEFAULT '0' COMMENT '0 表示不是中心点;1 表示是中心点',
   `del_flag` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`servicenode_id`)
+  PRIMARY KEY (`node_id`)
 );
 
 CREATE TABLE `solution` (
   `solution_id` int(11) NOT NULL AUTO_INCREMENT,
-  `question_id` int(11) NOT NULL,
   `route` varchar(100) DEFAULT NULL,
   `total_dis` double DEFAULT NULL,
   `total_time` double DEFAULT NULL,
-  `version` int(11) NOT NULL,
   `del_flag` tinyint(4) DEFAULT '0',
+  `final_solution_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`solution_id`),
-  KEY `qv` (`question_id`,`version`),
   KEY `time_index` (`total_time`),
   KEY `dis_index` (`total_dis`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,

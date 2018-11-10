@@ -7,50 +7,32 @@
         <result column="route" property="route"/>
         <result column="total_dis" property="totalDis"/>
         <result column="total_time" property="totalTime"/>
-        <result column="version" property="version"/>
         <result column="del_flag" property="delFlag"/>
     </resultMap>
 
     <sql id="solution_columns">
-        solution_id,question_id,route,total_dis,total_time,version,del_flag
+        solution_id,route,total_dis,total_time,final_solution_id,del_flag
     </sql>
 
     <select id="findSolutions" parameterType="java.lang.Integer" resultMap="solution">
         select <include refid="solution_columns"/>
         from solution
-        where question_id=#{questionId}
-    </select>
-
-    <select id="findBetterTimeSolutions" parameterType="java.lang.Integer" resultMap="solution">
-        select <include refid="solution_columns"/>
-        from solution
-        order by total_time
-        limit 2
-    </select>
-
-    <select id="findBetterDistanceSolutions" parameterType="java.lang.Integer" resultMap="solution">
-        select <include refid="solution_columns"/>
-        from solution
-        order by total_dis
-        limit 2
+        where final_solution_id=#{finalSolutionId}
     </select>
 
     <insert id="insertSolution" parameterType="com.may.routeplansystem.entity.po.Solution">
-        insert into solution(route, total_dis, total_time, version)
-        values (#{route}, #{totalDis}, #{totalTime}, #{version})
+        insert into solution(route, total_dis, total_time, final_solution_id)
+        values (#{route}, #{totalDis}, #{totalTime}, #{finalSolutionId})
     </insert>
 
-    <delete id="deleteAllSolutions" parameterType="java.lang.Integer">
-        update solution
-        set del_flag=1
-        where question_id=#{questionId}
+    <delete id="deleteSolution" parameterType="java.lang.Integer">
+        delete from solution
+        where solution_id=#{solutionId}
     </delete>
 
-    <delete id="deleteOneVersionSolutions">
-        update solution
-        set del_flag=1
-        where question_id=#{questionId} and version=#{version}
+    <delete id="deleteSolutionByFinalSolutionId" parameterType="int">
+        delete from solution
+        where final_solution_id = final_solution_id
     </delete>
-
 
 </mapper>

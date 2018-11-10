@@ -20,9 +20,8 @@ public interface DistanceDao {
 
     boolean updateDisAndTime(Distance distance);
 
-    Distance findUpdateDistances(int questionId);
+    List<Distance> findUpdateDistances(int questionId);
 
-//    @Todo
     Distance findDistanceByStartIdAndEndId(@Param("startId") int startId,
                                            @Param("endId") int endId);
 
