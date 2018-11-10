@@ -16,8 +16,6 @@ public class Distance {
     private int questionId;
     private int startNodeId;
     private int endNodeId;
-    private String startNodeAddr;
-    private String endNodeAddr;
     private int dis;
     private int time;
 }

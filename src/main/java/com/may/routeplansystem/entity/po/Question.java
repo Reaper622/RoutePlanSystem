@@ -14,5 +14,5 @@ public class Question {
     private int questionId;
     private String questionName;
     private int userId;
-    private byte delFlag;
+    private int delFlag;
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ResponseEntity<T>{
     private int status;
-    private String message;
     private T object;
+
+
 }
