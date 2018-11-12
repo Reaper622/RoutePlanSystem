@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
     /**
      * 验证登陆信息是否正确
      * @param userMessage
