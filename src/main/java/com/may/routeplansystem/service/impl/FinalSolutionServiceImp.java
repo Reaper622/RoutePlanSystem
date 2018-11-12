@@ -5,6 +5,7 @@ import com.may.routeplansystem.dao.SolutionDao;
 import com.may.routeplansystem.entity.po.FinalSolution;
 import com.may.routeplansystem.entity.po.Solution;
 import com.may.routeplansystem.entity.vo.FinalSolutionVo;
+import com.may.routeplansystem.exception.FinalSolutionUserChoiceException;
 import com.may.routeplansystem.service.FinalSolutionService;
 import com.may.routeplansystem.util.ServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,8 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
 
     @Override
     public void removeFinalSolution(int finalSolutionId) {
-        boolean flag1 = finalSolutionDao.deleteFinalSolution(finalSolutionId);
-        boolean flag2 = solutionDao.deleteSolutionByFinalSolutionId(finalSolutionId);
-        ServiceUtil.checkSqlExecuted(flag1 && flag2);
+        finalSolutionDao.deleteFinalSolution(finalSolutionId);
+        solutionDao.deleteSolutionByFinalSolutionId(finalSolutionId);
     }
 
     @Override
@@ -77,8 +77,21 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
     }
 
     @Override
-    public int getMaxVersionOfFinalSolution(int questionid) {
-        return finalSolutionDao.findMaxVersion(questionid);
+    public int getMaxVersionOfFinalSolution(int questionId) {
+        return finalSolutionDao.findMaxVersion(questionId);
 
+    }
+
+    @Override
+    public void updateFinalSolutionState(int finalSolutionId) {
+        FinalSolution finalSolution = finalSolutionDao.findFinalSolutionByFinalSolutionId(finalSolutionId);
+        if (finalSolution.getUserChoice() == 1){
+            finalSolutionDao.updateFinalSolutionUserChoice(finalSolutionId);
+        }else {
+            int num = finalSolutionDao.findNumOfUserChoice(finalSolution.getQuestionId());
+            if (num == 1){
+                throw new FinalSolutionUserChoiceException("已经选择了一个最优方案");
+            }
+        }
     }
 }

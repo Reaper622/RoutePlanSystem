@@ -4,10 +4,7 @@ import com.may.routeplansystem.entity.dto.ResponseEntity;
 import com.may.routeplansystem.entity.vo.FinalSolutionVo;
 import com.may.routeplansystem.service.FinalSolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,10 +23,18 @@ public class FinalSolutionController {
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *       "finalSolutionId": 1,
-     *       [
-     *
-     *       ]
+     *         "status":200,
+     *         "object": [
+     *         {
+     *             "finalSolutionId":1,
+     *             "routes":[
+     *             "第一条路径",
+     *             "第二条路径"
+     *             ]
+     *             “totalDis”:100,
+     *             "userChoice":0
+     *         }
+     *         ]
      *     }
      */
     @GetMapping("getAllFinalSolution")
@@ -46,10 +51,16 @@ public class FinalSolutionController {
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *       "finalSolutionId": 1,
-     *       [
-     *
-     *       ]
+     *         "status":200,
+     *         "object":{
+     *             "finalSolutionId":1,
+     *             "routes":[
+     *             "第一条路径",
+     *             "第二条路径"
+     *             ]
+     *             “totalDis”:100,
+     *             "userChoice":0
+     *         }
      *     }
      */
     @GetMapping("getFinalSolution")
@@ -76,7 +87,7 @@ public class FinalSolutionController {
      * @apiGroup finalSolution
      * @apiParam {Number} questionId 问题id
      */
-    @RequestMapping("removeAllQuestionFinalSolution")
+    @DeleteMapping("removeAllQuestionFinalSolution")
     public ResponseEntity removeAllQuestionFinalSolution(int questionId){
         finalSolutionService.removeAllFinalSolutionByQuestionId(questionId);
         return new ResponseEntity<>(200, null);
@@ -91,7 +102,18 @@ public class FinalSolutionController {
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *
+     *         "status":200,
+     *         "object": [
+     *         {
+     *             "finalSolutionId":1,
+     *             "routes":[
+     *             "第一条路径",
+     *             "第二条路径"
+     *             ]
+     *             “totalDis”:100,
+     *             "userChoice":0
+     *         }
+     *         ]
      *     }
      */
     @GetMapping("getOneVersionFinalSolution")
@@ -109,13 +131,26 @@ public class FinalSolutionController {
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *
+     *         “status”：200
+     *         “Object”: 1
      *     }
      */
-    @GetMapping
+    @GetMapping("getMaxVersionOfFinalSolution")
     public ResponseEntity getMaxVersionOfFinalSolution(int questionId){
         int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId);
         return new ResponseEntity<>(200, maxVersion);
+    }
+
+    /**
+     * @api {PATCH} /finalSolution/updateFinalSolutionState 修改用户选择的方案的状态
+     * @apiDescription 用户选择一个自己觉得最好的方案,一个问题只能选择一个
+     * @apiGroup finalSolution
+     * @apiParam {Number} questionId 问题id
+     */
+    @PatchMapping("updateFinalSolutionState")
+    public ResponseEntity updateFinalSolutionState(int finalSolutionId){
+        finalSolutionService.updateFinalSolutionState(finalSolutionId);
+        return new ResponseEntity<>(200, null);
     }
 
 }

@@ -18,5 +18,7 @@ public interface FinalSolutionService {
 
     List<FinalSolutionVo> getOneVersionFinalSolution(int questionId, int versionId);
 
-    int getMaxVersionOfFinalSolution(int questionid);
+    int getMaxVersionOfFinalSolution(int questionId);
+
+    void updateFinalSolutionState(int finalSolutionId);
 }

@@ -50,4 +50,18 @@ public interface FinalSolutionDao {
      */
     FinalSolution findFinalSolutionByFinalSolutionId(int finalSolutionId);
 
+    /**
+     * 修改被用户选中的方案的状态
+     * @param finalSolutionId
+     * @return
+     */
+    boolean updateFinalSolutionUserChoice(int finalSolutionId);
+
+    /**
+     * 得到被用户选中的方案的数量
+     * @return
+     * @throws com.may.routeplansystem.exception.FinalSolutionUserChoiceException
+     */
+    int findNumOfUserChoice(int questionId);
+
 }

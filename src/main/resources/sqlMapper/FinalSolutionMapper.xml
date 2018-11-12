@@ -6,10 +6,11 @@
         <result column="question_id" property="questionId"/>
         <result column="version" property="version"/>
         <result column="total_dis" property="totalDis"/>
+        <result column="user_choice" property="userChoice"/>
     </resultMap>
 
     <sql id="final_solution_columns">
-        final_solution_id,question_id,version,total_dis
+        final_solution_id,question_id,version,total_dis,user_choice
     </sql>
 
     <sql id="insert_columns">
@@ -54,5 +55,21 @@
         select <include refid="final_solution_columns"/>
         from final_solution
         where final_solution_id=#{finalSolutionId}
+    </select>
+
+    <update id="updateFinalSolutionUserChoice" parameterType="int">
+        update final_solution
+        set user_choice=
+        case user_choice
+        when user_choice=0 then 1
+        when user_choice=1 then 0
+        end
+        where final_solution_id=#{finalSolutionId}
+    </update>
+
+    <select id="findNumOfUserChoice" parameterType="int" resultType="Integer">
+        select count(*)
+        from final_solution
+        where user_choice=1
     </select>
 </mapper>

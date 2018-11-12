@@ -1,5 +1,6 @@
 package com.may.routeplansystem.service;
 
+import com.may.routeplansystem.entity.po.Distance;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,17 @@ public class DistanceServiceTest {
 
     @Test
     public void updateDisAndTime() {
-
+        distanceService.updateDisAndTime(1);
     }
 
     @Test
     public void getDistanceTimeAndDis() {
-
+        Distance distance = new Distance();
+        distance.setDistanceId(1);
+        distance.setStartNodeId(1);
+        distance.setEndNodeId(2);
+        distance.setQuestionId(1);
+        distanceService.getDistanceTimeAndDis(distance);
     }
 
     @Test

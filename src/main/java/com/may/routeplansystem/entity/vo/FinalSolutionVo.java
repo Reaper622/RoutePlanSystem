@@ -10,4 +10,5 @@ public class FinalSolutionVo {
     private int finalSolutionId;
     private List<String> routes;
     private double totalDis;
+    private int userChoice;
 }
