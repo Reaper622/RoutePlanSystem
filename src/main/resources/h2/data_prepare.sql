@@ -8,7 +8,7 @@ insert into solution values (1, 'route1', 1111, 2222, 0, 1);
 insert into solution values (3, 'route3', 4444, 1000, 0, 1);
 insert into solution values (4, 'route4', 5555, 999, 0, 1);
 
-insert into final_solution values (1, 1, 1, 20, 0);
-insert into final_solution values (2, 1, 1, 19, 0);
-insert into final_solution values (4, 1, 2, 30, 1);
+insert into final_solution values (1, 1, 1, 20, 0, '2018-10-16');
+insert into final_solution values (2, 1, 1, 19, 0, '2018-10-16');
+insert into final_solution values (4, 1, 2, 30, 1, '2018-10-16');
 

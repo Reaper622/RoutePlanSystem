@@ -20,6 +20,11 @@ public class FinalSolutionController {
      * @apiDescription 通过问题Id得到所有该问题的解决方案
      * @apiGroup finalSolution
      * @apiParam {Number} questionId 问题id
+     * @apiSuccess {Number} finalSolutionId 方案编号
+     * @apiSuccess {String[]} routes 该方案下的所有路径
+     * @apiSuccess {Number} totalDis 该方案的总路径
+     * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
+     * @apiSuccess {String} createTime 创建方案的时间
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -33,6 +38,7 @@ public class FinalSolutionController {
      *             ]
      *             “totalDis”:100,
      *             "userChoice":0
+     *             "createTime": "2018-10-06 12:00:00"
      *         }
      *         ]
      *     }
@@ -44,10 +50,15 @@ public class FinalSolutionController {
     }
 
     /**
-     * @api {GET} /finalSolution/getFinalSolution 得到一个问题的所有解决方案
-     * @apiDescription 通过方案Id得到所有方案下的所有路径
+     * @api {GET} /finalSolution/getFinalSolution 得到一个方案的所有路径
+     * @apiDescription 通过方案Id得到方案下的所有路径
      * @apiGroup finalSolution
      * @apiParam {Number} finalSolutionId 方案id
+     * @apiSuccess {Number} finalSolutionId 方案编号
+     * @apiSuccess {String[]} routes 该方案下的所有路径
+     * @apiSuccess {Number} totalDis 该方案的总路径
+     * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
+     * @apiSuccess {String} createTime 创建方案的时间
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -60,6 +71,7 @@ public class FinalSolutionController {
      *             ]
      *             “totalDis”:100,
      *             "userChoice":0
+     *             "createTime": "2018-11-11 12:00:00"
      *         }
      *     }
      */
@@ -99,6 +111,11 @@ public class FinalSolutionController {
      * @apiGroup finalSolution
      * @apiParam {Number} questionId 问题id
      * @apiParam {Number} version 版本号
+     * @apiSuccess {Number} finalSolutionId 方案编号
+     * @apiSuccess {String[]} routes 该方案下的所有路径
+     * @apiSuccess {Number} totalDis 该方案的总路径
+     * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
+     * @apiSuccess {String} createTime 创建方案的时间
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -112,6 +129,7 @@ public class FinalSolutionController {
      *             ]
      *             “totalDis”:100,
      *             "userChoice":0
+     *             "createTime": "2018-11-11 12:00:00"
      *         }
      *         ]
      *     }
@@ -124,21 +142,24 @@ public class FinalSolutionController {
     }
 
     /**
-     * @api {GET} /finalSolution/getMaxVersionOfFinalSolution 得到该问题的最大的解决方案版本号
-     * @apiDescription 通过问题Id得到最大的解决方案版本号
+     * @api {GET} /finalSolution/getAllVersion 得到该问题的所有版本号
+     * @apiDescription 通过问题Id得到该问题的所有版本号
      * @apiGroup finalSolution
      * @apiParam {Number} questionId 问题id
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
      *         “status”：200
-     *         “Object”: 1
+     *         “Object”: [
+     *              1,
+     *              2
+     *         ]
      *     }
      */
-    @GetMapping("getMaxVersionOfFinalSolution")
-    public ResponseEntity getMaxVersionOfFinalSolution(int questionId){
-        int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId);
-        return new ResponseEntity<>(200, maxVersion);
+    @GetMapping("getAllVersion")
+    public ResponseEntity getAllVersion(int questionId){
+        List<Integer> integers = finalSolutionService.getAllVersion(questionId);
+        return new ResponseEntity<>(200, integers);
     }
 
     /**

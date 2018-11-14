@@ -9,4 +9,5 @@ public class FinalSolution {
     private double totalDis;
     private int version;
     private int userChoice;
+    private String createTime;
 }
