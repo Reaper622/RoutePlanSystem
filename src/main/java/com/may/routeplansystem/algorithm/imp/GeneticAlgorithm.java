@@ -14,13 +14,13 @@ import com.may.routeplansystem.service.FinalSolutionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.rmi.runtime.Log;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.may.routeplansystem.util.MMath.*;
+import static com.may.routeplansystem.util.MMath.randomInt;
+import static com.may.routeplansystem.util.MMath.randomIntExceptZero;
 
 
 @Component

@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {  "name": "路径规划系统接口文档",  "version": "1.0.0",  "description": "所有的接口",  "url": "47.107.65.249:8081/RoutePlanSystem"}
+=======
+{  "name": "example",  "version": "0.1.0",  "description": "A basic apiDoc example",  "sampleUrl":"http://localhost:8080/Routeplansystem"}
+>>>>>>> 79f32b15ef117385dae9431a96da8ee4082a84d5
