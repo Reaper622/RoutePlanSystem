@@ -49,3 +49,4 @@ spring:
           starttls:
             enable: true
             required: true
+    port: 587

@@ -4,6 +4,8 @@ import com.may.routeplansystem.pojo.VehicleMessage;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author:dengsiyuan
@@ -17,7 +19,7 @@ public interface VehicleService {
      * @param session
      * @return -1:导入失败
      * */
-    int vehicleRegister(VehicleMessage vehicleMessage, HttpSession session);
+    Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session);
     /**
      * 根据用户查询车辆信息
      * @param userId
@@ -34,9 +36,9 @@ public interface VehicleService {
 
     /**
      * 删除车辆信息
-     * @param vehicle
+     * @param vehicleIdList
      * @return true/false
      **/
-    boolean deleteVehicle(int vehicle);
+    boolean deleteVehicle(ArrayList vehicleIdList);
 
 }

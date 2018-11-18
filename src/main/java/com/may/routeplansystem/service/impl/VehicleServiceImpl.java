@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @author:dengsiyuan
@@ -21,6 +21,7 @@ import java.util.Date;
 public class VehicleServiceImpl implements VehicleService {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
+    String userAttribute = "user";
 
     @Autowired
     VehicleDao vehicleDao;
@@ -30,23 +31,32 @@ public class VehicleServiceImpl implements VehicleService {
      * @return -1:导入失败
      */
     @Override
-    public int vehicleRegister(VehicleMessage vehicleMessage, HttpSession session) {
-        String attribute = "user";
-        try{
-            long currentTime = System.currentTimeMillis();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date(currentTime);
-            vehicleMessage.setDate(formatter.format(date));
-            vehicleMessage.setOwnerId((String) session.getAttribute(attribute));
-            if(vehicleDao.insertVehicle(vehicleMessage) == -1){
-                return StatusCode.MESSAGE_ERROR;
+    public Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session) {
+        Map map = new HashMap<String,String>(16);
+        try {
+            if (session.getAttribute(userAttribute) != null){
+                if(vehicleMessage != null){
+                    long currentTime = System.currentTimeMillis();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(currentTime);
+                    vehicleMessage.setDate(formatter.format(date));
+                    vehicleMessage.setOwnerId((String) session.getAttribute(userAttribute));
+                    if(vehicleDao.insertVehicle(vehicleMessage) == -1){
+                        map.put("status",StatusCode.MESSAGE_ERROR);
+                    }else {
+                        map.put("status",StatusCode.SUCCESS);
+                    }
+                }else {
+                    map.put("status",StatusCode.MESSAGE_NULL);
+                }
             }else {
-                return StatusCode.SUCCESS;
+                map.put("status",StatusCode.PERMISSION_FAIL);
             }
         }catch (Exception e){
+            map.put("status",StatusCode.FAIL);
             logger.error(e.getClass()+"{}",e);
-            return StatusCode.FAIL;
         }
+        return map;
     }
 
     /**
@@ -94,12 +104,12 @@ public class VehicleServiceImpl implements VehicleService {
     /**
      * 删除车辆信息
      *
-     * @param vehicle
+     * @param vehicleIdList
      * @return true/false
      **/
     @Override
-    public boolean deleteVehicle(int vehicle) {
-        if(vehicleDao.deleteVehicle(vehicle)){
+    public boolean deleteVehicle(ArrayList vehicleIdList) {
+        if(vehicleDao.deleteVehicle(vehicleIdList)){
             return true;
         }else {
             return false;

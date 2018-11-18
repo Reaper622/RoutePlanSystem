@@ -3,6 +3,7 @@ package com.may.routeplansystem.dao;
 import com.may.routeplansystem.pojo.VehicleMessage;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,9 +35,9 @@ public interface VehicleDao {
     VehicleMessage searchVehicleByVehicleId(int vehicleId);
 
     /**
-     * 删除单条车辆信息
-     * @param vehicleId
+     * 删除车辆信息
+     * @param deleteList
      * @return true/false
      */
-    boolean deleteVehicle(int vehicleId);
+    boolean deleteVehicle(ArrayList deleteList);
 }
