@@ -11,4 +11,5 @@ public class FinalSolutionVo {
     private List<String> routes;
     private double totalDis;
     private int userChoice;
+    private String createTime;
 }

@@ -58,8 +58,10 @@ public class GeneticAlgorithm implements Algorithm {
             minDistance = treeMap.firstKey();
 
             while (i < hybridMutationCount) {
+                log.info("现在的杂交次数：" + i);
                 treeMap = hybridMutation(treeMap);
                 int min = treeMap.firstKey();
+                i++;
                 if (minDistance == min) {
                     i++;
                 } else {
@@ -72,22 +74,22 @@ public class GeneticAlgorithm implements Algorithm {
 
             Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
             Iterator<Map.Entry<Integer, RouteTemp>> iterator = set.iterator();
+            int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId);
 
             log.info("将所有数据插入数据库");
             iterator.forEachRemaining(entry -> {
                 RouteTemp routes = entry.getValue();
                 double totalDis = entry.getKey();
-                int finalSolutionId = createFinalSolutionAndInsert(questionId, totalDis);
+                int finalSolutionId = createFinalSolutionAndInsert(questionId, totalDis, maxVersion);
                 List<Solution> solutionList = madeRoute(routes.getRoute(), finalSolutionId);
                 solutionList.forEach(solutionDao::insertSolution);
             });
         }
     }
 
-    private int createFinalSolutionAndInsert(int questionId, double totalDis){
+    private int createFinalSolutionAndInsert(int questionId, double totalDis, int version){
         FinalSolution finalSolution = new FinalSolution();
-        int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId);
-        finalSolution.setVersion(++maxVersion);
+        finalSolution.setVersion(version);
         finalSolution.setQuestionId(questionId);
         finalSolution.setTotalDis(totalDis);
         LocalDateTime now = LocalDateTime.now();
