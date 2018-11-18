@@ -76,6 +76,9 @@ export default {
 }
 </script>
 <style scoped>
+.main {
+  margin: 10px 0 0 10px;
+}
   .searchInput{
     width: 250px;
     margin-left: 20px;

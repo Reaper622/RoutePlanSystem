@@ -63,8 +63,8 @@
                         </el-menu-item>
                     </el-menu>
                 </el-aside>
-                <el-container>
-                    <el-main v-loading="isLoading"><router-view @addCar="addCarShow" @loaded="isLoaded"></router-view></el-main>
+                <el-container class="">
+                    <el-main v-loading="isLoading" ><router-view @addCar="addCarShow" @loaded="isLoaded"></router-view></el-main>
                     <el-footer>
                         &copy;Copyright:2018 Mis Lab
                     </el-footer>
@@ -110,6 +110,11 @@ export default {
 </script>
 
 <style scoped>
+.el-main {
+    padding: 0px;
+    margin: 0px;
+}
+
 .sideBar {
     border-right: 1px solid #2B333E;
 }
@@ -128,9 +133,10 @@ export default {
     .el-aside {
         background-color: #2B333E;
         text-align: center;
+        margin-top: 5px;
     }
     .el-main {
-        margin-top: 10px;
+        margin-top: 5px;
         height: 800px;
     }
     .el-footer{
@@ -142,7 +148,7 @@ export default {
         border-top: 5px solid #2B333E;
     }
     .headerRightRow{
-        height: 60px;
+        height: auto;
         margin: 5px 0;
     }
     .username{

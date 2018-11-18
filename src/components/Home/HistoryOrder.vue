@@ -30,5 +30,8 @@ export default {
     width: 250px;
     margin-left: 20px;
   }
+    .main {
+    margin: 10px 0 0 10px;
+  }
 </style>
 
