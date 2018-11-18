@@ -2,21 +2,29 @@ package com.may.routeplansystem.algorithm.imp;
 
 import com.may.routeplansystem.algorithm.Algorithm;
 import com.may.routeplansystem.dao.DistanceDao;
+import com.may.routeplansystem.dao.FinalSolutionDao;
 import com.may.routeplansystem.dao.NodeDao;
 import com.may.routeplansystem.dao.SolutionDao;
 import com.may.routeplansystem.entity.po.Distance;
+import com.may.routeplansystem.entity.po.FinalSolution;
 import com.may.routeplansystem.entity.po.Solution;
 import com.may.routeplansystem.entity.vo.RouteTemp;
 import com.may.routeplansystem.pojo.NodePojo;
+import com.may.routeplansystem.service.FinalSolutionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.may.routeplansystem.util.MMath.*;
+import static com.may.routeplansystem.util.MMath.randomInt;
+import static com.may.routeplansystem.util.MMath.randomIntExceptZero;
 
 
 @Component
+@Slf4j
 public class GeneticAlgorithm implements Algorithm {
 
     @Autowired
@@ -28,13 +36,20 @@ public class GeneticAlgorithm implements Algorithm {
     @Autowired
     private SolutionDao solutionDao;
 
+    @Autowired
+    private FinalSolutionDao finalSolutionDao;
+
+    @Autowired
+    private FinalSolutionService finalSolutionService;
+
 
     @Override
     public void executeAlgorithm(int questionId) {
         List<NodePojo> centerNodes = nodeDao.selectCenterNode(questionId);
         List<NodePojo> serviceNodes = nodeDao.selectServiceNode(questionId);
         int minDistance;
-        int solutionCount = 50;
+        /** 初始化的方案数*/
+        int solutionCount = 20;
         int hybridMutationCount = 2000;
         int i = 0;
         List<RouteTemp> solutions = initializeRoute(solutionCount, serviceNodes, centerNodes);
@@ -52,41 +67,55 @@ public class GeneticAlgorithm implements Algorithm {
                     i = 0;
                 }
             }
-
+            log.info("删除多余的方案");
             removeSurplusSolutions(treeMap);
 
-            List<Solution> list;
             Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
             Iterator<Map.Entry<Integer, RouteTemp>> iterator = set.iterator();
-            List<RouteTemp> list1 = new ArrayList<>();
-            while (iterator.hasNext()) {
-                RouteTemp routeTemp = iterator.next().getValue();
-                list1.add(routeTemp);
-            }
-            for (int j = 0; j < list1.size(); j++) {
-                List<List<NodePojo>> nodes = list1.get(j).getRoute();
-                list = madeRoute(nodes);
-                for (int k = 0; k < list.size(); k++) {
-                    solutionDao.insertSolution(list.get(k));
-                }
-            }
+
+            log.info("将所有数据插入数据库");
+            iterator.forEachRemaining(entry -> {
+                RouteTemp routes = entry.getValue();
+                double totalDis = entry.getKey();
+                int finalSolutionId = createFinalSolutionAndInsert(questionId, totalDis);
+                List<Solution> solutionList = madeRoute(routes.getRoute(), finalSolutionId);
+                solutionList.forEach(solutionDao::insertSolution);
+            });
         }
     }
 
+    private int createFinalSolutionAndInsert(int questionId, double totalDis){
+        FinalSolution finalSolution = new FinalSolution();
+        int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId);
+        finalSolution.setVersion(++maxVersion);
+        finalSolution.setQuestionId(questionId);
+        finalSolution.setTotalDis(totalDis);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String nowStr = formatter.format(now);
+        finalSolution.setCreateTime(nowStr);
+        finalSolutionDao.insertFinalSolution(finalSolution);
+        return finalSolution.getFinalSolutionId();
+    }
+
     private void removeSurplusSolutions(Map<Integer, RouteTemp> treeMap){
+        log.info("删除前 treeMap 的size：" + treeMap.size() );
         Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
         Iterator<Map.Entry<Integer, RouteTemp>> it = set.iterator();
         int i = 0;
         while(it.hasNext()){
             i++;
             if (i <= 4){
+                it.next();
                 continue;
             }
+            it.next();
             it.remove();
         }
+        log.info("删除后 treeMap size: " + treeMap.size());
     }
 
-    private List<Solution> madeRoute(List<List<NodePojo>> nodes) {
+    private List<Solution> madeRoute(List<List<NodePojo>> nodes, int finalSolutionId) {
         List<Solution> list = new ArrayList<>();
         StringBuilder s;
 
@@ -114,6 +143,7 @@ public class GeneticAlgorithm implements Algorithm {
             route.setTotalTime(time);
             route.setTotalDis(dis);
             route.setRoute(s.toString());
+            route.setFinalSolutionId(finalSolutionId);
             list.add(route);
         }
         return list;
@@ -125,10 +155,13 @@ public class GeneticAlgorithm implements Algorithm {
         List<List<NodePojo>> route = entry.getValue().getRoute();
         int routeCount = route.size();
         //直接变异
+        log.info("开始杂交变异");
         if (routeCount == 1) {
+            log.info("只进行变异");
             List<List<NodePojo>> routeTemp = mutation(route);
             entry.getValue().setRoute(routeTemp);
         } else {
+            log.info("进行杂交和变异");
             //默认必须杂交
             route = hybrid(route, routeCount);
             //变异随机
@@ -143,6 +176,7 @@ public class GeneticAlgorithm implements Algorithm {
                 }
             }
         }
+        log.info("杂交变异结束");
         return treeMap;
     }
 
@@ -168,6 +202,7 @@ public class GeneticAlgorithm implements Algorithm {
     }
 
     private List<List<NodePojo>> hybrid(List<List<NodePojo>> route, int routeCount) {
+        log.info("进行杂交");
         int route1 = (int) (Math.random() * routeCount);
         int route2 = (int) (Math.random() * routeCount);
         while (route1 == route2) {
@@ -175,14 +210,13 @@ public class GeneticAlgorithm implements Algorithm {
         }
         List routeWay1 = route.get(route1);
         List routeWay2 = route.get(route2);
+//        if (routeWay1.size() == 2 || routeWay2.size() == 2){
+//            return route;
+//        }
         int routeWaySize1 = routeWay1.size();
         int routeWaySize2 = routeWay2.size();
-        int routeIndex1 = (int) (Math.random() * routeWaySize1);
-        int routeIndex2 = (int) (Math.random() * routeWaySize2);
-        //防止取到首和尾
-        routeIndex1 = notInHeadAndTail(routeWaySize1, routeIndex1);
-        routeIndex2 = notInHeadAndTail(routeWaySize2, routeIndex2);
-        //将数组拆成两段,每段都添加
+        int routeIndex1 = (int) (Math.random() * (routeWaySize1-2) + 1);
+        int routeIndex2 = (int) (Math.random() * (routeWaySize2-2) + 1);
         List head1 = new ArrayList(routeWay1.subList(0, routeIndex1));
         List tail1 = new ArrayList(routeWay1.subList(routeIndex1, routeWaySize1));
         List head2 = new ArrayList(routeWay2.subList(0, routeIndex2));
@@ -194,6 +228,15 @@ public class GeneticAlgorithm implements Algorithm {
         return route;
     }
 
+    private void logRoutemp(RouteTemp routeTemp){
+        routeTemp.getRoute().forEach(route -> {
+            StringBuilder stringBuilder = new StringBuilder();
+            route.forEach(nodePojo -> {
+                stringBuilder.append(nodePojo.getNodeName());
+            });
+        });
+    }
+
     private List<List<NodePojo>> mutation(List<List<NodePojo>> route) {
         int routeSize = route.size();
         int route1 = (int) (Math.random() * routeSize);
@@ -201,8 +244,8 @@ public class GeneticAlgorithm implements Algorithm {
         int size = routeWay1.size();
         int node1 = 0;
         int node2 = 0;
-        node1 = notInHeadAndTail(size, node1);
-        node2 = notInHeadAndTail(size, node2);
+        node1 = (int) (Math.random() * (size-2) + 1);
+        node2 = (int) (Math.random() * (size-2) + 1);
         if (node1 == node2) {
             return route;
         } else {
@@ -238,7 +281,6 @@ public class GeneticAlgorithm implements Algorithm {
         for (int i = 0; i < index; i++) {
             parentEntry = iterator.next();
         }
-
         return parentEntry;
     }
 
@@ -269,7 +311,7 @@ public class GeneticAlgorithm implements Algorithm {
         RouteTemp oneRoute;
         for (int i = 0; i < count; i++) {
             List<NodePojo> serviceNodesCopy = new LinkedList<>(serviceNodes);
-            int routeCount = randomIntExceptZero(0, routeRandom);
+            int routeCount = randomIntExceptZero(routeRandom);
             oneRoute = new RouteTemp(routeCount);
             for (int j = 0; j < routeCount; j++) {
                 if (serviceNodesCopy.isEmpty()) {
@@ -283,15 +325,21 @@ public class GeneticAlgorithm implements Algorithm {
                     break;
                 }
                 int serviceNodesCopySize = serviceNodesCopy.size();
-                int everyRouteNodeCount = randomIntExceptZero(0, serviceNodesCopySize);
+                if (serviceNodesCopySize == 1){
+                    everyPath.add(serviceNodesCopy.get(0));
+                    everyPath.add(centerNode);
+                    break;
+                }
+                int everyRouteNodeCount = randomIntExceptZero(serviceNodesCopySize);
                 for (int k = 0; k < everyRouteNodeCount; k++) {
-                    int index = randomInt(0, serviceNodesCopySize);
+                    int index = randomInt(0, serviceNodesCopy.size());
                     NodePojo serviceNode = serviceNodesCopy.get(index);
                     oneRoute.getRoute().get(j).add(serviceNode);
                     serviceNodesCopy.remove(index);
                 }
                 oneRoute.getRoute().get(j).add(centerNode);
             }
+            logRoutemp(oneRoute);
             removeEmptyRoute(oneRoute);
             solutions.add(oneRoute);
         }

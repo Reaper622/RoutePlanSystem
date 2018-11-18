@@ -1,5 +1,6 @@
 package com.may.routeplansystem.controller;
 
+import com.may.routeplansystem.algorithm.Algorithm;
 import com.may.routeplansystem.entity.dto.ResponseEntity;
 import com.may.routeplansystem.entity.po.Question;
 import com.may.routeplansystem.service.QuestionService;
@@ -14,6 +15,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private Algorithm algorithm;
 
     /**
      * @api {POST} /question/insertQuestion 添加问题
@@ -75,6 +79,18 @@ public class QuestionController {
     @PatchMapping("updateQuestion")
     public ResponseEntity updateQuestion(Question question){
         questionService.updateQuestion(question);
+        return new ResponseEntity<>(200, null);
+    }
+
+    /**
+     * @api {GET} /question/executeAlgorithm 执行算法
+     *      * @apiDescription 通过questionId来执行算法
+     *      * @apiGroup Question
+     *      * @apiParam {Number} questionId 问题ID
+     */
+    @GetMapping("executeAlgorithm")
+    public ResponseEntity executeAlgorithm(int questionId){
+        algorithm.executeAlgorithm(questionId);
         return new ResponseEntity<>(200, null);
     }
 }

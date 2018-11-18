@@ -25,6 +25,30 @@ define({ "api": [
   },
   {
     "type": "GET",
+    "url": "/question/executeAlgorithm",
+    "title": "执行算法",
+    "description": "<p>通过questionId来执行算法</p>",
+    "group": "Question",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "questionId",
+            "description": "<p>问题ID</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/QuestionController.java",
+    "groupTitle": "Question",
+    "name": "GetQuestionExecutealgorithm"
+  },
+  {
+    "type": "GET",
     "url": "/question/getQuestions",
     "title": "得到questions",
     "description": "<p>通过用户Id得到所用该用户的问题</p>",
@@ -481,10 +505,49 @@ define({ "api": [
       }
     },
     "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "finalSolutionId",
+            "description": "<p>方案编号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String[]",
+            "optional": false,
+            "field": "routes",
+            "description": "<p>该方案下的所有路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "totalDis",
+            "description": "<p>该方案的总路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "userChoice",
+            "description": "<p>用户选择该方案的标志,0表示没有选择，1表示选择了</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "createTime",
+            "description": "<p>创建方案的时间</p>"
+          }
+        ]
+      },
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\": [\n    {\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n    }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\": [\n    {\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n        \"createTime\": \"2018-10-06 12:00:00\"\n    }\n    ]\n}",
           "type": "json"
         }
       ]
@@ -496,42 +559,9 @@ define({ "api": [
   },
   {
     "type": "GET",
-    "url": "/finalSolution/getFinalSolution",
-    "title": "得到一个问题的所有解决方案",
-    "description": "<p>通过方案Id得到所有方案下的所有路径</p>",
-    "group": "finalSolution",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "finalSolutionId",
-            "description": "<p>方案id</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\":{\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n    }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
-    "groupTitle": "finalSolution",
-    "name": "GetFinalsolutionGetfinalsolution"
-  },
-  {
-    "type": "GET",
-    "url": "/finalSolution/getMaxVersionOfFinalSolution",
-    "title": "得到该问题的最大的解决方案版本号",
-    "description": "<p>通过问题Id得到最大的解决方案版本号</p>",
+    "url": "/finalSolution/getAllVersion",
+    "title": "得到该问题的所有版本号",
+    "description": "<p>通过问题Id得到该问题的所有版本号</p>",
     "group": "finalSolution",
     "parameter": {
       "fields": {
@@ -550,7 +580,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n    “status”：200\n    “Object”: 1\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    “status”：200\n    “Object”: [\n         1,\n         2\n    ]\n}",
           "type": "json"
         }
       ]
@@ -558,7 +588,79 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
     "groupTitle": "finalSolution",
-    "name": "GetFinalsolutionGetmaxversionoffinalsolution"
+    "name": "GetFinalsolutionGetallversion"
+  },
+  {
+    "type": "GET",
+    "url": "/finalSolution/getFinalSolution",
+    "title": "得到一个方案的所有路径",
+    "description": "<p>通过方案Id得到方案下的所有路径</p>",
+    "group": "finalSolution",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "finalSolutionId",
+            "description": "<p>方案id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "finalSolutionId",
+            "description": "<p>方案编号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String[]",
+            "optional": false,
+            "field": "routes",
+            "description": "<p>该方案下的所有路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "totalDis",
+            "description": "<p>该方案的总路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "userChoice",
+            "description": "<p>用户选择该方案的标志,0表示没有选择，1表示选择了</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "createTime",
+            "description": "<p>创建方案的时间</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\":{\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n        \"createTime\": \"2018-11-11 12:00:00\"\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
+    "groupTitle": "finalSolution",
+    "name": "GetFinalsolutionGetfinalsolution"
   },
   {
     "type": "GET",
@@ -587,10 +689,49 @@ define({ "api": [
       }
     },
     "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "finalSolutionId",
+            "description": "<p>方案编号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String[]",
+            "optional": false,
+            "field": "routes",
+            "description": "<p>该方案下的所有路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "totalDis",
+            "description": "<p>该方案的总路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "userChoice",
+            "description": "<p>用户选择该方案的标志,0表示没有选择，1表示选择了</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "createTime",
+            "description": "<p>创建方案的时间</p>"
+          }
+        ]
+      },
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\": [\n    {\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n    }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":200,\n    \"object\": [\n    {\n        \"finalSolutionId\":1,\n        \"routes\":[\n        \"第一条路径\",\n        \"第二条路径\"\n        ]\n        “totalDis”:100,\n        \"userChoice\":0\n        \"createTime\": \"2018-11-11 12:00:00\"\n    }\n    ]\n}",
           "type": "json"
         }
       ]

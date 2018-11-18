@@ -24,3 +24,5 @@
 /.mvn/
 /mvnw
 /mvnw.cmd
+/apidoc.json
+/apidoc

@@ -4,6 +4,7 @@ CREATE TABLE `final_solution` (
   `version` int(11) NOT NULL,
   `total_dis` float NOT NULL,
   `user_choice` tinyint(1) not null default '0',
+  `create_time` varchar(20) not null,
   PRIMARY KEY (`final_solution_id`)
 );
 

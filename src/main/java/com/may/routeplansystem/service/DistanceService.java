@@ -10,14 +10,18 @@ public interface DistanceService {
     /**
      * 赋值所有没有赋值时间和距离的distance
      */
-    public void updateDisAndTime(int questionId);
+    void updateDisAndTime(int questionId);
 
     /**
      * 通过百度Api获得两点的时间和距离
      * @param distance
      * @return
      */
-    public Distance getDistanceTimeAndDis(Distance distance);
+    Distance getDistanceTimeAndDis(Distance distance);
 
-    public void generateDistanceFromNode(int questionId);
+    /**
+     * 单纯的生成没有时间和距离的distance
+     * @param questionId
+     */
+    void generateDistanceFromNode(int questionId);
 }

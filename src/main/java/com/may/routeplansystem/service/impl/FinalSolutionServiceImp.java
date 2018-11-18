@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FinalSolutionServiceImp implements FinalSolutionService {
@@ -78,7 +79,14 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
 
     @Override
     public int getMaxVersionOfFinalSolution(int questionId) {
-        return finalSolutionDao.findMaxVersion(questionId);
+        Integer maxVersion = finalSolutionDao.findMaxVersion(questionId);
+        Optional<Integer> optional = Optional.ofNullable(maxVersion);
+        return optional.orElse(0);
+    }
+
+    @Override
+    public List<Integer> getAllVersion(int questionId) {
+        return finalSolutionDao.findAllVersion(questionId);
 
     }
 

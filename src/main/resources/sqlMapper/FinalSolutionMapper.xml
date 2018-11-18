@@ -7,20 +7,24 @@
         <result column="version" property="version"/>
         <result column="total_dis" property="totalDis"/>
         <result column="user_choice" property="userChoice"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <sql id="final_solution_columns">
-        final_solution_id,question_id,version,total_dis,user_choice
+        final_solution_id,question_id,version,total_dis,user_choice,create_time
     </sql>
 
     <sql id="insert_columns">
-        question_id,version,total_dis
+        question_id,version,total_dis,create_time
     </sql>
 
     <insert id="insertFinalSolution" parameterType="com.may.routeplansystem.entity.po.FinalSolution"
             useGeneratedKeys="true" keyProperty="finalSolutionId">
         insert into final_solution(<include refid="insert_columns"/>)
-        values (#{questionId},#{version},#{totalDis})
+        values (#{questionId},#{version},#{totalDis},#{createTime})
+        <selectKey keyProperty="finalSolutionId" resultType="Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <delete id="deleteFinalSolution" parameterType="int">
@@ -28,9 +32,16 @@
         where final_solution_id=#{finalSolutionId}
     </delete>
 
+    <select id="findAllVersion" parameterType="int" resultType="Integer">
+        select distinct version
+        from final_solution
+        where question_id=#{questionId}
+    </select>
+
     <select id="findMaxVersion" parameterType="int" resultType="Integer">
         select max(version)
         from final_solution
+        where question_id=#{questionId}
     </select>
 
     <select id="findAllFinalSolutionOrdered" parameterType="int" resultType="Integer">

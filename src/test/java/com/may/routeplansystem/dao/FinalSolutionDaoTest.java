@@ -1,6 +1,8 @@
 package com.may.routeplansystem.dao;
 
 import com.may.routeplansystem.entity.po.FinalSolution;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +18,24 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@ActiveProfiles("dev")
 @Transactional
 @Rollback()
+@ActiveProfiles("dev")
+@Slf4j
 public class FinalSolutionDaoTest {
 
     @Autowired
     private FinalSolutionDao finalSolutionDao;
     private FinalSolution finalSolution;
 
+    @Before
     public void before(){
         finalSolution = new FinalSolution();
         finalSolution.setFinalSolutionId(3);
         finalSolution.setQuestionId(1);
         finalSolution.setTotalDis(30);
         finalSolution.setVersion(1);
+        finalSolution.setCreateTime("fdsf");
     }
 
     @Test
@@ -47,8 +52,8 @@ public class FinalSolutionDaoTest {
 
     @Test
     public void findMaxVersion() {
-        int value = finalSolutionDao.findMaxVersion(1);
-        assertEquals(2, value);
+        List<Integer> list = finalSolutionDao.findAllVersion(1);
+        assertEquals(2, list.size());
     }
 
     @Test

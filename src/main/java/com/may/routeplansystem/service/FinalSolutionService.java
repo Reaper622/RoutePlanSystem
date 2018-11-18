@@ -20,5 +20,7 @@ public interface FinalSolutionService {
 
     int getMaxVersionOfFinalSolution(int questionId);
 
+    List<Integer> getAllVersion(int questionId);
+
     void updateFinalSolutionState(int finalSolutionId);
 }

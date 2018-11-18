@@ -9,16 +9,28 @@ import java.util.List;
 @Repository
 public interface FinalSolutionDao {
 
+    /**
+     * 添加方案
+     * @param finalSolution
+     * @return 插入方案的id
+     */
     boolean insertFinalSolution(FinalSolution finalSolution);
 
     boolean deleteFinalSolution(int finalSolutionId);
 
     /**
-     * 得到现在方案的版本号
+     * 得到问题的最大版本号
      * @param questionId
      * @return
      */
-    int findMaxVersion(int questionId);
+    Integer findMaxVersion(int questionId);
+
+    /**
+     * 得到一个问题所有版本号
+     * @param questionId
+     * @return
+     */
+    List<Integer> findAllVersion(int questionId);
 
     /**
      * 找到所有版本中最好的四个方案
