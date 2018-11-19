@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
                             session.setMaxInactiveInterval(3600);
                             map.put("status",StatusCode.SUCCESS);
                             map.put("userMessage",userDao.userMessage(userId));
+                            logger.info("用户"+userId+"登录");
                         }else {
                             map.put("status",StatusCode.MESSAGE_ERROR);
                         }
@@ -111,6 +112,7 @@ public class UserServiceImpl implements UserService {
                                 map.put("status",StatusCode.PERMISSION_FAIL);
                             }else {
                                 map.put("status",StatusCode.SUCCESS);
+                                logger.info("用户"+userMessage.getUserId()+"完成注册");
                             }
                         }else {
                             map.put("status",StatusCode.CODE_FAIL);
@@ -174,15 +176,13 @@ public class UserServiceImpl implements UserService {
                 helper.setText(sb.toString(), true);
                 //发送邮件
                 mailSender.send(message);
-                map.clear();
                 map.put("status",StatusCode.SUCCESS);
+                logger.info("发送用户注册验证码");
             }else {
-                map.clear();
                 map.put("status",StatusCode.MESSAGE_ERROR);
             }
         } catch (MessagingException e) {
             logger.error(e.getClass() + "{}", e);
-            map.clear();
             map.put("status",StatusCode.FAIL);
         }
         return map;

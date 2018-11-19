@@ -45,6 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
                         map.put("status",StatusCode.MESSAGE_ERROR);
                     }else {
                         map.put("status",StatusCode.SUCCESS);
+                        logger.info(session.getAttribute(userAttribute)+"完成车辆录入");
                     }
                 }else {
                     map.put("status",StatusCode.MESSAGE_NULL);
@@ -70,6 +71,7 @@ public class VehicleServiceImpl implements VehicleService {
         try {
             Object vehicleMessage = vehicleDao.searchVehicleByOwnId(userId);
             if(vehicleMessage != null){
+                logger.info(userId+"查询车辆信息");
                 return vehicleMessage;
             }else {
                 return null;
