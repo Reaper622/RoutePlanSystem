@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("question")
+@CrossOrigin(origins = "http://47.107.65.249:8080",allowCredentials = "true")
 public class QuestionController {
 
     @Autowired
