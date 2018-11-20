@@ -7,7 +7,6 @@ import com.may.routeplansystem.service.FinalSolutionService;
 import com.may.routeplansystem.service.QuestionService;
 import com.may.routeplansystem.util.ServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +16,6 @@ public class QuestionServiceImp implements QuestionService {
 
     @Autowired
     private QuestionDao questionDao;
-
-    @Autowired
-    private FinalSolutionDao finalSolutionDao;
 
     @Autowired
     private FinalSolutionService finalSolutionService;

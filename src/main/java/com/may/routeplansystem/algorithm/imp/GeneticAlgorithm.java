@@ -131,7 +131,7 @@ public class GeneticAlgorithm implements Algorithm {
             //每条路线节点数
             for (int k = 0; k < node.size(); k++) {
                 NodePojo b = node.get(k);
-                s.append(b.getNodeAddress() + ",");
+                s.append(b.getLng() + "," + b.getLat() + ";");
             }
 
             for (int k = 0; k < node.size() - 1; k++) {
