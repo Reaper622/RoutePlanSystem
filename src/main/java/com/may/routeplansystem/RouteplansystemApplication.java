@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.may.routeplansystem.dao")
 @SpringBootApplication
 public class RouteplansystemApplication{
-
     public static void main(String[] args) {
         SpringApplication.run(RouteplansystemApplication.class, args);
     }

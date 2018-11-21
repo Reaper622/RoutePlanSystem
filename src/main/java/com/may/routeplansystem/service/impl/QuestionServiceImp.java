@@ -1,6 +1,5 @@
 package com.may.routeplansystem.service.impl;
 
-import com.may.routeplansystem.dao.FinalSolutionDao;
 import com.may.routeplansystem.dao.QuestionDao;
 import com.may.routeplansystem.entity.po.Question;
 import com.may.routeplansystem.service.FinalSolutionService;
@@ -8,6 +7,7 @@ import com.may.routeplansystem.service.QuestionService;
 import com.may.routeplansystem.util.ServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class QuestionServiceImp implements QuestionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void removeQuestion(int questionId) {
         finalSolutionService.removeAllFinalSolutionByQuestionId(questionId);
         ServiceUtil.checkSqlExecuted(questionDao.deleteQuestion(questionId));
