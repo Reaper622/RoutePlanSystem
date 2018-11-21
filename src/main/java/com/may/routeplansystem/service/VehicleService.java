@@ -1,9 +1,13 @@
 package com.may.routeplansystem.service;
 
 import com.may.routeplansystem.pojo.VehicleMessage;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,5 +44,22 @@ public interface VehicleService {
      * @return true/false
      **/
     boolean deleteVehicle(ArrayList vehicleIdList);
+
+    /**
+     * 判断文件类型
+     * @param fileName
+     * @param mFile
+     * @param request
+     * @return 返回文件判断结果
+     * */
+    String batchImport(String fileName, MultipartFile mFile, HttpServletRequest request);
+
+    /**
+     * 导入数据，并返回结果
+     * @param wb
+     * @param tempFile
+     * @return 返回具体导入结果
+     * */
+    String readExcel(Workbook wb, File tempFile,HttpSession session);
 
 }
