@@ -22,9 +22,11 @@
         <span class="centerTips">中心点导入</span>
         <el-upload
           class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://192.168.43.115:8081/RoutePlanSystem/node/excelNodeInfo"
           :on-change="handleChange1"
-          :file-list="fileList1">
+          :file-list="fileList1"
+          :limit="1"
+          >
           <el-button size="small" type="primary" style="margin-top:10px;">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
@@ -35,9 +37,10 @@
         <span class="centerTips">服务点导入</span>
         <el-upload
           class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://192.168.43.1158081/RoutePlanSystem/node/excelNodeInfo"
           :on-change="handleChange2"
-          :file-list="fileList2">
+          :file-list="fileList2"
+          :limit="1">
           <el-button size="small" type="primary" style="margin-top:10px;">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
@@ -57,7 +60,7 @@
       </div> 
 
       <div class="workout">
-            <el-button type="primary" size="small">开始计算</el-button>
+            <el-button type="primary" size="small" v-on:click = "workOut">开始计算</el-button>
         </div>   
     </div>
 
@@ -85,14 +88,8 @@ export default {
       add: {
         display: 'none'
       },
-      fileList1: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }],
-      fileList2: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }],
+      fileList1: [],
+      fileList2: [],
         fileList3: [{
           name: 'food.jpeg',
           url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
@@ -108,19 +105,25 @@ export default {
     //组件
   },
   methods: {
+
     map() {
-      let map = new BMap.Map(this.$refs.allmap); // 创建Map实例
-      map.centerAndZoom(new BMap.Point(116.404, 39.915), 11); // 初始化地图,设置中心点坐标和地图级别
-      // map.addControl(
-      //   new BMap.MapTypeControl({
-      //     //添加地图类型控件
-      //     mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP]
-      //   })
-      // );
-      //map.setCurrentCity("北京"); // 设置地图显示的城市 此项是必须设置的
+      let map = new BMap.Map(this.$refs.allmap, {enableMapClick:false}); // 创建Map实例
+      map.centerAndZoom(new BMap.Point(106.614491, 29.537378), 18); // 初始化地图,设置中心点坐标和地图级别
+      map.addControl(
+        new BMap.MapTypeControl({
+          //添加地图类型控件
+          mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP]
+        })
+      );
+      map.setCurrentCity("重庆邮电大学"); // 设置地图显示的城市 此项是必须设置的
       map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+      function showInfo(e) {
+        console.log(e);
+      };
+      map.addEventListener("click", showInfo); //点击事件
     },
 
+      //鼠标进入事件
       enter(index){
         console.log(1);
         let indexnumber = 0;
@@ -132,6 +135,7 @@ export default {
           }
         },1)
       },
+      //鼠标移出事件
       leave(index){
           let indexnumber = 50;
         let t = setInterval(() => {
@@ -143,23 +147,58 @@ export default {
         },1)
       },
       //中心点导入
-       handleChange1(file, fileList) {
+      handleChange1(file, fileList) {
+        let that = this;
         this.fileList1 = fileList.slice(-3);
+        console.log(fileList);
       },
       //服务点导入
-             handleChange2(file, fileList) {
+      handleChange2(file, fileList) {
         this.fileList2 = fileList.slice(-3);
+        console.log(fileList)
       },
-        //车辆信息导入
-             handleChange3(file, fileList) {
+      //车辆信息导入
+      handleChange3(file, fileList) {
         this.fileList3 = fileList.slice(-3);
       },
+      //开始计算
+      workOut(e) {
+        console.log(e);
+      }
   },
   mounted() {
+    let that = this;
     console.log("mounted");
     //加载完成触发已加载事件
     this.$emit("loaded");
     this.map(); //调用地图
+    
+    
+    
+    //模拟登陆
+    // this.$axios.get('http://47.107.65.249:8081/RoutePlanSystem/userSystem/verifyCode')
+    //     .then(function (response) {
+    //         console.log(response);
+    //         console.log(1);
+    //       })
+    //       .catch(function (response) {
+    //         console.log(response);
+    //         console.log(22); 
+    //       });
+    //模拟登陆
+    this.$axios.post('http://192.168.43.115:8081/RoutePlanSystem/userSystem/session/user',this.$qs.stringify({
+      userId: '3',
+      password: '123456',
+      code: 'abcd'
+    }))
+        .then(function (response) {
+            console.log(response);
+            console.log(1);
+          })
+          .catch(function (response) {
+            console.log(response);
+            console.log(22); 
+          });
   }
 };
 </script>

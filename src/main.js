@@ -4,7 +4,13 @@ import VueRouter from 'vue-router'
 import {routes} from './router/router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import axios from 'axios'
+import qs from 'qs';
 
+axios.defaults.withCredentials = true;
+Vue.config.productionTip = false;
+Vue.prototype.$axios = axios;
+Vue.prototype.$qs = qs;
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 
