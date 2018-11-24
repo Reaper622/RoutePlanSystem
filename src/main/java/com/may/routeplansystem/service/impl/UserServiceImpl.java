@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
         UserMessage userMessage = new UserMessage();
         try {
             if(session.getAttribute(attribute) != null){
+                map.put("userMessage",userDao.userMessage(userId));
                 map.put("status", StatusCode.SUCCESS);
             }else {
                 if (userId != null && password !=null && code != null){
@@ -67,8 +68,8 @@ public class UserServiceImpl implements UserService {
                         if(userDao.isLogin(userMessage) != null){
                             session.setAttribute("user",userMessage.getUserId());
                             session.setMaxInactiveInterval(3600);
-                            map.put("status",StatusCode.SUCCESS);
                             map.put("userMessage",userDao.userMessage(userId));
+                            map.put("status",StatusCode.SUCCESS);
                             logger.info("用户"+userId+"登录");
                         }else {
                             map.put("status",StatusCode.MESSAGE_ERROR);
