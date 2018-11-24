@@ -18,8 +18,7 @@
     </insert>
 
     <delete id="deleteQuestion" parameterType="java.lang.Integer">
-        update question
-        set del_flag=1
+        delete from question
         where question_id=#{questionId}
     </delete>
 

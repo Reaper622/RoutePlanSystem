@@ -39,6 +39,7 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
         FinalSolution finalSolution = finalSolutionDao.findFinalSolutionByFinalSolutionId(finalSolutionId);
         finalSolutionVo.setTotalDis(finalSolution.getTotalDis());
         finalSolutionVo.setCreateTime(finalSolution.getCreateTime());
+        finalSolutionVo.setUserChoice(finalSolution.getUserChoice());
         return finalSolutionVo;
     }
 

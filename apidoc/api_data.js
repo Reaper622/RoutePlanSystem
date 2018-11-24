@@ -144,6 +144,301 @@ define({ "api": [
   },
   {
     "type": "DELETE",
+    "url": "/userSystem/session/user",
+    "title": "用户注销",
+    "description": "<p>注销登录</p>",
+    "group": "UserSystem",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "1",
+            "description": "<p>注销成功</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>注销失败</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "groupTitle": "UserSystem",
+    "name": "DeleteUsersystemSessionUser"
+  },
+  {
+    "type": "GET",
+    "url": "/user/eMailCode",
+    "title": "邮箱验证码发送",
+    "description": "<p>用户注册进行绑定邮箱</p>",
+    "group": "UserSystem",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "1",
+            "description": "<p>发送成功</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>发送失败</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "groupTitle": "UserSystem",
+    "name": "GetUserEmailcode"
+  },
+  {
+    "type": "GET",
+    "url": "/userSystem/verifyCode",
+    "title": "获取登录验证码",
+    "description": "<p>通过该接口获取登录验证码，并存入session</p>",
+    "group": "UserSystem",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n验证码图片",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "groupTitle": "UserSystem",
+    "name": "GetUsersystemVerifycode"
+  },
+  {
+    "type": "POST",
+    "url": "/userSystem/session/user",
+    "title": "用户登陆",
+    "description": "<p>通过userId和password并验证验证码是否正确进行登陆</p>",
+    "group": "UserSystem",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户Id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>用户密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "code",
+            "description": "<p>验证码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>用户名或密码输入错误</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "3",
+            "description": "<p>验证码为空</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>请填写完整</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>您未登录，请登陆后操作</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "groupTitle": "UserSystem",
+    "name": "PostUsersystemSessionUser"
+  },
+  {
+    "type": "POST",
+    "url": "/userSystem/user",
+    "title": "用户注册",
+    "description": "<p>新用户通过填写相关信息进行注册</p>",
+    "group": "UserSystem",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户Id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userName",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "eMail",
+            "description": "<p>用户邮箱</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "rePassword",
+            "description": "<p>重复密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "mailCode",
+            "description": "<p>邮箱验证码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>两次密码不一致</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "3",
+            "description": "<p>邮箱验证码错误</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>信息输入不完整</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>注册失败</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/UserController.java",
+    "groupTitle": "UserSystem",
+    "name": "PostUsersystemUser"
+  },
+  {
+    "type": "DELETE",
     "url": "/finalSolution/removeAllQuestionFinalSolution",
     "title": "删除一个问题的所有解决方案",
     "description": "<p>通过问题id删除所有该问题的解决方案</p>",
@@ -469,5 +764,458 @@ define({ "api": [
     "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/FinalSolutionController.java",
     "groupTitle": "finalSolution",
     "name": "PatchFinalsolutionUpdatefinalsolutionstate"
+  },
+  {
+    "type": "DELETE",
+    "url": "/node/deleteNode",
+    "title": "服务点的删除",
+    "description": "<p>用户删除服务点</p>",
+    "group": "node",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "nodeId",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "questionId",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>删除成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":\"删除成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>未登录，无权操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": 0\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "DeleteNodeDeletenode"
+  },
+  {
+    "type": "POST",
+    "url": "/node/excelNodeInfo",
+    "title": "服务点的录入",
+    "description": "<p>用户服务点的录入（通过Excel）</p>",
+    "group": "node",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>录入成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":\"导入成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"第1行...数据出现问题\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "PostNodeExcelnodeinfo"
+  },
+  {
+    "type": "POST",
+    "url": "/node/newNode",
+    "title": "服务点的录入",
+    "description": "<p>用户服务点的录入(1.点地图2.输入地址)</p>",
+    "group": "node",
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n    \"questionId\":1,\n    \"nodeName\":\"邮电大学服务点\",\n    \"nodeAddress\":\"重庆市南岸区南山街道崇文路2号重庆邮电大学\",\n    \"lat\":155.52,\n    \"len\":242.25,\n    \"isCenter\":1/0,\n    \"delFlag\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>录入成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>录入失败，请重试</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "3",
+            "description": "<p>请输入正确的地址</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>请完善必要的信息</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>您未登录，请登陆后操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "PostNodeNewnode"
+  },
+  {
+    "type": "UPDATE",
+    "url": "/node/updateNode",
+    "title": "服务点的更新",
+    "description": "<p>用户更新服务点</p>",
+    "group": "node",
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n    \"questionId\":1,\n    \"nodeName\":\"邮电大学服务点\",\n    \"nodeAddress\":\"重庆市南岸区南山街道崇文路2号重庆邮电大学\",\n    \"lat\":155.52,\n    \"len\":242.25,\n    \"isCenter\":1/0,\n    \"delFlag\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "1",
+            "description": "<p>录入成功</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>更新失败，请重试</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>请完善必要的信息</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>您未登录，请登陆后操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/NodeController.java",
+    "groupTitle": "node",
+    "name": "UpdateNodeUpdatenode"
+  },
+  {
+    "type": "DELETE",
+    "url": "/vehicleSystem/user/vehicle",
+    "title": "用户车辆的删除",
+    "description": "<p>删除用户车辆</p>",
+    "group": "vehicleSystem",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "vehicleId",
+            "description": "<p>车辆编号</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"status\"：1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>请登陆后操作</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>不存在该车辆，刷新页面后重新操作</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>删除失败</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
+    "groupTitle": "vehicleSystem",
+    "name": "DeleteVehiclesystemUserVehicle"
+  },
+  {
+    "type": "GET",
+    "url": "/vehicleSystem/user/vehicle",
+    "title": "当前登录用户车辆信息查询",
+    "description": "<p>查询</p>",
+    "group": "vehicleSystem",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n        \"vehicleId\":1,{int}车辆编号\n        \"questionId\":1,{int}\n        \"type\":皮卡,{String}车型\n        \"capacity\":500,{float}载货量\n        \"oil\":4.3,{float}排量\n        \"date\":2018-09-26 22:38:14录入时间\n        \"price\":253.3,{float}价格\n        \"delFlag\":0,{int}0:存在 1:已删除\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>查询为空</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>您未登录，请登陆后操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
+    "groupTitle": "vehicleSystem",
+    "name": "GetVehiclesystemUserVehicle"
+  },
+  {
+    "type": "POST",
+    "url": "/vehicleSystem/user/vehicle",
+    "title": "用户车辆信息的录入",
+    "description": "<p>用户车辆信息的录入</p>",
+    "group": "vehicleSystem",
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n    \"questionId\":11,{int}订单编号\n    \"type\":皮卡,{String}车辆的类型\n    \"capacity\":55.6,{float}载货量\n    \"oil\":5.5,{float}排量\n    \"price\":200.5,{float}价格\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"status\":1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "0",
+            "description": "<p>该功能存在异常</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "2",
+            "description": "<p>导入失败，请重试</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "4",
+            "description": "<p>请完善必要的信息</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "5",
+            "description": "<p>您未登录，请登陆后操作</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 0 存在异常\n{\n   \"status\": \"0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "E:/project/RoutePlanSystem/src/main/java/com/may/routeplansystem/controller/VehicleController.java",
+    "groupTitle": "vehicleSystem",
+    "name": "PostVehiclesystemUserVehicle"
   }
 ] });
