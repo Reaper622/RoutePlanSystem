@@ -220,10 +220,11 @@ public class VehicleServiceImpl implements VehicleService {
             log2 = "共有" + totalRows + "行" + totalCells + "列";
         }
         List<VehicleMessage> vehicleMessagesList = new ArrayList<>(16);
-        VehicleMessage vehicleMessage = new VehicleMessage();
-        vehicleMessage.setQuestionId(questionId);
+
         //循环excel行数，从第二行开始（标题不入库）
         for (int r = 1;r <totalRows; r++){
+            VehicleMessage vehicleMessage = new VehicleMessage();
+            vehicleMessage.setQuestionId(questionId);
             String rowMessage = "";
             Row row = sheet.getRow(r);
             String type = "";
