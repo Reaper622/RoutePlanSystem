@@ -20,10 +20,9 @@ public interface VehicleService {
     /**
      * 用户车辆导入
      * @param vehicleMessage
-     * @param session
      * @return -1:导入失败
      * */
-    Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session, int questionId);
+    Object vehicleRegister(VehicleMessage vehicleMessage, int questionId);
     /**
      * 根据用户查询车辆信息
      * @param userId

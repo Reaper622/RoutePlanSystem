@@ -1,6 +1,7 @@
 package com.may.routeplansystem.service.impl;
 
 import com.may.routeplansystem.constant.StatusCode;
+import com.may.routeplansystem.dao.QuestionDao;
 import com.may.routeplansystem.dao.VehicleDao;
 import com.may.routeplansystem.pojo.NodePojo;
 import com.may.routeplansystem.pojo.VehicleMessage;
@@ -41,34 +42,33 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Autowired
     VehicleDao vehicleDao;
+
+    @Autowired
+    QuestionDao questionDao;
+
     /**
      * 用户车辆导入
      * @param vehicleMessage
      * @return -1:导入失败
      */
     @Override
-    public Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session, int questionId) {
+    public Object vehicleRegister(VehicleMessage vehicleMessage, int questionId) {
         Map map = new HashMap<String,Integer>(16);
         try {
-            if (session.getAttribute(userAttribute) != null){
-                if(vehicleMessage != null){
-                    long currentTime = System.currentTimeMillis();
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date = new Date(currentTime);
-                    vehicleMessage.setDate(formatter.format(date));
-                    vehicleMessage.setOwnerId((String) session.getAttribute(userAttribute));
-                    vehicleMessage.setQuestionId(questionId);
-                    if(vehicleDao.insertVehicle(vehicleMessage) == -1){
-                        map.put("status",StatusCode.MESSAGE_ERROR);
-                    }else {
-                        map.put("status",StatusCode.SUCCESS);
-                        logger.info(session.getAttribute(userAttribute)+"完成车辆录入");
-                    }
+            if(vehicleMessage != null){
+                long currentTime = System.currentTimeMillis();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date(currentTime);
+                vehicleMessage.setDate(formatter.format(date));
+                vehicleMessage.setOwnerId(String.valueOf(questionDao.findQuestionByQuestionId(questionId).getUserId()));
+                vehicleMessage.setQuestionId(questionId);
+                if(vehicleDao.insertVehicle(vehicleMessage) == -1){
+                    map.put("status",StatusCode.MESSAGE_ERROR);
                 }else {
-                    map.put("status",StatusCode.MESSAGE_NULL);
+                    map.put("status",StatusCode.SUCCESS);
                 }
             }else {
-                map.put("status",StatusCode.PERMISSION_FAIL);
+                map.put("status",StatusCode.MESSAGE_NULL);
             }
         }catch (Exception e){
             map.put("status",StatusCode.FAIL);
@@ -283,7 +283,7 @@ public class VehicleServiceImpl implements VehicleService {
         if(StringUtils.isEmpty(errorMsg)){
             String result = null;
             for(VehicleMessage vehicleMessage1 : vehicleMessagesList){
-                if((int)((Map)vehicleRegister(vehicleMessage1,session, questionId)).get("status") == 1){
+                if((int)((Map)vehicleRegister(vehicleMessage1, questionId)).get("status") == 1){
                     log4 = "导入成功";
                     result = "导入成功";
                 }
