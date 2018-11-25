@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
                         userMessage.setUserId(userId);
                         userMessage.setPassword(password);
                         if(userDao.isLogin(userMessage) != null){
-                            session.setAttribute("user",userMessage.getUserId());
+                            session.setAttribute("user",userId);
                             session.setMaxInactiveInterval(3600);
                             map.put("userMessage",userDao.userMessage(userId));
                             map.put("status",StatusCode.SUCCESS);

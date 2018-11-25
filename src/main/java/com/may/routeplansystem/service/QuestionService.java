@@ -9,7 +9,7 @@ public interface QuestionService {
     /**
      * 添加问题
      */
-    void insertQuestion(Question question);
+    int insertQuestion(Question question);
 
     /**
      * 得到一个用户的所有问题，包括执行过算法和没有执行过算法

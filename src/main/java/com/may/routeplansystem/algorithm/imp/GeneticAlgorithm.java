@@ -50,7 +50,7 @@ public class GeneticAlgorithm implements Algorithm {
         int minDistance;
         /** 初始化的方案数*/
         int solutionCount = 20;
-        int hybridMutationCount = 2000;
+        int hybridMutationCount = 5;
         int i = 0;
         List<RouteTemp> solutions = initializeRoute(solutionCount, serviceNodes, centerNodes);
         if (!solutions.isEmpty()) {
@@ -62,21 +62,19 @@ public class GeneticAlgorithm implements Algorithm {
                 treeMap = hybridMutation(treeMap);
                 int min = treeMap.firstKey();
                 i++;
-                if (minDistance == min) {
-                    i++;
-                } else {
-                    minDistance = min;
-                    i = 0;
-                }
+//                if (minDistance == min) {
+//                    i++;
+//                } else {
+//                    minDistance = min;
+//                    i = 0;
+//                }
             }
-            log.info("删除多余的方案");
             removeSurplusSolutions(treeMap);
 
             Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
             Iterator<Map.Entry<Integer, RouteTemp>> iterator = set.iterator();
-            int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId);
+            int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId) + 1;
 
-            log.info("将所有数据插入数据库");
             iterator.forEachRemaining(entry -> {
                 RouteTemp routes = entry.getValue();
                 double totalDis = entry.getKey();
@@ -131,7 +129,7 @@ public class GeneticAlgorithm implements Algorithm {
             //每条路线节点数
             for (int k = 0; k < node.size(); k++) {
                 NodePojo b = node.get(k);
-                s.append(b.getLng() + "," + b.getLat() + ";");
+                s.append(b.getLng() + "," + b.getLat() + "," + b.getNodeAddress() + ";");
             }
 
             for (int k = 0; k < node.size() - 1; k++) {
@@ -141,6 +139,7 @@ public class GeneticAlgorithm implements Algorithm {
                 dis = dis + distance1.getDis();
                 time = time + distance1.getTime();
             }
+            log.info(s.toString());
             Solution route = new Solution();
             route.setTotalTime(time);
             route.setTotalDis(dis);
@@ -157,13 +156,10 @@ public class GeneticAlgorithm implements Algorithm {
         List<List<NodePojo>> route = entry.getValue().getRoute();
         int routeCount = route.size();
         //直接变异
-        log.info("开始杂交变异");
         if (routeCount == 1) {
-            log.info("只进行变异");
             List<List<NodePojo>> routeTemp = mutation(route);
             entry.getValue().setRoute(routeTemp);
         } else {
-            log.info("进行杂交和变异");
             //默认必须杂交
             route = hybrid(route, routeCount);
             //变异随机
@@ -178,7 +174,6 @@ public class GeneticAlgorithm implements Algorithm {
                 }
             }
         }
-        log.info("杂交变异结束");
         return treeMap;
     }
 
@@ -204,7 +199,6 @@ public class GeneticAlgorithm implements Algorithm {
     }
 
     private List<List<NodePojo>> hybrid(List<List<NodePojo>> route, int routeCount) {
-        log.info("进行杂交");
         int route1 = (int) (Math.random() * routeCount);
         int route2 = (int) (Math.random() * routeCount);
         while (route1 == route2) {

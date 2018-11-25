@@ -23,7 +23,7 @@ public interface VehicleService {
      * @param session
      * @return -1:导入失败
      * */
-    Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session);
+    Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session, int questionId);
     /**
      * 根据用户查询车辆信息
      * @param userId
@@ -52,7 +52,7 @@ public interface VehicleService {
      * @param request
      * @return 返回文件判断结果
      * */
-    String batchImport(String fileName, MultipartFile mFile, HttpServletRequest request);
+    String batchImport(String fileName, MultipartFile mFile, HttpServletRequest request, String user, int questionId);
 
     /**
      * 导入数据，并返回结果
@@ -60,6 +60,6 @@ public interface VehicleService {
      * @param tempFile
      * @return 返回具体导入结果
      * */
-    String readExcel(Workbook wb, File tempFile,HttpSession session);
+    String readExcel(Workbook wb, File tempFile,HttpSession session, int questionId);
 
 }

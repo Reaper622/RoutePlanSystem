@@ -8,8 +8,9 @@ import java.util.List;
 public class FinalSolutionVo {
 
     private int finalSolutionId;
-    private List<String> routes;
+    private List<List<NodeVo>> routes;
     private double totalDis;
     private int userChoice;
     private String createTime;
+
 }

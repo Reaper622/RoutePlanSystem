@@ -5,6 +5,7 @@ import com.may.routeplansystem.dao.SolutionDao;
 import com.may.routeplansystem.entity.po.FinalSolution;
 import com.may.routeplansystem.entity.po.Solution;
 import com.may.routeplansystem.entity.vo.FinalSolutionVo;
+import com.may.routeplansystem.entity.vo.NodeVo;
 import com.may.routeplansystem.exception.FinalSolutionUserChoiceException;
 import com.may.routeplansystem.service.FinalSolutionService;
 import com.may.routeplansystem.util.ServiceUtil;
@@ -32,8 +33,8 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
 
     private FinalSolutionVo solutionsToFinalSolutionVo(List<Solution> solutions, int finalSolutionId){
         FinalSolutionVo finalSolutionVo = new FinalSolutionVo();
-        List<String> routes = new LinkedList<>();
-        solutions.forEach(solution -> routes.add(solution.getRoute()));
+        List<List<NodeVo>> routes = new LinkedList<>();
+        solutions.forEach(solution -> routes.add(parseStringToNodeVos(solution.getRoute())));
         finalSolutionVo.setRoutes(routes);
         finalSolutionVo.setFinalSolutionId(finalSolutionId);
         FinalSolution finalSolution = finalSolutionDao.findFinalSolutionByFinalSolutionId(finalSolutionId);
@@ -41,6 +42,20 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
         finalSolutionVo.setCreateTime(finalSolution.getCreateTime());
         finalSolutionVo.setUserChoice(finalSolution.getUserChoice());
         return finalSolutionVo;
+    }
+
+    public List<NodeVo> parseStringToNodeVos(String str){
+        List<NodeVo> nodeVos = new LinkedList<>();
+        String[] nodesStr = str.split(";");
+        for (String nodeStr : nodesStr) {
+            String[] concretNode = nodeStr.split(",");
+            NodeVo nodeVo = new NodeVo();
+            nodeVo.setLat(Double.valueOf(concretNode[1]));
+            nodeVo.setLng(Double.valueOf(concretNode[0]));
+            nodeVo.setNodeAddr(concretNode[2]);
+            nodeVos.add(nodeVo);
+        }
+        return nodeVos;
     }
 
     @Override

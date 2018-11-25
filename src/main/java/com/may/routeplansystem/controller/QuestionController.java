@@ -28,8 +28,8 @@ public class QuestionController {
      */
     @PostMapping("insertQuestion")
     public ResponseEntity insertQuestion(Question question){
-        questionService.insertQuestion(question);
-        return new ResponseEntity<>(200, null);
+        int questionId = questionService.insertQuestion(question);
+        return new ResponseEntity<>(200, questionId);
     }
 
     /**

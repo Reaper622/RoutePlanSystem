@@ -47,7 +47,7 @@ public class VehicleServiceImpl implements VehicleService {
      * @return -1:导入失败
      */
     @Override
-    public Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session) {
+    public Object vehicleRegister(VehicleMessage vehicleMessage, HttpSession session, int questionId) {
         Map map = new HashMap<String,Integer>(16);
         try {
             if (session.getAttribute(userAttribute) != null){
@@ -57,6 +57,7 @@ public class VehicleServiceImpl implements VehicleService {
                     Date date = new Date(currentTime);
                     vehicleMessage.setDate(formatter.format(date));
                     vehicleMessage.setOwnerId((String) session.getAttribute(userAttribute));
+                    vehicleMessage.setQuestionId(questionId);
                     if(vehicleDao.insertVehicle(vehicleMessage) == -1){
                         map.put("status",StatusCode.MESSAGE_ERROR);
                     }else {
@@ -143,13 +144,12 @@ public class VehicleServiceImpl implements VehicleService {
      * @return 返回文件判断结果
      */
     @Override
-    public String batchImport(String fileName, MultipartFile mFile, HttpServletRequest request) {
+    public String batchImport(String fileName, MultipartFile mFile, HttpServletRequest request, String user, int questionId) {
         String filePath = System.getProperties().getProperty("user.dir");
         filePath=filePath.replace("RoutePlanSystem", "");
         String result = null;
-        String user = (String) request.getSession().getAttribute("user");
+//        String user = (String) request.getSession().getAttribute("user");
         try {
-            if (user != null) {
                 log1 = "用户" + user + "使用";
                 File uploadDir = new File(filePath + user);
                 //判断是否存在，不存在即创建
@@ -178,7 +178,7 @@ public class VehicleServiceImpl implements VehicleService {
                         result = "文件类型不符合要求，请重新选择";
                     }
                     log1 += "申请导入：";
-                    result = readExcel(wb,tempFile,request.getSession());
+                    result = readExcel(wb,tempFile,request.getSession(), questionId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -191,10 +191,6 @@ public class VehicleServiceImpl implements VehicleService {
                         }
                     }
                 }
-            }else {
-                //未登录，无权限
-                result = "未登录，请登陆后进行操作";
-            }
         }catch (Exception e){
             result = e.getMessage();
         }
@@ -209,7 +205,7 @@ public class VehicleServiceImpl implements VehicleService {
      * @return 返回具体导入结果
      */
     @Override
-    public String readExcel(Workbook wb, File tempFile,HttpSession session) {
+    public String readExcel(Workbook wb, File tempFile,HttpSession session, int questionId) {
         //错误信息接收器
         String errorMsg = "";
         //得到第一个sheet
@@ -225,6 +221,7 @@ public class VehicleServiceImpl implements VehicleService {
         }
         List<VehicleMessage> vehicleMessagesList = new ArrayList<>(16);
         VehicleMessage vehicleMessage = new VehicleMessage();
+        vehicleMessage.setQuestionId(questionId);
         //循环excel行数，从第二行开始（标题不入库）
         for (int r = 1;r <totalRows; r++){
             String rowMessage = "";
@@ -285,7 +282,7 @@ public class VehicleServiceImpl implements VehicleService {
         if(StringUtils.isEmpty(errorMsg)){
             String result = null;
             for(VehicleMessage vehicleMessage1 : vehicleMessagesList){
-                if((int)((Map)vehicleRegister(vehicleMessage1,session)).get("status") == 1){
+                if((int)((Map)vehicleRegister(vehicleMessage1,session, questionId)).get("status") == 1){
                     log4 = "导入成功";
                     result = "导入成功";
                 }

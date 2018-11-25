@@ -12,7 +12,8 @@
         question_id,question_name,user_id,del_flag
     </sql>
 
-    <insert id="insertQuestion" parameterType="com.may.routeplansystem.entity.po.Question">
+    <insert id="insertQuestion" parameterType="com.may.routeplansystem.entity.po.Question" useGeneratedKeys="true"
+    keyProperty="questionId">
         insert into question(question_name, user_id)
         values (#{questionName},#{userId})
     </insert>

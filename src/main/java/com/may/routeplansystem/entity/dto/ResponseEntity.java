@@ -8,6 +8,4 @@ import lombok.Data;
 public class ResponseEntity<T>{
     private int status;
     private T object;
-
-
 }

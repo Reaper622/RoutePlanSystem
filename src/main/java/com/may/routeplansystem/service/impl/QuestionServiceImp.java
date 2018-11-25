@@ -21,8 +21,9 @@ public class QuestionServiceImp implements QuestionService {
     private FinalSolutionService finalSolutionService;
 
     @Override
-    public void insertQuestion(Question question) {
-        ServiceUtil.checkSqlExecuted(questionDao.insertQuestion(question));
+    public int insertQuestion(Question question) {
+        questionDao.insertQuestion(question);
+        return question.getQuestionId();
     }
 
     @Override
