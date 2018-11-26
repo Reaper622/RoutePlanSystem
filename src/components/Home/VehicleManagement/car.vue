@@ -1,14 +1,25 @@
 <template>
   <div class="car">
-    <el-row class="attributeRow">
-      <el-col :span="8" :offset="2">车辆类型:{{type}}</el-col>
-      <el-col :span="8" :offset="2">载货量:{{capacity}}</el-col>
+    <el-row class="titleRow">
+      <el-col :span="8" :offset="2">车辆ID:{{vehicleId}}</el-col>
+      <el-col :span="8" :offset="6">
+        <el-switch
+          v-model="isSelected"
+          active-color="#13ce66"
+          active-text="已选中"
+          inactive-color="#E5E5E9">
+        </el-switch>
+      </el-col>
     </el-row>
     <el-row class="attributeRow">
-      <el-col :span="8" :offset="2">排量: {{oil}}t</el-col>
-      <el-col :span="8" :offset="2">价格: {{price}}元/次</el-col>
+      <el-col :span="10" :offset="2">车辆类型:{{type}}</el-col>
+      <el-col :span="10" :offset="0">载货量:{{capacity}}</el-col>
     </el-row>
-    <div :class="[ delFlag === 0 ? 'flag free' : 'flag onTheWay']">{{delFlag === 0 ? '空闲中' : '行程中'}}</div>
+    <el-row class="attributeRow">
+      <el-col :span="10" :offset="2">排量: {{oil}}t</el-col>
+      <el-col :span="10" :offset="0">价格: {{price}}元/次</el-col>
+    </el-row>
+    <div :class="[ delFlag === 0 ? '' : 'flag onTheWay']">{{delFlag === 0 ? '' : '已删除'}}</div>
   </div>
 </template>
 
@@ -16,7 +27,7 @@
 export default {
     props: {
       //车辆当前执行订单编号
-      questionId: {
+      vehicleId: {
         type: Number,
         // required: true
       },
@@ -45,6 +56,23 @@ export default {
         type: Number,
         required: true
       }
+    },
+    data(){
+      return{
+        isSelected:false
+      }
+    },
+    watch:{
+      isSelected: function(newVal, oldVal){
+        if(newVal == true){
+          this.$store.commit('deleteArrayAdd',this.vehicleId)
+        }else{
+          this.$store.commit('deleteArrayDelete',this.vehicleId)
+        }
+      }
+    },
+    methods:{
+
     }
 }
 </script>
@@ -62,14 +90,18 @@ export default {
     border-radius: 10px;
     transition: box-shadow .3s ease;
     overflow: hidden;
-    cursor: pointer;
   }
   .car:hover{
     box-shadow: 0 0 10px #888888;
   }
+  .titleRow{
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+  }
   .attributeRow{
-    height: 60px;
-    line-height: 60px;
+    height: 40px;
+    line-height: 40px;
     font-family:Aria
   }
   .flag{
@@ -84,9 +116,6 @@ export default {
     line-height: 50px;
     color: white;
     border-radius: 10px;
-  }
-  .free{
-    background: #409EFF;
   }
   .onTheWay{
     background: #F56C6C;

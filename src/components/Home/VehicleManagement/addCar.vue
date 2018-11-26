@@ -4,11 +4,7 @@
             <div class="pageTitle">车辆信息录入</div>
             <el-form ref="form" :model="carInfo" label-width="100px" class="pageForm">
                 <el-form-item label="车辆类型">
-                    <el-radio-group v-model="carInfo.type">
-                        <el-radio label="面包车"></el-radio>
-                        <el-radio label="货车"></el-radio>
-                        <el-radio label="大货车"></el-radio>
-                    </el-radio-group>
+                    <el-input v-model="carInfo.type" class="pageInput" maxlength="5"></el-input>
                 </el-form-item>
                 <el-form-item label="汽车载货量">
                     <el-input v-model="carInfo.capacity" class="pageInput"></el-input>
@@ -25,7 +21,7 @@
                 </el-form-item>
             </el-form>
         </div>
-    </div>    
+    </div>
 </template>
 
 <script>
@@ -34,18 +30,47 @@ export default {
         return{
             carInfo:{
                 type: '',
-                capacity: 0,
-                oil: 0,
-                price: 0,
+                capacity: null,
+                oil: null,
+                price: null,
             }
         }
     },
     methods: {
         onSubmit(){
-            this.$emit('successCar');
+            this.$axios.post('/vehicleSystem/user/vehicle',this.carInfo)
+              .then( res => {
+                if(res.data.status == 1){
+                  this.$notify({
+                  title: '成功',
+                  message: '添加成功',
+                  type: 'success'
+                  })
+                  this.$emit('successCar');
+                  this.carInfo = {
+                    type: '',
+                    capacity: null,
+                    oil: null,
+                    price: null,
+                  }
+                }else{
+                  this.$notify({
+                  title: '失败',
+                  message: '添加失败，请稍后重试',
+                  type: 'waring'
+                  })
+                  this.$emit('cancelCar');
+                  this.carInfo = {
+                    type: '',
+                    capacity: null,
+                    oil: null,
+                    price: null,
+                  }
+                }
+              })
         },
         cancel(){
-            this.$emit('cancelCar');
+            this.$emit('cancelCar')
         }
     }
 }

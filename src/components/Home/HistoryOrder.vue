@@ -9,7 +9,12 @@
         </el-input>
         <br>
         <br>
-        <order></order>
+        <order v-for="question in questions" :key="question.questionId"
+        :question-id="question.questionId"
+        :question-name="question.questionName"
+        :user-id="question.userId"
+        :del-flag="question.delFlag"
+        @refresh="loadQuestions"></order>
     </div>
 </template>
 <script>
@@ -17,11 +22,31 @@ import Order from  './order/Order.vue'
 export default {
     data() {
         return{
-            searchOrderId:''
+            searchOrderId:'',
+            //问题数组
+            questions:[],
         }
     },
     components:{
         Order
+    },
+    mounted(){
+      this.loadQuestions();
+      //加载完成
+      this.$emit('loaded');
+    },
+    methods:{
+      //得到所有问题
+      loadQuestions(){
+        this.$axios.get("/question/getQuestions",{
+        params:{
+          userId: 1
+        }
+        })
+        .then( res => {
+          this.questions = res.data.object;
+        })
+      }
     }
 }
 </script>
@@ -29,9 +54,6 @@ export default {
     .searchInput{
     width: 250px;
     margin-left: 20px;
-  }
-    .main {
-    margin: 10px 0 0 10px;
   }
 </style>
 
