@@ -111,10 +111,10 @@ export default {
       ],
       uploadBotton: "false", //上传按钮状态
       object: "",
-      doUpload1: "http://172.18.88.23:8081/RoutePlanSystem/node/excelNodeInfo/", //中心点url
-      doUpload2: "http://172.18.88.23:8081/RoutePlanSystem/node/excelNodeInfo/", //服务点url
+      doUpload1: "/RoutePlanSystem/node/excelNodeInfo/", //中心点url
+      doUpload2: "/RoutePlanSystem/node/excelNodeInfo/", //服务点url
       doUpload3:
-        "http://172.18.88.23:8081/RoutePlanSystem/vehicleSystem/excelVehicleInfo/", //车辆url
+        "/vehicleSystem/excelVehicleInfo/", //车辆url
       questionId: "", //问题ID
       disabled: true, //禁止上传'
       loaded: ["false", "false", "false"], //查看上传状态
@@ -194,7 +194,7 @@ export default {
       //创建问题
       this.$axios
         .post(
-          "http://172.18.88.23:8081/RoutePlanSystem/question/insertQuestion",
+          "/question/insertQuestion",
           this.$qs.stringify({
             questionName: this.input,
             userId: sessionStorage.getItem("userId")
@@ -256,7 +256,7 @@ export default {
       console.log(e);
       this.$axios
         .get(
-          "http://172.18.88.23:8081/RoutePlanSystem/question/executeAlgorithm",
+          "/question/executeAlgorithm",
           {
             params: { questionId: that.questionId } //that.questionId
           }
@@ -400,7 +400,7 @@ export default {
     //this.mapNew(); //调用地图
     this.$axios
       .get(
-        "http://172.18.88.23:8081/RoutePlanSystem/finalSolution/getAllFinalSolution",
+        "/finalSolution/getAllFinalSolution",
         {
           params: { questionId: 1 } //that.questionId
         }

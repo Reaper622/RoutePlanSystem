@@ -11,7 +11,7 @@ import Path from '@/components/Home/Path'
 
 export const routes = [
   { 
-    path: '/login', 
+    path: '/', 
     name: 'loginLink', 
     component: Login 
   },
