@@ -5,7 +5,7 @@
   "author": "libowen <1064416560@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --host localhost",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --host 172.18.91.25",
     "start": "npm run dev",
     "build": "node build/build.js"
   },

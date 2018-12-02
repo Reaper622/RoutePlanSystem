@@ -43,6 +43,7 @@ export default {
       this.loadCarInfo();
     },
     deleteCarIt() {
+      let that = this;
       this.$confirm("你确定要删除所选择的车辆", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -51,7 +52,7 @@ export default {
         .then(() => {
           //批量删除
           this.$axios
-            .delete("/vehicleSystem/user/vehicle", {
+            .delete(that.$url + "/vehicleSystem/user/vehicle", {
               data: this.$store.getters.getDeleteArray
             })
             .then(res => {
@@ -100,10 +101,11 @@ export default {
         });
     },
     loadCarInfo() {
+      let that = this;
       this.$axios({
         methods: "get",
         url:
-          "http://192.168.43.115:8081/RoutePlanSystem/vehicleSystem/user/vehicle"
+          that.$url + "/vehicleSystem/user/vehicle"
       }).then(res => {
         console.log(res);
         this.cars = res.data.status;

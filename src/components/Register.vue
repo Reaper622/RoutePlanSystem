@@ -96,7 +96,7 @@ export default {
       regist(){
         if(this.checkUsername() && this.checkPassword()&& this.checkRepassword() && this.checkEmail() && this.checkEmailVerifyCode()){
           //发送注册请求
-          this.$axios.post('/userSystem/user',qs.stringify({
+          this.$axios.post(this.$url + '/userSystem/user',qs.stringify({
             userId:this.userIdInput,
             userName:this.usernameInput,
             password:this.passwordInput,
@@ -176,7 +176,7 @@ export default {
             type: 'info'
           })
           //发送验证码请求
-          this.$axios.get('/userSystem/user/eMailCode',{
+          this.$axios.get(this.$url + '/userSystem/user/eMailCode',{
             params:{
               eMail:this.emailAddressInput
             }

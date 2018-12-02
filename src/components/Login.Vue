@@ -86,7 +86,7 @@ export default {
       } else {
         this.$axios
           .post(
-            "http://172.18.88.23:8081/RoutePlanSystem/userSystem/session/user",
+             this.$url + "/userSystem/session/user",
             qs.stringify({
               userId: this.usernameInput,
               password: this.passwordInput,
@@ -125,7 +125,7 @@ export default {
     verifyCode() {
       this.$axios
         .get(
-          "http://172.18.88.23:8081/RoutePlanSystem/userSystem/verifyCode",
+          this.$url + "/userSystem/verifyCode",
           {
             responseType: "arraybuffer"
           }

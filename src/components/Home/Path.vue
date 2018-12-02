@@ -98,7 +98,7 @@ export default {
       add: {
         display: "none"
       },
-      questionId: 35,
+      //questionId: 35,
       fileList1: [],
       fileList2: [],
       fileList3: [],
@@ -111,16 +111,16 @@ export default {
       ],
       uploadBotton: "false", //上传按钮状态
       object: "",
-      doUpload1: "/RoutePlanSystem/node/excelNodeInfo/", //中心点url
-      doUpload2: "/RoutePlanSystem/node/excelNodeInfo/", //服务点url
+      doUpload1:  this.$url + "/node/excelNodeInfo/", //中心点url
+      doUpload2:  this.$url + "/node/excelNodeInfo/", //服务点url
       doUpload3:
-        "/vehicleSystem/excelVehicleInfo/", //车辆url
+         this.$url + "/vehicleSystem/excelVehicleInfo/", //车辆url
       questionId: "", //问题ID
       disabled: true, //禁止上传'
       loaded: ["false", "false", "false"], //查看上传状态
       finalSolution: [], //得到一个版本的解决方案
-      navImport: 'display:none',
-      navrun: 'display:block'
+      navImport: 'display:block',
+      navrun: 'display:none'
     };
   },
   components: {
@@ -194,7 +194,7 @@ export default {
       //创建问题
       this.$axios
         .post(
-          "/question/insertQuestion",
+          this.$url + "/question/insertQuestion",
           this.$qs.stringify({
             questionName: this.input,
             userId: sessionStorage.getItem("userId")
@@ -256,7 +256,7 @@ export default {
       console.log(e);
       this.$axios
         .get(
-          "/question/executeAlgorithm",
+           this.$url + "/question/executeAlgorithm",
           {
             params: { questionId: that.questionId } //that.questionId
           }
@@ -264,8 +264,9 @@ export default {
         .then(function(response) {
           console.log(response);
           console.log(1);
-          this.navImport = 'display:none',
-          this.navrun = 'display:block'
+          that.navImport = 'display:none',
+          that.navrun = 'display:block'
+          that.uploadSolution()
         })
         .catch(function(response) {
           console.log(response);
@@ -278,6 +279,33 @@ export default {
     to_Import() {
       this.navImport = 'display:block',
       this.navrun = 'display:none'
+    },
+    //方案展示
+    uploadSolution() {
+      let that = this;
+ this.$axios
+      .get(
+         this.$url + "/finalSolution/getAllFinalSolution",
+        {
+          params: { questionId: that.questionId } //that.questionId
+        }
+      )
+      .then(function(response) {
+        console.log(response);
+        for (let i in response.data.object) {
+          response.data.object[i].name = "方案" + i;
+          // for (let j in response.data.object[i].routes) {
+          //   response.data.object[i].routes[j].name = '路线' + j;
+          // }
+        }
+        that.finalSolution = response.data.object;
+        console.log(that.finalSolution);
+        console.log(1);
+      })
+      .catch(function(response) {
+        console.log(response);
+        console.log(22);
+      });
     },
     //路径绘制
     lushu(ll, data, color) {
@@ -398,29 +426,7 @@ export default {
     this.$emit("loaded");
     this.fristMap(); //调用地图
     //this.mapNew(); //调用地图
-    this.$axios
-      .get(
-        "/finalSolution/getAllFinalSolution",
-        {
-          params: { questionId: 1 } //that.questionId
-        }
-      )
-      .then(function(response) {
-        console.log(response);
-        for (let i in response.data.object) {
-          response.data.object[i].name = "方案" + i;
-          // for (let j in response.data.object[i].routes) {
-          //   response.data.object[i].routes[j].name = '路线' + j;
-          // }
-        }
-        that.finalSolution = response.data.object;
-        console.log(that.finalSolution);
-        console.log(1);
-      })
-      .catch(function(response) {
-        console.log(response);
-        console.log(22);
-      });
+    //this.uploadSolution();
     //console.log(sessionStorage.getItem('userId'));
     //模拟登陆
     // this.$axios

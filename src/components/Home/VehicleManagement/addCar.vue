@@ -38,7 +38,8 @@ export default {
     },
     methods: {
         onSubmit(){
-            this.$axios.post('/vehicleSystem/user/vehicle',this.carInfo)
+            let that = this;
+            this.$axios.post(that.$url +'/vehicleSystem/user/vehicle',this.carInfo)
               .then( res => {
                 if(res.data.status == 1){
                   this.$notify({

@@ -38,9 +38,9 @@ export default {
     methods:{
       //得到所有问题
       loadQuestions(){
-        this.$axios.get("/question/getQuestions",{
+        this.$axios.get(this.$url +"/question/getQuestions",{
         params:{
-          userId: 1
+          userId: sessionStorage.getItem('userId')
         }
         })
         .then( res => {

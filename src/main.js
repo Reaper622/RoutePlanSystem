@@ -16,7 +16,8 @@ Vue.prototype.$qs = qs;
 // Vue.prototype.$url = '';
 Vue.use(ElementUI);
 Vue.use(VueRouter);
-axios.defaults.baseURL = 'http://47.107.65.249:8081/RoutePlanSystem'
+Vue.prototype.$url = 'http://172.22.1.134:8081/RoutePlanSystem';
+// axios.defaults.baseURL = 'http://47.107.65.249:8081/RoutePlanSystem'
 
 const store = createStore();
 

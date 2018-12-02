@@ -32,7 +32,7 @@ export default {
   },
   methods:{
     loadSolutions(){
-      this.$axios.get('/finalSolution/getOneVersionFinalSolution',{
+      this.$axios.get(this.$url +'/finalSolution/getOneVersionFinalSolution',{
         params:{
           questionId:this.questionId,
           version:this.versionId
