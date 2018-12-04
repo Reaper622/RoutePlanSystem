@@ -23,7 +23,6 @@ const store = createStore();
 
 const router = new VueRouter({
   routes,
-  mode:'history',
   scrollBehavior(to,from,savedPosition){
     if(savedPosition){
       return savedPosition
