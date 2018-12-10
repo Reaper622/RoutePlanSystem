@@ -104,7 +104,6 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
     @Override
     public List<Integer> getAllVersion(int questionId) {
         return finalSolutionDao.findAllVersion(questionId);
-
     }
 
     @Override

@@ -81,7 +81,7 @@ public final class VerifyCodeImageUtil {
                     ran.nextInt(WIDTH), ran.nextInt(HEIGHT));
         }
         // 7.返回验证码和图片
-        return new Object[]{"abcd", image};
+        return new Object[]{sb.toString(), image};
     }
 
     /**

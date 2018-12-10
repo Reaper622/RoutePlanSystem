@@ -23,4 +23,9 @@ public class GlobleExceptionHandler {
     public ResponseEntity handleSqlExecuteException(ServiceUtil.SqlExecuteException e){
         return new ResponseEntity<>(500, e.getMessage());
     }
+
+    @ExceptionHandler(ProcessException.class)
+    public ResponseEntity handleProcessException(ProcessException e){
+        return new ResponseEntity<>(401, e.getMessage());
+    }
 }

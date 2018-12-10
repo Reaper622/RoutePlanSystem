@@ -1,6 +1,5 @@
 package com.may.routeplansystem.config;
 
-import org.apache.catalina.loader.WebappLoader;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -23,7 +22,9 @@ public class CorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        String[] allowDomain = {"http://47.107.65.249:8080","http://192.168.43.240:8080", "http://172.18.91.25:8080","http://192.168.43.236:8080","http://172.18.91.25:8080"};
+        String[] allowDomain = {"http://47.107.65.249:8080","http://192.168.43.240:8080", "http://172.18.91.25:8080",
+                "http://192.168.43.236:8080","http://172.18.91.25:8080", "http://192.168.49.236:8080",
+        "http://localhost:8080","http://172.18.91.25:8080"};
         Set allowedOrigins= new HashSet(Arrays.asList(allowDomain));
         String originHeader= request.getHeader("Origin");
         if (allowedOrigins.contains(originHeader)){
