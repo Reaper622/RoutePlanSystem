@@ -1,8 +1,5 @@
 package com.may.routeplansystem.util;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class MMath {
 
     public static int randomIntExceptZero(int routeRandom) {

@@ -64,7 +64,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `user_email_uindex` (`email`)
 );
 
-CREATE TABLE `vehicle` (
+CREATE TABLE `vehicleMessage` (
   `vahicle_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) NOT NULL,
   `type` varchar(10) DEFAULT NULL,

@@ -48,6 +48,7 @@
         select <include refid="final_solution_columns"/>
         from final_solution
         order by total_dis limit 4
+        where question_id=#{questionId}
     </select>
 
     <select id="findAllFinalSolutionId" parameterType="int" resultType="Integer">

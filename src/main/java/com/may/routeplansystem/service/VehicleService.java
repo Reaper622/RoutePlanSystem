@@ -1,7 +1,9 @@
 package com.may.routeplansystem.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.may.routeplansystem.pojo.VehicleMessage;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author:dengsiyuan
@@ -19,10 +20,10 @@ import java.util.List;
 public interface VehicleService {
     /**
      * 用户车辆导入
-     * @param vehicleMessage
+     * @param vehicleJson
      * @return -1:导入失败
      * */
-    Object vehicleRegister(VehicleMessage vehicleMessage, int questionId);
+    void vehicleRegister(JSONObject vehicleJson, int questionId);
     /**
      * 根据用户查询车辆信息
      * @param userId
@@ -42,7 +43,7 @@ public interface VehicleService {
      * @param vehicleIdList
      * @return true/false
      **/
-    boolean deleteVehicle(ArrayList vehicleIdList);
+    void deleteVehicle(ArrayList vehicleIdList);
 
     /**
      * 判断文件类型
