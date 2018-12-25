@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.may.routeplansystem.constant.ExceptionMessage;
 import com.may.routeplansystem.dao.QuestionDao;
 import com.may.routeplansystem.dao.VehicleDao;
+import com.may.routeplansystem.entity.po.Question;
 import com.may.routeplansystem.exception.DatabaseException;
 import com.may.routeplansystem.exception.ParameterException;
 import com.may.routeplansystem.pojo.VehicleMessage;
@@ -64,12 +65,19 @@ public class VehicleServiceImpl implements VehicleService {
         }
         String currentTime = getFormatTime(LocalDateTime.now());
         vehicleMessage.setDate(currentTime);
-        String ownerId = String.valueOf(questionDao.findQuestionByQuestionId(questionId).getUserId());
+        Question question = questionDao.findQuestionByQuestionId(questionId);
+        Objects.requireNonNull(question, QUESTION_NULL_BY_QUESTIONID);
+        String ownerId = String.valueOf(question.getUserId());
         vehicleMessage.setOwnerId(ownerId);
         vehicleMessage.setQuestionId(questionId);
         if (vehicleDao.insertVehicle(vehicleMessage) == -1) {
             throw new SqlExecuteException(ExceptionMessage.VEHICLE_STORE_FAILURE);
         }
+    }
+
+    public void checkQuestionId(int questionId) {
+        Question question = questionDao.findQuestionByQuestionId(questionId);
+        Objects.requireNonNull(question, QUESTION_NULL_BY_QUESTIONID);
     }
 
     private String getFormatTime(LocalDateTime dateTime) {
