@@ -60,14 +60,14 @@ public class DistanceServiceImp implements DistanceService {
         }));
     }
 
-    private void checkQuestionNotNull(int questionId){
+    private void checkQuestionNotNull(int questionId) {
         Question question = questionDao.findQuestionByQuestionId(questionId);
-        if (question == null){
+        if (question == null) {
             throw new ProcessException(ExceptionMessage.NOT_QUESTION);
         }
     }
 
-    private void checkNodesExist(List<NodePojo> nodePojos){
+    private void checkNodesExist(List<NodePojo> nodePojos) {
         if (nodePojos.isEmpty()) {
             throw new ProcessException(ExceptionMessage.NOT_NODES);
         }
@@ -86,8 +86,8 @@ public class DistanceServiceImp implements DistanceService {
         NodePojo endNode = nodeDao.selectNodeByNodeId(distance.getEndNodeId());
         String startNodePositionStr = startNode.getLat() + "," + startNode.getLng();
         String endNodePostionStr = endNode.getLat() + "," + endNode.getLng();
-        String url = "http://api.map.baidu.com/routematrix/v2/driving?output=json&origins="+ startNodePositionStr +
-                "&destinations="+ endNodePostionStr +"&ak=T558r6l2fgG7DNIItH0GVHLpC96KP770";
+        String url = "http://api.map.baidu.com/routematrix/v2/driving?output=json&origins=" + startNodePositionStr +
+                "&destinations=" + endNodePostionStr + "&ak=T558r6l2fgG7DNIItH0GVHLpC96KP770";
         return NetWorkUtil.visitUrl(url);
     }
 }

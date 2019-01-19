@@ -15,27 +15,31 @@ public interface VehicleDao {
 
     /**
      * 用户车辆导入
+     *
      * @param vehicleMessage
      * @return -1:导入失败
-     * */
+     */
     int insertVehicle(VehicleMessage vehicleMessage);
 
     /**
      * 用户信息查询
+     *
      * @param userId
      * @return vehicleMessage:返回车辆信息
-     * */
+     */
     List<VehicleMessage> searchVehicleByOwnId(int userId);
 
     /**
      * 查询车辆信息
+     *
      * @param vehicleId
      * @return vehicleMessage
-     * */
+     */
     VehicleMessage searchVehicleByVehicleId(int vehicleId);
 
     /**
      * 删除车辆信息
+     *
      * @param deleteList
      * @return true/false
      */

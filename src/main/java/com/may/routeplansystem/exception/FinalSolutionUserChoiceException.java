@@ -5,7 +5,7 @@ package com.may.routeplansystem.exception;
  */
 public class FinalSolutionUserChoiceException extends RuntimeException {
 
-    public FinalSolutionUserChoiceException(String msg){
+    public FinalSolutionUserChoiceException(String msg) {
         super(msg);
     }
 }

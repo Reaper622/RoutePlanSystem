@@ -14,6 +14,7 @@ public interface DistanceService {
 
     /**
      * 通过百度Api获得两点的时间和距离
+     *
      * @param distance
      * @return
      */
@@ -21,6 +22,7 @@ public interface DistanceService {
 
     /**
      * 单纯的生成没有时间和距离的distance
+     *
      * @param questionId
      */
     void generateDistanceFromNode(int questionId);

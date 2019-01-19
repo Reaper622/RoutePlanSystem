@@ -3,7 +3,7 @@ package com.may.routeplansystem.util;
 public class MMath {
 
     public static int randomIntExceptZero(int routeRandom) {
-        if (routeRandom == 1){
+        if (routeRandom == 1) {
             return 1;
         }
         int random = (int) (Math.random() * routeRandom);
@@ -14,7 +14,7 @@ public class MMath {
     }
 
 
-    public static int randomInt(int start, int end){
+    public static int randomInt(int start, int end) {
         return (int) (Math.random() * end) + start;
     }
 

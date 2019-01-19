@@ -15,7 +15,8 @@
     </sql>
 
     <select id="findSolutions" parameterType="java.lang.Integer" resultMap="solution">
-        select <include refid="solution_columns"/>
+        select
+        <include refid="solution_columns"/>
         from solution
         where final_solution_id=#{finalSolutionId}
     </select>

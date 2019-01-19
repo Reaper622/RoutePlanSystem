@@ -10,6 +10,10 @@ public interface ExceptionMessage {
     String VEHICLE_DELETE_FAILURE = "车辆删除失败";
     String VEHICLE_ID_LIST_EMPTY = "删除车辆的ID不能为空";
     String QUESTION_NULL_BY_QUESTIONID = "不能通过问题ID找到车辆信心";
+
+    String MYSQL_EXECUTED_FAIL = "数据库运行错误";
+
+    String LOGIN_STATE_EXCEPTION = "您还没有登录";
     /**
      * 过程中的错误
      */

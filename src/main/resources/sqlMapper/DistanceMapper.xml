@@ -38,13 +38,15 @@
     </update>
 
     <select id="findUpdateDistances" resultMap="distance">
-        select <include refid="distance_columns"/>
+        select
+        <include refid="distance_columns"/>
         from distance
         where time=0 and dis=0 and question_id=#{questionId}
     </select>
 
     <select id="findDistanceByStartIdAndEndId" resultMap="distance">
-        select <include refid="distance_columns"/>
+        select
+        <include refid="distance_columns"/>
         from distance
         where start_node_id =#{startId} and end_node_id=#{endId}
     </select>

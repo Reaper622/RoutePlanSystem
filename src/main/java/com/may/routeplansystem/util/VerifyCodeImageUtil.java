@@ -12,7 +12,7 @@ public final class VerifyCodeImageUtil {
 
     /**
      * 验证码字符集
-     * */
+     */
     private static final char[] CHARS = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
@@ -21,23 +21,23 @@ public final class VerifyCodeImageUtil {
             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
     /**
      * 字符数量
-     * */
+     */
     private static final int SIZE = 4;
     /**
      * 干扰线数量
-     * */
+     */
     private static final int LINES = 12;
     /**
      * 宽度
-     * */
+     */
     private static final int WIDTH = 120;
     /**
      * 高度
-     * */
+     */
     private static final int HEIGHT = 60;
     /**
      * 字体大小
-     * */
+     */
     private static final int FONT_SIZE = 35;
 
     /**
@@ -58,7 +58,7 @@ public final class VerifyCodeImageUtil {
         graphic.fillRect(0, 0, WIDTH, HEIGHT);
         // 5.画随机字符
         Random ran = new Random();
-        for (int i = 0; i <SIZE; i++) {
+        for (int i = 0; i < SIZE; i++) {
             // 取随机字符索引
             int n = ran.nextInt(CHARS.length);
             // 设置随机颜色
@@ -68,7 +68,7 @@ public final class VerifyCodeImageUtil {
                     null, Font.BOLD + Font.ITALIC, FONT_SIZE));
             // 画字符
             graphic.drawString(
-                    CHARS[n] + "", i * WIDTH / SIZE, HEIGHT*2/3);
+                    CHARS[n] + "", i * WIDTH / SIZE, HEIGHT * 2 / 3);
             // 记录字符
             sb.append(CHARS[n]);
         }

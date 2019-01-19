@@ -10,18 +10,18 @@ public class JsonResponse {
     private List<DisAndTime> result;
 
     @Data
-    public class DisAndTime{
+    public class DisAndTime {
         private Dis distance;
         private Duration duration;
 
         @Data
-        public class Dis{
+        public class Dis {
             private String text;
             private int value;
         }
 
         @Data
-        public class Duration{
+        public class Duration {
             private String text;
             private int value;
         }

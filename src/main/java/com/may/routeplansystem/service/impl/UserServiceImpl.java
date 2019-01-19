@@ -45,44 +45,45 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 验证登陆信息是否正确
+     *
      * @param userId
      * @param password
      * @param code
      * @param session
      * @return true:验证通过 false:验证不通过
-     * */
+     */
     @Override
-    public Object userLogin(String userId, String password, String code, HttpSession session){
+    public Object userLogin(String userId, String password, String code, HttpSession session) {
         String sessionCode = (String) session.getAttribute(codeAttribute);
-        Map map = new HashMap<String,Object>(16);
+        Map map = new HashMap<String, Object>(16);
         UserMessage userMessage = new UserMessage();
         try {
-            if(session.getAttribute(attribute) != null){
-                map.put("userMessage",userDao.userMessage(userId));
+            if (session.getAttribute(attribute) != null) {
+                map.put("userMessage", userDao.userMessage(userId));
                 map.put("status", StatusCode.SUCCESS);
-            }else {
-                if (userId != null && password !=null && code != null){
-                    if (code.equalsIgnoreCase(sessionCode)){
+            } else {
+                if (userId != null && password != null && code != null) {
+                    if (code.equalsIgnoreCase(sessionCode)) {
                         userMessage.setUserId(userId);
                         userMessage.setPassword(password);
-                        if(userDao.isLogin(userMessage) != null){
-                            session.setAttribute("user",userId);
+                        if (userDao.isLogin(userMessage) != null) {
+                            session.setAttribute("user", userId);
                             session.setMaxInactiveInterval(3600);
-                            map.put("userMessage",userDao.userMessage(userId));
-                            map.put("status",StatusCode.SUCCESS);
-                            logger.info("用户"+userId+"登录");
-                        }else {
-                            map.put("status",StatusCode.MESSAGE_ERROR);
+                            map.put("userMessage", userDao.userMessage(userId));
+                            map.put("status", StatusCode.SUCCESS);
+                            logger.info("用户" + userId + "登录");
+                        } else {
+                            map.put("status", StatusCode.MESSAGE_ERROR);
                         }
-                    }else {
-                        map.put("status",StatusCode.CODE_FAIL);
+                    } else {
+                        map.put("status", StatusCode.CODE_FAIL);
                     }
-                }else {
-                    map.put("status",StatusCode.MESSAGE_NULL);
+                } else {
+                    map.put("status", StatusCode.MESSAGE_NULL);
                 }
             }
-        }catch (Exception e){
-            logger.error(e.getClass()+"{}",e);
+        } catch (Exception e) {
+            logger.error(e.getClass() + "{}", e);
             map.put("status", StatusCode.FAIL);
         }
         return map;
@@ -90,6 +91,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 用户注册
+     *
      * @param userMessage
      * @param mailCode
      * @param rePassword
@@ -97,50 +99,51 @@ public class UserServiceImpl implements UserService {
      * @return -1:注册失败
      */
     @Override
-    public Object userRegister(UserMessage userMessage,String mailCode,String rePassword,HttpSession session) {
-        Map map = new HashMap<String,String>(16);
+    public Object userRegister(UserMessage userMessage, String mailCode, String rePassword, HttpSession session) {
+        Map map = new HashMap<String, String>(16);
         String verifyCode = (String) session.getAttribute("mailCode");
         try {
-            if(userMessage == null){
-                map.put("status",StatusCode.MESSAGE_NULL);
-            }else {
-                if(userDao.userMessage(userMessage.getUserId()) != null){
-                    map.put("status",StatusCode.MESSAGE_EXIST);
-                }else {
-                    if (rePassword.equals(userMessage.getPassword())){
-                        if(mailCode.equals(verifyCode)){
-                            if(userDao.insertUser(userMessage) == -1){
-                                map.put("status",StatusCode.PERMISSION_FAIL);
-                            }else {
-                                map.put("status",StatusCode.SUCCESS);
-                                logger.info("用户"+userMessage.getUserId()+"完成注册");
+            if (userMessage == null) {
+                map.put("status", StatusCode.MESSAGE_NULL);
+            } else {
+                if (userDao.userMessage(userMessage.getUserId()) != null) {
+                    map.put("status", StatusCode.MESSAGE_EXIST);
+                } else {
+                    if (rePassword.equals(userMessage.getPassword())) {
+                        if (mailCode.equals(verifyCode)) {
+                            if (userDao.insertUser(userMessage) == -1) {
+                                map.put("status", StatusCode.PERMISSION_FAIL);
+                            } else {
+                                map.put("status", StatusCode.SUCCESS);
+                                logger.info("用户" + userMessage.getUserId() + "完成注册");
                             }
-                        }else {
-                            map.put("status",StatusCode.CODE_FAIL);
+                        } else {
+                            map.put("status", StatusCode.CODE_FAIL);
                         }
-                    }else {
-                        map.put("status",StatusCode.MESSAGE_ERROR);
+                    } else {
+                        map.put("status", StatusCode.MESSAGE_ERROR);
                     }
                 }
             }
-        }catch (Exception e){
-            map.put("status",StatusCode.FAIL);
-            logger.error(e.getClass()+"{}",e);
+        } catch (Exception e) {
+            map.put("status", StatusCode.FAIL);
+            logger.error(e.getClass() + "{}", e);
         }
         return map;
     }
 
     /**
      * 用户邮箱验证码发送
+     *
      * @param eMail
      * @param session
      * @return 邮件
-     * */
+     */
     @Override
-    public Object sendVerifyMail(String eMail,HttpSession session) {
-        Map map = new HashMap<String,Object>(16);
+    public Object sendVerifyMail(String eMail, HttpSession session) {
+        Map map = new HashMap<String, Object>(16);
         try {
-            if(userDao.userEmail(eMail) == null){
+            if (userDao.userEmail(eMail) == null) {
                 //生成验证码
                 String base = "abcdefghijklmnopqrstuvwxyz0123456789";
                 Random random = new Random();
@@ -150,7 +153,7 @@ public class UserServiceImpl implements UserService {
                     code.append(base.charAt(number));
                 }
                 //存入Session
-                session.setAttribute("mailCode",code.toString());
+                session.setAttribute("mailCode", code.toString());
                 MimeMessage message = null;
                 //创建一个邮件
                 message = mailSender.createMimeMessage();
@@ -177,14 +180,14 @@ public class UserServiceImpl implements UserService {
                 helper.setText(sb.toString(), true);
                 //发送邮件
                 mailSender.send(message);
-                map.put("status",StatusCode.SUCCESS);
+                map.put("status", StatusCode.SUCCESS);
                 logger.info("发送用户注册验证码");
-            }else {
-                map.put("status",StatusCode.MESSAGE_ERROR);
+            } else {
+                map.put("status", StatusCode.MESSAGE_ERROR);
             }
         } catch (MessagingException e) {
             logger.error(e.getClass() + "{}", e);
-            map.put("status",StatusCode.FAIL);
+            map.put("status", StatusCode.FAIL);
         }
         return map;
     }
@@ -197,15 +200,15 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Object userIdVerify(String userId) {
-        Map map = new HashMap<String,Object>(16);
+        Map map = new HashMap<String, Object>(16);
         try {
-            if(userDao.userMessage(userId) != null){
-                map.put("status",StatusCode.MESSAGE_ERROR);
-            }else {
-                map.put("status",StatusCode.SUCCESS);
+            if (userDao.userMessage(userId) != null) {
+                map.put("status", StatusCode.MESSAGE_ERROR);
+            } else {
+                map.put("status", StatusCode.SUCCESS);
             }
-        }catch (Exception e){
-            map.put("status",StatusCode.FAIL);
+        } catch (Exception e) {
+            map.put("status", StatusCode.FAIL);
         }
         return map;
     }

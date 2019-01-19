@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResponseEntity<T>{
+public class ResponseEntity<T> {
     private int status;
     private T object;
 }

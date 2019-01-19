@@ -9,7 +9,7 @@ public class NetWorkUtil {
 
     public static String visitUrl(String urlStr) {
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             URL url = new URL(urlStr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(10 * 1000);
@@ -17,20 +17,20 @@ public class NetWorkUtil {
 
             connection.connect();
 
-            if (connection.getResponseCode() == 200){
-                if (connection.getContentLength() > 0){
+            if (connection.getResponseCode() == 200) {
+                if (connection.getContentLength() > 0) {
                     BufferedInputStream bufferedInputStream =
                             new BufferedInputStream(connection.getInputStream());
                     int len;
                     byte[] bytes = new byte[1024];
 
-                    while ((len = bufferedInputStream.read(bytes)) > 0){
+                    while ((len = bufferedInputStream.read(bytes)) > 0) {
                         String str = new String(bytes, 0, len);
                         result.append(str);
                     }
                 }
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new URLVisitException("访问URl出现了错误");
         }
 
@@ -39,7 +39,7 @@ public class NetWorkUtil {
 
     public static class URLVisitException extends RuntimeException {
 
-        public URLVisitException(String msg){
+        public URLVisitException(String msg) {
             super(msg);
         }
 

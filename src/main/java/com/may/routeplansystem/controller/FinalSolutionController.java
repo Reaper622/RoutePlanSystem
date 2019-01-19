@@ -26,25 +26,25 @@ public class FinalSolutionController {
      * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
      * @apiSuccess {String} createTime 创建方案的时间
      * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *         "status":200,
-     *         "object": [
-     *         {
-     *             "finalSolutionId":1,
-     *             "routes":[
-     *             "第一条路径",
-     *             "第二条路径"
-     *             ]
-     *             “totalDis”:100,
-     *             "userChoice":0
-     *             "createTime": "2018-10-06 12:00:00"
-     *         }
-     *         ]
-     *     }
+     * HTTP/1.1 200 OK
+     * {
+     * "status":200,
+     * "object": [
+     * {
+     * "finalSolutionId":1,
+     * "routes":[
+     * "第一条路径",
+     * "第二条路径"
+     * ]
+     * “totalDis”:100,
+     * "userChoice":0
+     * "createTime": "2018-10-06 12:00:00"
+     * }
+     * ]
+     * }
      */
     @GetMapping("getAllFinalSolution")
-    public ResponseEntity getAllFinalSolution(int questionId){
+    public ResponseEntity getAllFinalSolution(int questionId) {
         List<FinalSolutionVo> finalSolutionVos = finalSolutionService.getAllFinalSolutionOrdered(questionId);
         return new ResponseEntity<>(200, finalSolutionVos);
     }
@@ -60,23 +60,23 @@ public class FinalSolutionController {
      * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
      * @apiSuccess {String} createTime 创建方案的时间
      * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *         "status":200,
-     *         "object":{
-     *             "finalSolutionId":1,
-     *             "routes":[
-     *             "第一条路径",
-     *             "第二条路径"
-     *             ]
-     *             “totalDis”:100,
-     *             "userChoice":0
-     *             "createTime": "2018-11-11 12:00:00"
-     *         }
-     *     }
+     * HTTP/1.1 200 OK
+     * {
+     * "status":200,
+     * "object":{
+     * "finalSolutionId":1,
+     * "routes":[
+     * "第一条路径",
+     * "第二条路径"
+     * ]
+     * “totalDis”:100,
+     * "userChoice":0
+     * "createTime": "2018-11-11 12:00:00"
+     * }
+     * }
      */
     @GetMapping("getFinalSolution")
-    public ResponseEntity getFinalSolution(int finalSolutionId){
+    public ResponseEntity getFinalSolution(int finalSolutionId) {
         FinalSolutionVo finalSolutionVo = finalSolutionService.getFinalSolution(finalSolutionId);
         return new ResponseEntity<>(200, finalSolutionVo);
     }
@@ -88,7 +88,7 @@ public class FinalSolutionController {
      * @apiParam {Number} finalSolutionId 方案id
      */
     @DeleteMapping("removeFinalSolution")
-    public ResponseEntity removeFinalSolution(int finalSolutionId){
+    public ResponseEntity removeFinalSolution(int finalSolutionId) {
         finalSolutionService.removeFinalSolution(finalSolutionId);
         return new ResponseEntity<>(200, null);
     }
@@ -100,7 +100,7 @@ public class FinalSolutionController {
      * @apiParam {Number} questionId 问题id
      */
     @DeleteMapping("removeAllQuestionFinalSolution")
-    public ResponseEntity removeAllQuestionFinalSolution(int questionId){
+    public ResponseEntity removeAllQuestionFinalSolution(int questionId) {
         finalSolutionService.removeAllFinalSolutionByQuestionId(questionId);
         return new ResponseEntity<>(200, null);
     }
@@ -117,25 +117,25 @@ public class FinalSolutionController {
      * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
      * @apiSuccess {String} createTime 创建方案的时间
      * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *         "status":200,
-     *         "object": [
-     *         {
-     *             "finalSolutionId":1,
-     *             "routes":[
-     *             "第一条路径",
-     *             "第二条路径"
-     *             ]
-     *             “totalDis”:100,
-     *             "userChoice":0
-     *             "createTime": "2018-11-11 12:00:00"
-     *         }
-     *         ]
-     *     }
+     * HTTP/1.1 200 OK
+     * {
+     * "status":200,
+     * "object": [
+     * {
+     * "finalSolutionId":1,
+     * "routes":[
+     * "第一条路径",
+     * "第二条路径"
+     * ]
+     * “totalDis”:100,
+     * "userChoice":0
+     * "createTime": "2018-11-11 12:00:00"
+     * }
+     * ]
+     * }
      */
     @GetMapping("getOneVersionFinalSolution")
-    public ResponseEntity getOneVersionFinalSolution(int questionId, int version){
+    public ResponseEntity getOneVersionFinalSolution(int questionId, int version) {
         List<FinalSolutionVo> finalSolutionVos =
                 finalSolutionService.getOneVersionFinalSolution(questionId, version);
         return new ResponseEntity<>(200, finalSolutionVos);
@@ -147,29 +147,29 @@ public class FinalSolutionController {
      * @apiGroup finalSolution
      * @apiParam {Number} questionId 问题id
      * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *         “status”：200
-     *         “Object”: [
-     *              1,
-     *              2
-     *         ]
-     *     }
+     * HTTP/1.1 200 OK
+     * {
+     * “status”：200
+     * “Object”: [
+     * 1,
+     * 2
+     * ]
+     * }
      */
     @GetMapping("getAllVersion")
-    public ResponseEntity getAllVersion(int questionId){
+    public ResponseEntity getAllVersion(int questionId) {
         List<Integer> integers = finalSolutionService.getAllVersion(questionId);
         return new ResponseEntity<>(200, integers);
     }
 
     /**
      * @api {PATCH} /finalSolution/updateFinalSolutionState 修改用户选择的方案的状态
-     * @apiDescription 用户选择一个自己觉得最好的方案,一个问题只能选择一个
+     * @apiDescription 用户选择一个自己觉得最好的方案, 一个问题只能选择一个
      * @apiGroup finalSolution
      * @apiParam {Number} questionId 问题id
      */
     @PatchMapping("updateFinalSolutionState")
-    public ResponseEntity updateFinalSolutionState(int finalSolutionId){
+    public ResponseEntity updateFinalSolutionState(int finalSolutionId) {
         finalSolutionService.updateFinalSolutionState(finalSolutionId);
         return new ResponseEntity<>(200, null);
     }

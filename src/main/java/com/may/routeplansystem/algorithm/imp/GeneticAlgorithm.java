@@ -87,7 +87,7 @@ public class GeneticAlgorithm implements Algorithm {
         }
     }
 
-    private int createFinalSolutionAndInsert(int questionId, double totalDis, int version){
+    private int createFinalSolutionAndInsert(int questionId, double totalDis, int version) {
         FinalSolution finalSolution = new FinalSolution();
         finalSolution.setVersion(version);
         finalSolution.setQuestionId(questionId);
@@ -100,14 +100,14 @@ public class GeneticAlgorithm implements Algorithm {
         return finalSolution.getFinalSolutionId();
     }
 
-    private void removeSurplusSolutions(Map<Integer, RouteTemp> treeMap){
-        log.info("删除前 treeMap 的size：" + treeMap.size() );
+    private void removeSurplusSolutions(Map<Integer, RouteTemp> treeMap) {
+        log.info("删除前 treeMap 的size：" + treeMap.size());
         Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
         Iterator<Map.Entry<Integer, RouteTemp>> it = set.iterator();
         int i = 0;
-        while(it.hasNext()){
+        while (it.hasNext()) {
             i++;
-            if (i <= 4){
+            if (i <= 4) {
                 it.next();
                 continue;
             }
@@ -213,8 +213,8 @@ public class GeneticAlgorithm implements Algorithm {
 //        }
         int routeWaySize1 = routeWay1.size();
         int routeWaySize2 = routeWay2.size();
-        int routeIndex1 = (int) (Math.random() * (routeWaySize1-2) + 1);
-        int routeIndex2 = (int) (Math.random() * (routeWaySize2-2) + 1);
+        int routeIndex1 = (int) (Math.random() * (routeWaySize1 - 2) + 1);
+        int routeIndex2 = (int) (Math.random() * (routeWaySize2 - 2) + 1);
         List head1 = new ArrayList(routeWay1.subList(0, routeIndex1));
         List tail1 = new ArrayList(routeWay1.subList(routeIndex1, routeWaySize1));
         List head2 = new ArrayList(routeWay2.subList(0, routeIndex2));
@@ -226,7 +226,7 @@ public class GeneticAlgorithm implements Algorithm {
         return route;
     }
 
-    private void logRoutemp(RouteTemp routeTemp){
+    private void logRoutemp(RouteTemp routeTemp) {
         routeTemp.getRoute().forEach(route -> {
             StringBuilder stringBuilder = new StringBuilder();
             route.forEach(nodePojo -> {
@@ -242,8 +242,8 @@ public class GeneticAlgorithm implements Algorithm {
         int size = routeWay1.size();
         int node1 = 0;
         int node2 = 0;
-        node1 = (int) (Math.random() * (size-2) + 1);
-        node2 = (int) (Math.random() * (size-2) + 1);
+        node1 = (int) (Math.random() * (size - 2) + 1);
+        node2 = (int) (Math.random() * (size - 2) + 1);
         if (node1 == node2) {
             return route;
         } else {
@@ -323,7 +323,7 @@ public class GeneticAlgorithm implements Algorithm {
                     break;
                 }
                 int serviceNodesCopySize = serviceNodesCopy.size();
-                if (serviceNodesCopySize == 1){
+                if (serviceNodesCopySize == 1) {
                     everyPath.add(serviceNodesCopy.get(0));
                     everyPath.add(centerNode);
                     break;

@@ -45,7 +45,8 @@
     </select>
 
     <select id="findAllFinalSolutionOrdered" parameterType="int" resultType="Integer">
-        select <include refid="final_solution_columns"/>
+        select
+        <include refid="final_solution_columns"/>
         from final_solution
         order by total_dis limit 4
         where question_id=#{questionId}
@@ -64,7 +65,8 @@
     </select>
 
     <select id="findFinalSolutionByFinalSolutionId" parameterType="int" resultMap="finalSolution">
-        select <include refid="final_solution_columns"/>
+        select
+        <include refid="final_solution_columns"/>
         from final_solution
         where final_solution_id=#{finalSolutionId}
     </select>

@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class RouteplansystemApplicationTests {
 
     @Test
-    public void test(){
+    public void test() {
     }
 
 }

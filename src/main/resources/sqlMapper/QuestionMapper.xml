@@ -13,7 +13,7 @@
     </sql>
 
     <insert id="insertQuestion" parameterType="com.may.routeplansystem.entity.po.Question" useGeneratedKeys="true"
-    keyProperty="questionId">
+            keyProperty="questionId">
         insert into question(question_name, user_id)
         values (#{questionName},#{userId})
     </insert>
@@ -30,13 +30,15 @@
     </update>
 
     <select id="findQuestionsByUserId" parameterType="java.lang.Integer" resultMap="question">
-        select <include refid="question_columns"/>
+        select
+        <include refid="question_columns"/>
         from question
         where user_id=#{user_id}
     </select>
 
     <select id="findQuestionByQuestionId" parameterType="java.lang.Integer" resultMap="question">
-        select <include refid="question_columns"/>
+        select
+        <include refid="question_columns"/>
         from question
         where question_id=#{questionId}
     </select>

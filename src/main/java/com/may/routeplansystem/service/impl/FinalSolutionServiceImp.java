@@ -8,7 +8,6 @@ import com.may.routeplansystem.entity.vo.FinalSolutionVo;
 import com.may.routeplansystem.entity.vo.NodeVo;
 import com.may.routeplansystem.exception.FinalSolutionUserChoiceException;
 import com.may.routeplansystem.service.FinalSolutionService;
-import com.may.routeplansystem.util.ServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
         return solutionsToFinalSolutionVo(solutions, finalSolutionId);
     }
 
-    private FinalSolutionVo solutionsToFinalSolutionVo(List<Solution> solutions, int finalSolutionId){
+    private FinalSolutionVo solutionsToFinalSolutionVo(List<Solution> solutions, int finalSolutionId) {
         FinalSolutionVo finalSolutionVo = new FinalSolutionVo();
         List<List<NodeVo>> routes = new LinkedList<>();
         solutions.forEach(solution -> routes.add(parseStringToNodeVos(solution.getRoute())));
@@ -44,7 +43,7 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
         return finalSolutionVo;
     }
 
-    public List<NodeVo> parseStringToNodeVos(String str){
+    public List<NodeVo> parseStringToNodeVos(String str) {
         List<NodeVo> nodeVos = new LinkedList<>();
         String[] nodesStr = str.split(";");
         for (String nodeStr : nodesStr) {
@@ -109,11 +108,11 @@ public class FinalSolutionServiceImp implements FinalSolutionService {
     @Override
     public void updateFinalSolutionState(int finalSolutionId) {
         FinalSolution finalSolution = finalSolutionDao.findFinalSolutionByFinalSolutionId(finalSolutionId);
-        if (finalSolution.getUserChoice() == 1){
+        if (finalSolution.getUserChoice() == 1) {
             finalSolutionDao.updateFinalSolutionUserChoice(finalSolutionId);
-        }else {
+        } else {
             int num = finalSolutionDao.findNumOfUserChoice(finalSolution.getQuestionId());
-            if (num == 1){
+            if (num == 1) {
                 throw new FinalSolutionUserChoiceException("已经选择了一个最优方案");
             }
         }

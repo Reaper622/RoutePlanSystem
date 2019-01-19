@@ -20,26 +20,31 @@ import java.util.ArrayList;
 public interface VehicleService {
     /**
      * 用户车辆导入
+     *
      * @param vehicleJson
      * @return -1:导入失败
-     * */
+     */
     void vehicleRegister(JSONObject vehicleJson, int questionId);
+
     /**
      * 根据用户查询车辆信息
+     *
      * @param userId
      * @return vehicleMessage
-     * */
+     */
     Object userVehicleMessage(int userId);
 
     /**
      * 根据车辆Id查询车辆信息
+     *
      * @param vehicleId
      * @return VehicleMessage
-     * */
+     */
     Object vehicleMessage(int vehicleId);
 
     /**
      * 删除车辆信息
+     *
      * @param vehicleIdList
      * @return true/false
      **/
@@ -47,19 +52,21 @@ public interface VehicleService {
 
     /**
      * 判断文件类型
+     *
      * @param fileName
      * @param mFile
      * @param request
      * @return 返回文件判断结果
-     * */
+     */
     String batchImport(String fileName, MultipartFile mFile, HttpServletRequest request, String user, int questionId);
 
     /**
      * 导入数据，并返回结果
+     *
      * @param wb
      * @param tempFile
      * @return 返回具体导入结果
-     * */
-    String readExcel(Workbook wb, File tempFile,HttpSession session, int questionId);
+     */
+    String readExcel(Workbook wb, File tempFile, HttpSession session, int questionId);
 
 }

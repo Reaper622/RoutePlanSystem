@@ -11,6 +11,7 @@ public interface FinalSolutionDao {
 
     /**
      * 添加方案
+     *
      * @param finalSolution
      * @return 插入方案的id
      */
@@ -20,6 +21,7 @@ public interface FinalSolutionDao {
 
     /**
      * 得到问题的最大版本号
+     *
      * @param questionId
      * @return
      */
@@ -27,6 +29,7 @@ public interface FinalSolutionDao {
 
     /**
      * 得到一个问题所有版本号
+     *
      * @param questionId
      * @return
      */
@@ -34,6 +37,7 @@ public interface FinalSolutionDao {
 
     /**
      * 找到所有版本中最好的四个方案
+     *
      * @param questionId
      * @return 有序的方案
      */
@@ -41,6 +45,7 @@ public interface FinalSolutionDao {
 
     /**
      * 查找到所有属于问题的解决方案的id
+     *
      * @param questionId
      * @return
      */
@@ -48,8 +53,9 @@ public interface FinalSolutionDao {
 
     /**
      * 找到一个问题的一个版本的解决方案
+     *
      * @param questionId 问题id
-     * @param version 版本
+     * @param version    版本
      * @return
      */
     List<Integer> findDifferentVersionFinalSolution(@Param("questionId") int questionId,
@@ -57,6 +63,7 @@ public interface FinalSolutionDao {
 
     /**
      * 通过finalSolutionId找到方案
+     *
      * @param finalSolutionId
      * @return
      */
@@ -64,6 +71,7 @@ public interface FinalSolutionDao {
 
     /**
      * 修改被用户选中的方案的状态
+     *
      * @param finalSolutionId
      * @return
      */
@@ -71,6 +79,7 @@ public interface FinalSolutionDao {
 
     /**
      * 得到被用户选中的方案的数量
+     *
      * @return
      * @throws com.may.routeplansystem.exception.FinalSolutionUserChoiceException
      */

@@ -27,7 +27,7 @@ public class QuestionController {
      * @apiParam {Number} userId 用户Id
      */
     @PostMapping("insertQuestion")
-    public ResponseEntity insertQuestion(Question question){
+    public ResponseEntity insertQuestion(Question question) {
         int questionId = questionService.insertQuestion(question);
         return new ResponseEntity<>(200, questionId);
     }
@@ -38,21 +38,21 @@ public class QuestionController {
      * @apiGroup Question
      * @apiParam {Number} userId 用户Id
      * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *         "status": 200,
-     *         "object": [
-     *            {
-     *                "questionId": 1
-     *                "questionName: "问题名称"",
-     *                "userId": 1,
-     *                "delFlag": 0
-     *            }
-     *         ]
-     *     }
+     * HTTP/1.1 200 OK
+     * {
+     * "status": 200,
+     * "object": [
+     * {
+     * "questionId": 1
+     * "questionName: "问题名称"",
+     * "userId": 1,
+     * "delFlag": 0
+     * }
+     * ]
+     * }
      */
     @GetMapping("getQuestions")
-    public ResponseEntity getQuestions(int userId){
+    public ResponseEntity getQuestions(int userId) {
         List<Question> questions = questionService.getQuestions(userId);
         return new ResponseEntity<>(200, questions);
     }
@@ -64,7 +64,7 @@ public class QuestionController {
      * @apiParam {Number} questionId 问题ID
      */
     @DeleteMapping("removeQuestion")
-    public ResponseEntity removeQuestion(int questionId){
+    public ResponseEntity removeQuestion(int questionId) {
         questionService.removeQuestion(questionId);
         return new ResponseEntity<>(200, null);
     }
@@ -77,19 +77,19 @@ public class QuestionController {
      * @apiParam {String} questionName 问题名称
      */
     @PatchMapping("updateQuestion")
-    public ResponseEntity updateQuestion(Question question){
+    public ResponseEntity updateQuestion(Question question) {
         questionService.updateQuestion(question);
         return new ResponseEntity<>(200, null);
     }
 
     /**
      * @api {GET} /question/executeAlgorithm 执行算法
-     *      * @apiDescription 通过questionId来执行算法
-     *      * @apiGroup Question
-     *      * @apiParam {Number} questionId 问题ID
+     * * @apiDescription 通过questionId来执行算法
+     * * @apiGroup Question
+     * * @apiParam {Number} questionId 问题ID
      */
     @GetMapping("executeAlgorithm")
-    public ResponseEntity executeAlgorithm(int questionId){
+    public ResponseEntity executeAlgorithm(int questionId) {
         algorithm.executeAlgorithm(questionId);
         return new ResponseEntity<>(200, null);
     }

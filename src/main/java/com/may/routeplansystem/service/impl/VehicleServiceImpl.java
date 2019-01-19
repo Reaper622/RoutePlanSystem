@@ -5,12 +5,11 @@ import com.may.routeplansystem.constant.ExceptionMessage;
 import com.may.routeplansystem.dao.QuestionDao;
 import com.may.routeplansystem.dao.VehicleDao;
 import com.may.routeplansystem.entity.po.Question;
-import com.may.routeplansystem.exception.DatabaseException;
 import com.may.routeplansystem.exception.ParameterException;
+import com.may.routeplansystem.exception.SqlExecutedException;
 import com.may.routeplansystem.pojo.VehicleMessage;
 import com.may.routeplansystem.service.VehicleService;
 import com.may.routeplansystem.util.ExcelUtil;
-import com.may.routeplansystem.util.ServiceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -71,7 +70,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleMessage.setOwnerId(ownerId);
         vehicleMessage.setQuestionId(questionId);
         if (vehicleDao.insertVehicle(vehicleMessage) == -1) {
-            throw new SqlExecuteException(ExceptionMessage.VEHICLE_STORE_FAILURE);
+            throw new SqlExecutedException(ExceptionMessage.VEHICLE_STORE_FAILURE);
         }
     }
 
@@ -100,11 +99,11 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void deleteVehicle(ArrayList vehicleIdList) {
-        if (vehicleIdList.isEmpty()){
+        if (vehicleIdList.isEmpty()) {
             throw new ParameterException(VEHICLE_ID_LIST_EMPTY);
         }
         boolean flag = vehicleDao.deleteVehicle(vehicleIdList);
-        checkSqlExecuted(flag, VEHICLE_DELETE_FAILURE);
+        checkSqlExecuted(flag);
     }
 
     /**
