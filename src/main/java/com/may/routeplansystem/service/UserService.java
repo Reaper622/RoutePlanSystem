@@ -1,8 +1,10 @@
 package com.may.routeplansystem.service;
 
-import com.may.routeplansystem.pojo.UserMessage;
+import com.may.routeplansystem.entity.po.UserMessage;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -20,7 +22,8 @@ public interface UserService {
      * @param session
      * @return true:验证通过 false:验证不通过
      */
-    Object userLogin(String userId, String password, String code, HttpSession session);
+    UserMessage userLogin(String userId, String password, String code,
+                          HttpSession session, HttpServletResponse response);
 
     /**
      * 用户注册
@@ -31,7 +34,7 @@ public interface UserService {
      * @param session
      * @return -1:注册失败
      */
-    Object userRegister(UserMessage userMessage, String mailCode, String rePassword, HttpSession session);
+    UserMessage userRegister(UserMessage userMessage, String mailCode, String rePassword, HttpSession session);
 
     /**
      * 用户邮箱验证码发送
@@ -40,13 +43,18 @@ public interface UserService {
      * @param session
      * @return 邮件
      */
-    Object sendVerifyMail(String eMail, HttpSession session);
+    void sendVerifyMail(String eMail, HttpSession session);
 
     /**
-     * 注册userId唯一性验证
-     *
-     * @param userId
-     * @return map
+     * 退出登录
+     * @param session
      */
-    Object userIdVerify(String userId);
+    void loginOut(HttpServletRequest request);
+
+    /**
+     * 自动登录
+     * @param request
+     */
+    boolean autoLogin(HttpServletRequest request) ;
+
 }

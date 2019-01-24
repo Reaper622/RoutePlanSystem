@@ -1,177 +1,92 @@
 package com.may.routeplansystem.controller;
 
+import com.may.routeplansystem.algorithm.AlgorithmContext;
+import com.may.routeplansystem.constant.Response;
 import com.may.routeplansystem.entity.dto.ResponseEntity;
 import com.may.routeplansystem.entity.vo.FinalSolutionVo;
 import com.may.routeplansystem.service.FinalSolutionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.may.routeplansystem.constant.ResponseStatu.SUCCESS;
+
+/**
+ * @author 10587
+ */
 @RestController
 @RequestMapping("finalSolution")
+@Api(tags = "方案模块")
+@Validated
 public class FinalSolutionController {
 
-    @Autowired
+    @Resource
     private FinalSolutionService finalSolutionService;
 
-    /**
-     * @api {GET} /finalSolution/getAllFinalSolution 得到一个问题的所有解决方案
-     * @apiDescription 通过问题Id得到所有该问题的解决方案
-     * @apiGroup finalSolution
-     * @apiParam {Number} questionId 问题id
-     * @apiSuccess {Number} finalSolutionId 方案编号
-     * @apiSuccess {String[]} routes 该方案下的所有路径
-     * @apiSuccess {Number} totalDis 该方案的总路径
-     * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
-     * @apiSuccess {String} createTime 创建方案的时间
-     * @apiSuccessExample Success-Response:
-     * HTTP/1.1 200 OK
-     * {
-     * "status":200,
-     * "object": [
-     * {
-     * "finalSolutionId":1,
-     * "routes":[
-     * "第一条路径",
-     * "第二条路径"
-     * ]
-     * “totalDis”:100,
-     * "userChoice":0
-     * "createTime": "2018-10-06 12:00:00"
-     * }
-     * ]
-     * }
-     */
+    @Resource
+    private AlgorithmContext algorithmContext;
+
+
     @GetMapping("getAllFinalSolution")
-    public ResponseEntity getAllFinalSolution(int questionId) {
+    @ApiOperation("得到一个问题的所有方案")
+    @ApiImplicitParam(name = "questionId",paramType = "query", value = "问题ID", required = true)
+    public ResponseEntity<List<FinalSolutionVo>> getAllFinalSolution
+            (@NotNull(message = "questionId 不能为空") Integer questionId) {
         List<FinalSolutionVo> finalSolutionVos = finalSolutionService.getAllFinalSolutionOrdered(questionId);
-        return new ResponseEntity<>(200, finalSolutionVos);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, finalSolutionVos);
     }
 
-    /**
-     * @api {GET} /finalSolution/getFinalSolution 得到一个方案的所有路径
-     * @apiDescription 通过方案Id得到方案下的所有路径
-     * @apiGroup finalSolution
-     * @apiParam {Number} finalSolutionId 方案id
-     * @apiSuccess {Number} finalSolutionId 方案编号
-     * @apiSuccess {String[]} routes 该方案下的所有路径
-     * @apiSuccess {Number} totalDis 该方案的总路径
-     * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
-     * @apiSuccess {String} createTime 创建方案的时间
-     * @apiSuccessExample Success-Response:
-     * HTTP/1.1 200 OK
-     * {
-     * "status":200,
-     * "object":{
-     * "finalSolutionId":1,
-     * "routes":[
-     * "第一条路径",
-     * "第二条路径"
-     * ]
-     * “totalDis”:100,
-     * "userChoice":0
-     * "createTime": "2018-11-11 12:00:00"
-     * }
-     * }
-     */
     @GetMapping("getFinalSolution")
-    public ResponseEntity getFinalSolution(int finalSolutionId) {
+    @ApiOperation("获取一个方案的详细信息")
+    @ApiImplicitParam(name = "finalSolutionId",paramType = "query", value = "方案Id", required = true)
+    public ResponseEntity<FinalSolutionVo> getFinalSolution
+            (@NotNull(message = "finalSolutionId 不能为空") Integer finalSolutionId) {
         FinalSolutionVo finalSolutionVo = finalSolutionService.getFinalSolution(finalSolutionId);
-        return new ResponseEntity<>(200, finalSolutionVo);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, finalSolutionVo);
     }
 
-    /**
-     * @api {DELETE} /finalSolution/removeFinalSolution 删除一个方案
-     * @apiDescription 通过方案Id删除方案
-     * @apiGroup finalSolution
-     * @apiParam {Number} finalSolutionId 方案id
-     */
     @DeleteMapping("removeFinalSolution")
-    public ResponseEntity removeFinalSolution(int finalSolutionId) {
+    @ApiOperation("删除一个方案")
+    @ApiImplicitParam(name = "finalSolutionId", dataType = "int", value = "方案Id", required = true)
+    public ResponseEntity removeFinalSolution
+            (@NotNull(message = "finalSolutionId 不能为空") Integer finalSolutionId) {
         finalSolutionService.removeFinalSolution(finalSolutionId);
-        return new ResponseEntity<>(200, null);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, null);
     }
 
-    /**
-     * @api {DELETE} /finalSolution/removeAllQuestionFinalSolution 删除一个问题的所有解决方案
-     * @apiDescription 通过问题id删除所有该问题的解决方案
-     * @apiGroup finalSolution
-     * @apiParam {Number} questionId 问题id
-     */
     @DeleteMapping("removeAllQuestionFinalSolution")
-    public ResponseEntity removeAllQuestionFinalSolution(int questionId) {
+    @ApiOperation("删除一个问题的所有方案")
+    public ResponseEntity removeAllQuestionFinalSolution
+            (@NotNull(message = "questionId 不能为空") Integer questionId) {
         finalSolutionService.removeAllFinalSolutionByQuestionId(questionId);
-        return new ResponseEntity<>(200, null);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, null);
     }
 
-    /**
-     * @api {GET} /finalSolution/getOneVersionFinalSolution 得到一个版本的解决方案
-     * @apiDescription 通过问题Id和版本号得到一个版本的所有解决方案
-     * @apiGroup finalSolution
-     * @apiParam {Number} questionId 问题id
-     * @apiParam {Number} version 版本号
-     * @apiSuccess {Number} finalSolutionId 方案编号
-     * @apiSuccess {String[]} routes 该方案下的所有路径
-     * @apiSuccess {Number} totalDis 该方案的总路径
-     * @apiSuccess {Number} userChoice 用户选择该方案的标志,0表示没有选择，1表示选择了
-     * @apiSuccess {String} createTime 创建方案的时间
-     * @apiSuccessExample Success-Response:
-     * HTTP/1.1 200 OK
-     * {
-     * "status":200,
-     * "object": [
-     * {
-     * "finalSolutionId":1,
-     * "routes":[
-     * "第一条路径",
-     * "第二条路径"
-     * ]
-     * “totalDis”:100,
-     * "userChoice":0
-     * "createTime": "2018-11-11 12:00:00"
-     * }
-     * ]
-     * }
-     */
     @GetMapping("getOneVersionFinalSolution")
-    public ResponseEntity getOneVersionFinalSolution(int questionId, int version) {
+    @ApiOperation("获取一个问题下某个算法的所有方案")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "questionId", paramType = "query", value = "问题Id", required = true),
+            @ApiImplicitParam(name = "key", paramType = "query", value = "1 表示简单算法 2 表示遗传算法", required = true)
+    })
+    public ResponseEntity<List<FinalSolutionVo>> getOneVersionFinalSolution
+            (@NotNull(message = "questionId 不能为空") Integer questionId,
+             @NotNull(message = "key 不能为空")int key) {
         List<FinalSolutionVo> finalSolutionVos =
-                finalSolutionService.getOneVersionFinalSolution(questionId, version);
-        return new ResponseEntity<>(200, finalSolutionVos);
+                finalSolutionService.getOneVersionFinalSolution(questionId, key);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, finalSolutionVos);
     }
 
-    /**
-     * @api {GET} /finalSolution/getAllVersion 得到该问题的所有版本号
-     * @apiDescription 通过问题Id得到该问题的所有版本号
-     * @apiGroup finalSolution
-     * @apiParam {Number} questionId 问题id
-     * @apiSuccessExample Success-Response:
-     * HTTP/1.1 200 OK
-     * {
-     * “status”：200
-     * “Object”: [
-     * 1,
-     * 2
-     * ]
-     * }
-     */
     @GetMapping("getAllVersion")
-    public ResponseEntity getAllVersion(int questionId) {
-        List<Integer> integers = finalSolutionService.getAllVersion(questionId);
-        return new ResponseEntity<>(200, integers);
+    @ApiOperation("获取算法数量")
+    public ResponseEntity<Integer> getAllVersion() {
+        int num = algorithmContext.getMap().size();
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, num);
     }
-
-    /**
-     * @api {PATCH} /finalSolution/updateFinalSolutionState 修改用户选择的方案的状态
-     * @apiDescription 用户选择一个自己觉得最好的方案, 一个问题只能选择一个
-     * @apiGroup finalSolution
-     * @apiParam {Number} questionId 问题id
-     */
-    @PatchMapping("updateFinalSolutionState")
-    public ResponseEntity updateFinalSolutionState(int finalSolutionId) {
-        finalSolutionService.updateFinalSolutionState(finalSolutionId);
-        return new ResponseEntity<>(200, null);
-    }
-
 }

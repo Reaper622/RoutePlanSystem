@@ -50,4 +50,10 @@
         from distance
         where start_node_id =#{startId} and end_node_id=#{endId}
     </select>
+
+    <select id="countNotGetDisDistance" parameterType="int" resultType="int">
+        select count(*)-count(dis)
+        from distance
+        where question_id=#{questionId};
+    </select>
 </mapper>

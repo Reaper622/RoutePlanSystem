@@ -1,6 +1,7 @@
 package com.may.routeplansystem.dao;
 
 import com.may.routeplansystem.entity.po.Question;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +22,11 @@ public interface QuestionDao {
     List<Question> findQuestionsByUserId(int userId);
 
     Question findQuestionByQuestionId(int questionId);
+
+    boolean updateQuestionProcessState(@Param("processState") int processState,
+                                       @Param("questionId") int questionId);
+
+    boolean updateSimpleExecuted(int questionId);
+
+    boolean updateGeneticExecuted(int questionId);
 }

@@ -1,16 +1,11 @@
 package com.may.routeplansystem.service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.may.routeplansystem.pojo.VehicleMessage;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.boot.jackson.JsonObjectDeserializer;
+import com.may.routeplansystem.entity.po.VehicleMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author:dengsiyuan
@@ -21,10 +16,10 @@ public interface VehicleService {
     /**
      * 用户车辆导入
      *
-     * @param vehicleJson
+     * @param vehicle
      * @return -1:导入失败
      */
-    void vehicleRegister(JSONObject vehicleJson, int questionId);
+    void vehicleRegister(VehicleMessage vehicle);
 
     /**
      * 根据用户查询车辆信息
@@ -32,7 +27,7 @@ public interface VehicleService {
      * @param userId
      * @return vehicleMessage
      */
-    Object userVehicleMessage(int userId);
+    List<VehicleMessage> userVehicleMessage(int userId);
 
     /**
      * 根据车辆Id查询车辆信息
@@ -48,25 +43,15 @@ public interface VehicleService {
      * @param vehicleIdList
      * @return true/false
      **/
-    void deleteVehicle(ArrayList vehicleIdList);
+    void deleteVehicle(List<Integer> vehicleIdList);
 
     /**
-     * 判断文件类型
+     * 批量导入车辆
      *
-     * @param fileName
      * @param mFile
      * @param request
-     * @return 返回文件判断结果
+     * @param questionId
      */
-    String batchImport(String fileName, MultipartFile mFile, HttpServletRequest request, String user, int questionId);
-
-    /**
-     * 导入数据，并返回结果
-     *
-     * @param wb
-     * @param tempFile
-     * @return 返回具体导入结果
-     */
-    String readExcel(Workbook wb, File tempFile, HttpSession session, int questionId);
+    void vehicleBatchImport(MultipartFile mFile, HttpServletRequest request, int questionId);
 
 }

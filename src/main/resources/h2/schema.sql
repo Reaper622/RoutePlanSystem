@@ -25,6 +25,9 @@ CREATE TABLE `question` (
   `question_name` varchar(50) NOT NULL,
   `user_id` int(11) NOT NULL,
   `del_flag` tinyint(4) DEFAULT '0',
+  `process_state` tinyint default '0',
+  `simple_executed` tinyint default '0',
+  `genetic_executed` tinyint default '0',
   PRIMARY KEY (`question_id`),
   UNIQUE KEY `question_question_name_uindex` (`question_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -32,8 +35,8 @@ CREATE TABLE `question` (
 CREATE TABLE `node` (
   `node_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) NOT NULL,
-  `centernode_name` varchar(20) NOT NULL,
-  `centernode_addr` varchar(50) NOT NULL,
+  `node_name` varchar(20) NOT NULL,
+  `node_address` varchar(50) NOT NULL,
   `lat` float DEFAULT NULL,
   `lng` float DEFAULT NULL,
   `is_center` tinyint(4) DEFAULT '0' COMMENT '0 表示不是中心点;1 表示是中心点',
@@ -64,15 +67,16 @@ CREATE TABLE `user` (
   UNIQUE KEY `user_email_uindex` (`email`)
 );
 
-CREATE TABLE `vehicleMessage` (
-  `vahicle_id` int(11) NOT NULL AUTO_INCREMENT,
-  `question_id` int(11) NOT NULL,
-  `type` varchar(10) DEFAULT NULL,
-  `capacity` float DEFAULT NULL,
-  `oil` float DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `price` float DEFAULT NULL,
-  `del_flag` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`vahicle_id`)
-);
+CREATE TABLE `vehicle` (
+  `vehicle_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '车辆编号',
+  `question_id` int(11) NOT NULL COMMENT '方案编号',
+  `type` varchar(10) DEFAULT NULL COMMENT '车辆类型',
+  `capacity` float DEFAULT NULL COMMENT '车辆容量',
+  `oil` float DEFAULT NULL COMMENT '排量',
+  `date` datetime DEFAULT NULL COMMENT '订单生成日期',
+  `price` float DEFAULT NULL COMMENT '价格',
+  `owner_id` int(11) NOT NULL COMMENT '拥有者',
+  PRIMARY KEY (`vehicle_id`),
+  KEY `OWNER_INDEX` (`owner_id`)
+)
 

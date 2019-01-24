@@ -1,96 +1,79 @@
 package com.may.routeplansystem.controller;
 
-import com.may.routeplansystem.algorithm.Algorithm;
+import com.may.routeplansystem.constant.Response;
 import com.may.routeplansystem.entity.dto.ResponseEntity;
 import com.may.routeplansystem.entity.po.Question;
 import com.may.routeplansystem.service.QuestionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.may.routeplansystem.util.validation.insertAndUpdateGroup.Insert;
+import com.may.routeplansystem.util.validation.insertAndUpdateGroup.Update;
+import io.swagger.annotations.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.may.routeplansystem.constant.ResponseStatu.SUCCESS;
+
+/**
+ * @author 10587
+ */
 @RestController
 @RequestMapping("question")
+@Api(tags = "问题模块")
 public class QuestionController {
 
-    @Autowired
+    @Resource
     private QuestionService questionService;
 
-    @Autowired
-    private Algorithm algorithm;
-
-    /**
-     * @api {POST} /question/insertQuestion 添加问题
-     * @apiDescription 通过question详细信息添加question
-     * @apiGroup Question
-     * @apiParam {String} questionName 问题名称
-     * @apiParam {Number} userId 用户Id
-     */
     @PostMapping("insertQuestion")
-    public ResponseEntity insertQuestion(Question question) {
+    @ApiOperation("添加问题")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "questionName",value = "问题名称", required = true),
+            @ApiImplicitParam(name = "userId", value = "用户ID", required = true)
+    })
+    public ResponseEntity insertQuestion(@Validated(Insert.class) Question question, BindingResult result) {
+        if (result.hasErrors()){
+            String message = result.getAllErrors().get(0).getDefaultMessage();
+            return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, message);
+        }
         int questionId = questionService.insertQuestion(question);
-        return new ResponseEntity<>(200, questionId);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, questionId);
     }
 
-    /**
-     * @api {GET} /question/getQuestions 得到questions
-     * @apiDescription 通过用户Id得到所用该用户的问题
-     * @apiGroup Question
-     * @apiParam {Number} userId 用户Id
-     * @apiSuccessExample Success-Response:
-     * HTTP/1.1 200 OK
-     * {
-     * "status": 200,
-     * "object": [
-     * {
-     * "questionId": 1
-     * "questionName: "问题名称"",
-     * "userId": 1,
-     * "delFlag": 0
-     * }
-     * ]
-     * }
-     */
+    @Validated
     @GetMapping("getQuestions")
-    public ResponseEntity getQuestions(int userId) {
+    @ApiOperation("获取该用户所有问题信息")
+    @ApiImplicitParam(name = "userId", value = "用户Id", paramType = "query")
+    public ResponseEntity<List<Question>> getQuestions
+            (@NotNull(message = "userId不能为空") @RequestParam(value = "userId") Integer userId) {
         List<Question> questions = questionService.getQuestions(userId);
-        return new ResponseEntity<>(200, questions);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, questions);
     }
 
-    /**
-     * @api {DELETE} /question/removeQuestion 删除问题
-     * @apiDescription 通过questionId删除问题
-     * @apiGroup Question
-     * @apiParam {Number} questionId 问题ID
-     */
+    @Validated
     @DeleteMapping("removeQuestion")
-    public ResponseEntity removeQuestion(int questionId) {
+    @ApiOperation("删除问题")
+    public ResponseEntity removeQuestion(@NotNull(message = "questionId不能为空") int questionId) {
         questionService.removeQuestion(questionId);
-        return new ResponseEntity<>(200, null);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, null);
     }
 
-    /**
-     * @api {PATCH} /question/updateQuestion 修改问题
-     * @apiDescription 通过questionId修改问题的名称
-     * @apiGroup Question
-     * @apiParam {Number} questionId 问题ID
-     * @apiParam {String} questionName 问题名称
-     */
     @PatchMapping("updateQuestion")
-    public ResponseEntity updateQuestion(Question question) {
+    @ApiOperation("修改问题信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "questionId", dataType = "int", value = "问题Id"),
+            @ApiImplicitParam(name = "questionName", dataType = "string", value = "问题名称")
+    })
+    @ApiImplicitParam(name = "questionName", dataType = "string", value = "问题名称")
+    public ResponseEntity updateQuestion(@Validated(Update.class) Question question, BindingResult result) {
+        if (result.hasErrors()){
+            String message = result.getAllErrors().get(0).getDefaultMessage();
+            return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, message);
+        }
         questionService.updateQuestion(question);
-        return new ResponseEntity<>(200, null);
-    }
-
-    /**
-     * @api {GET} /question/executeAlgorithm 执行算法
-     * * @apiDescription 通过questionId来执行算法
-     * * @apiGroup Question
-     * * @apiParam {Number} questionId 问题ID
-     */
-    @GetMapping("executeAlgorithm")
-    public ResponseEntity executeAlgorithm(int questionId) {
-        algorithm.executeAlgorithm(questionId);
-        return new ResponseEntity<>(200, null);
+        return new ResponseEntity<>(SUCCESS, Response.SUCCESSFUL, null);
     }
 }

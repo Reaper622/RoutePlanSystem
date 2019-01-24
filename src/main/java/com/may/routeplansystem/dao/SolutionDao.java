@@ -12,12 +12,6 @@ import java.util.List;
 @Repository
 public interface SolutionDao {
 
-    /**
-     * 得到一个方案的所有路径
-     *
-     * @param finalSolutionId 方案编号
-     * @return
-     */
     List<Solution> findSolutions(int finalSolutionId);
 
     boolean insertSolution(Solution solution);

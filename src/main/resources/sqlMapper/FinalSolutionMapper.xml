@@ -44,9 +44,8 @@
         where question_id=#{questionId}
     </select>
 
-    <select id="findAllFinalSolutionOrdered" parameterType="int" resultType="Integer">
-        select
-        <include refid="final_solution_columns"/>
+    <select id="findAllFinalSolutionOrdered" parameterType="java.lang.Integer" resultType="Integer">
+        select final_solution_id
         from final_solution
         order by total_dis limit 4
         where question_id=#{questionId}

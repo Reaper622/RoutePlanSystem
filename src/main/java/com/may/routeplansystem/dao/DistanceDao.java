@@ -25,4 +25,5 @@ public interface DistanceDao {
     Distance findDistanceByStartIdAndEndId(@Param("startId") int startId,
                                            @Param("endId") int endId);
 
+    int countNotGetDisDistance(int questionId);
 }

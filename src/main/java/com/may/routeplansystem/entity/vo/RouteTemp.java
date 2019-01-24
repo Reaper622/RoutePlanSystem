@@ -1,8 +1,7 @@
 package com.may.routeplansystem.entity.vo;
 
-import com.may.routeplansystem.pojo.NodePojo;
+import com.may.routeplansystem.entity.po.NodePojo;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

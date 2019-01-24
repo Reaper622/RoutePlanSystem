@@ -1,6 +1,6 @@
 package com.may.routeplansystem.dao;
 
-import com.may.routeplansystem.pojo.UserMessage;
+import com.may.routeplansystem.entity.po.UserMessage;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -32,7 +32,7 @@ public interface UserDao {
      * @param userMessage
      * @return -1:注册失败
      */
-    int insertUser(UserMessage userMessage);
+    boolean insertUser(UserMessage userMessage);
 
     /**
      * 注册邮箱唯一性验证
@@ -41,5 +41,12 @@ public interface UserDao {
      * @return UserMessage
      */
     UserMessage userEmail(String eMail);
+
+    /**
+     * 通过userName查找用户信息
+     * @param userName
+     * @return
+     */
+    UserMessage selectUserByUserName(String userName);
 
 }

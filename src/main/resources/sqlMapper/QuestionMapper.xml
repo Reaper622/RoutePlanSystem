@@ -6,10 +6,13 @@
         <result column="question_name" property="questionName"/>
         <result column="user_id" property="userId"/>
         <result column="del_flag" property="delFlag"/>
+        <result column="process_state" property="processState"/>
+        <result column="simple_executed" property="simpleExecuted"/>
+        <result column="genetic_executed" property="geneticExecuted"/>
     </resultMap>
 
     <sql id="question_columns">
-        question_id,question_name,user_id,del_flag
+        question_id,question_name,user_id,process_state,simple_executed,genetic_executed,del_flag
     </sql>
 
     <insert id="insertQuestion" parameterType="com.may.routeplansystem.entity.po.Question" useGeneratedKeys="true"
@@ -42,5 +45,23 @@
         from question
         where question_id=#{questionId}
     </select>
+
+    <update id="updateQuestionProcessState" parameterType="java.lang.Integer">
+        update question
+        set process_state=#{processState}
+        where question_id=#{questionId}
+    </update>
+
+    <update id="updateSimpleExecuted" parameterType="java.lang.Integer">
+        update question
+        set simple_executed=1
+        where question_id=#{questionId}
+    </update>
+
+    <update id="updateGeneticExecuted" parameterType="java.lang.Integer">
+        update question
+        set genetic_executed=1
+        where question_id=#{questionId}
+    </update>
 
 </mapper>

@@ -14,13 +14,13 @@ import javax.servlet.http.HttpSession;
  * @author 10587
  */
 @Component
-public class LoginIntercepter implements HandlerInterceptor {
+public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         HttpSession session = request.getSession();
-        boolean flag = session.getAttribute(SessionMessage.LOGIN_STATE) == null;
-        if (!flag) {
+        boolean flag = session.getAttribute(SessionMessage.LOGIN_ATTRIBUTE) == null;
+        if (flag) {
             throw new AuthentationException(ExceptionMessage.LOGIN_STATE_EXCEPTION);
         }
         return true;

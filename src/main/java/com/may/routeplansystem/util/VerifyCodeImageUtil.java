@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
 
+/**
+ * 用于生成验证码的工具类
+ */
 public final class VerifyCodeImageUtil {
 
     /**

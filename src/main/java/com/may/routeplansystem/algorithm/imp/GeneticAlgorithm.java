@@ -1,51 +1,70 @@
 package com.may.routeplansystem.algorithm.imp;
 
 import com.may.routeplansystem.algorithm.Algorithm;
-import com.may.routeplansystem.dao.DistanceDao;
-import com.may.routeplansystem.dao.FinalSolutionDao;
-import com.may.routeplansystem.dao.NodeDao;
-import com.may.routeplansystem.dao.SolutionDao;
-import com.may.routeplansystem.entity.po.Distance;
-import com.may.routeplansystem.entity.po.FinalSolution;
-import com.may.routeplansystem.entity.po.Solution;
+import com.may.routeplansystem.dao.*;
+import com.may.routeplansystem.entity.po.*;
 import com.may.routeplansystem.entity.vo.RouteTemp;
-import com.may.routeplansystem.pojo.NodePojo;
-import com.may.routeplansystem.service.FinalSolutionService;
+import com.may.routeplansystem.exception.ProcessException;
+import com.may.routeplansystem.util.RandomInt;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.may.routeplansystem.util.MMath.randomInt;
-import static com.may.routeplansystem.util.MMath.randomIntExceptZero;
-
-
-@Component
+/**
+ * @author 10587
+ */
 @Slf4j
-public class GeneticAlgorithm implements Algorithm {
+@Component
+public class GeneticAlgorithm extends Algorithm {
 
-    @Autowired
+    @Resource
     private NodeDao nodeDao;
 
-    @Autowired
+    @Resource
     private DistanceDao distanceDao;
 
-    @Autowired
+    @Resource
     private SolutionDao solutionDao;
 
-    @Autowired
+    @Resource
     private FinalSolutionDao finalSolutionDao;
 
-    @Autowired
-    private FinalSolutionService finalSolutionService;
+    @Resource
+    private JavaMailSender mailSender;
+
+    @Resource
+    private QuestionDao questionDao;
+
+    @Resource
+    private UserDao userDao;
+
+    private static final int VERSION = 2;
 
 
     @Override
+    public void beforeExecute(int questionId) {
+        Question question = questionDao.findQuestionByQuestionId(questionId);
+        generalBeforeExecute(question);
+        checkSimpleAlgorithmExecute(question);
+    }
+
+    private void checkSimpleAlgorithmExecute(Question question) {
+        int simpelExecuted = question.getGeneticExecuted();
+        if (simpelExecuted == 1) {
+            throw new ProcessException("您已经执行过遗传算法了哟");
+        }
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void executeAlgorithm(int questionId) {
         List<NodePojo> centerNodes = nodeDao.selectCenterNode(questionId);
         List<NodePojo> serviceNodes = nodeDao.selectServiceNode(questionId);
@@ -75,21 +94,29 @@ public class GeneticAlgorithm implements Algorithm {
 
             Set<Map.Entry<Integer, RouteTemp>> set = treeMap.entrySet();
             Iterator<Map.Entry<Integer, RouteTemp>> iterator = set.iterator();
-            int maxVersion = finalSolutionService.getMaxVersionOfFinalSolution(questionId) + 1;
 
             iterator.forEachRemaining(entry -> {
                 RouteTemp routes = entry.getValue();
                 double totalDis = entry.getKey();
-                int finalSolutionId = createFinalSolutionAndInsert(questionId, totalDis, maxVersion);
+                int finalSolutionId = createFinalSolutionAndInsert(questionId, totalDis);
                 List<Solution> solutionList = madeRoute(routes.getRoute(), finalSolutionId);
                 solutionList.forEach(solutionDao::insertSolution);
             });
         }
     }
 
-    private int createFinalSolutionAndInsert(int questionId, double totalDis, int version) {
+    @Override
+    public void afterExecute(int questionId) {
+        Question question = questionDao.findQuestionByQuestionId(questionId);
+        int userId = question.getUserId();
+        String userIdStr = String.valueOf(userId);
+        UserMessage user = userDao.userMessage(userIdStr);
+        generalAfterExecute(questionId, mailSender, userIdStr, "遗传算法");
+    }
+
+    private int createFinalSolutionAndInsert(int questionId, double totalDis) {
         FinalSolution finalSolution = new FinalSolution();
-        finalSolution.setVersion(version);
+        finalSolution.setVersion(VERSION);
         finalSolution.setQuestionId(questionId);
         finalSolution.setTotalDis(totalDis);
         LocalDateTime now = LocalDateTime.now();
@@ -309,7 +336,7 @@ public class GeneticAlgorithm implements Algorithm {
         RouteTemp oneRoute;
         for (int i = 0; i < count; i++) {
             List<NodePojo> serviceNodesCopy = new LinkedList<>(serviceNodes);
-            int routeCount = randomIntExceptZero(routeRandom);
+            int routeCount = RandomInt.randomIntExceptZero(routeRandom);
             oneRoute = new RouteTemp(routeCount);
             for (int j = 0; j < routeCount; j++) {
                 if (serviceNodesCopy.isEmpty()) {
@@ -328,9 +355,9 @@ public class GeneticAlgorithm implements Algorithm {
                     everyPath.add(centerNode);
                     break;
                 }
-                int everyRouteNodeCount = randomIntExceptZero(serviceNodesCopySize);
+                int everyRouteNodeCount = RandomInt.randomIntExceptZero(serviceNodesCopySize);
                 for (int k = 0; k < everyRouteNodeCount; k++) {
-                    int index = randomInt(0, serviceNodesCopy.size());
+                    int index = RandomInt.randomInt(0, serviceNodesCopy.size());
                     NodePojo serviceNode = serviceNodesCopy.get(index);
                     oneRoute.getRoute().get(j).add(serviceNode);
                     serviceNodesCopy.remove(index);

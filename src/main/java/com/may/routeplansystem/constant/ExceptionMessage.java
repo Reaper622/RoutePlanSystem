@@ -9,6 +9,7 @@ public interface ExceptionMessage {
     String VEHICLE_NULL_BY_VEHICLEID = "不能通过车辆ID扎到车辆信息";
     String VEHICLE_DELETE_FAILURE = "车辆删除失败";
     String VEHICLE_ID_LIST_EMPTY = "删除车辆的ID不能为空";
+    String VEHOCLE_TRANSFER_FAIL = "车辆数据上传失败";
     String QUESTION_NULL_BY_QUESTIONID = "不能通过问题ID找到车辆信心";
 
     String MYSQL_EXECUTED_FAIL = "数据库运行错误";

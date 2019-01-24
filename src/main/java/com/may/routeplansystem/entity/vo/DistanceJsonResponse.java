@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class JsonResponse {
+public class DistanceJsonResponse {
     private int status;
     private List<DisAndTime> result;
 

@@ -1,6 +1,6 @@
 package com.may.routeplansystem.dao;
 
-import com.may.routeplansystem.pojo.VehicleMessage;
+import com.may.routeplansystem.entity.po.VehicleMessage;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public interface VehicleDao {
      * 用户车辆导入
      *
      * @param vehicleMessage
-     * @return -1:导入失败
+     * @return boolean
      */
-    int insertVehicle(VehicleMessage vehicleMessage);
+    boolean insertVehicle(VehicleMessage vehicleMessage);
 
     /**
      * 用户信息查询

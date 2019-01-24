@@ -7,9 +7,14 @@ import java.net.URL;
 
 public class NetWorkUtil {
 
-    public static String visitUrl(String urlStr) {
+    /**
+     * 用于访问网址的工具方法
+     * @param urlStr
+     * @return
+     * @throws IOException
+     */
+    public static String visitUrl(String urlStr) throws IOException {
         StringBuilder result = new StringBuilder();
-        try {
             URL url = new URL(urlStr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(10 * 1000);
@@ -30,18 +35,6 @@ public class NetWorkUtil {
                     }
                 }
             }
-        } catch (IOException e) {
-            throw new URLVisitException("访问URl出现了错误");
-        }
-
         return result.toString();
-    }
-
-    public static class URLVisitException extends RuntimeException {
-
-        public URLVisitException(String msg) {
-            super(msg);
-        }
-
     }
 }
